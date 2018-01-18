@@ -102,6 +102,7 @@
 		" session: {{{3
 		let g:session_autoload = 'no'
 		let g:session_autosave = 'yes'
+		nmap <leader>s <ESC>:OpenSession<CR>
 		" }}}
 
 		" csscomplete: {{{3
