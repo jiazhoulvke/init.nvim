@@ -6,11 +6,11 @@
 	Plug 'Shougo/vimproc.vim', {'do' : 'make'} "异步运行库
 	Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' "代码片段
 	Plug 'Valloric/MatchTagAlways' "tag配对显示
-	Plug 'ctrlpvim/ctrlp.vim' "文件、buffer、tag、历史文件浏览
+	"Plug 'ctrlpvim/ctrlp.vim' "文件、buffer、tag、历史文件浏览
 	Plug 'dyng/ctrlsf.vim' "文件内容查找
 	Plug 'gregsexton/gitv' "git工具,类似于tig
 	Plug 'haya14busa/incsearch.vim' "对vim自带搜索的强化，可以同时搜索多个词
-	Plug 'idanarye/vim-vebugger' "Debug工具，支持gdb、lldb等多种工具
+	"Plug 'idanarye/vim-vebugger' "Debug工具，支持gdb、lldb等多种工具
 	Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } "基于文件名快速搜索文件
 	Plug 'junegunn/vim-easy-align' "代码对齐
 	Plug 'justinmk/vim-sneak' "快速移动,类似vim自带的f，但sneak支持多行
@@ -29,24 +29,25 @@
 	Plug 'xolox/vim-misc' "库
 	Plug 'xolox/vim-notes' "vim写日记
 	Plug 'xolox/vim-session' "管理session
-	"Plug 'Shougo/unite.vim'
-	"Plug 'Shougo/unite-outline'
-	"Plug 'Shougo/neomru.vim'
+	Plug 'Shougo/unite.vim'
+	Plug 'Shougo/unite-outline'
+	Plug 'Shougo/neomru.vim'
 
 	" }}}
 
 	" UI: {{{2
-	Plug 'altercation/vim-colors-solarized'
+	"Plug 'altercation/vim-colors-solarized'
+	Plug 'iCyMind/NeoSolarized' " 支持真彩色的solarized
 	Plug 'bling/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
 	Plug 'lilydjwg/colorizer',{'for': ['html', 'php', 'css']}
 	" }}}
 
 	" Languages: {{{2
+	Plug 'cespare/vim-toml'
 	Plug 'tpope/vim-markdown' "支持在markdown中高亮代码块
 	Plug 'groenewege/vim-less'
 	"Plug 'pangloss/vim-javascript'
-	"Plug 'cespare/vim-toml'
 	"Plug 'chr4/nginx.vim'
 	"Plug 'vim-scripts/gtk-vim-syntax'
 	"Plug 'vim-scripts/jQuery'
@@ -65,14 +66,14 @@
 	Plug 'Shougo/context_filetype.vim' "根据上下文补全，比如可以在markdown文件中补全golang代码
 	Plug 'Shougo/echodoc.vim' "不用preview窗口也能显示函数参数
 	Plug 'Shougo/neco-syntax' "语法补全
-	Plug 'Shougo/neco-vim' "vimscript补全
-	Plug 'carlitux/deoplete-ternjs' "js补全
-	Plug 'fatih/vim-go' "golang补全
-	Plug 'zchee/deoplete-go', { 'do': 'make'} "golang补全
+	Plug 'Shougo/neco-vim', {'for': 'vimscript'} "vimscript补全
+	Plug 'carlitux/deoplete-ternjs', {'for': 'javascript'} "js补全
+	Plug 'fatih/vim-go', {'for': 'go'} "golang补全
+	Plug 'zchee/deoplete-go', { 'for': 'go', 'do': 'make'} "golang补全
 	Plug 'mattn/emmet-vim', {'for': ['php', 'html', 'css', 'xml']} "html、css代码片段
 	Plug 'mhartington/nvim-typescript' "typescript补全
 	Plug 'othree/csscomplete.vim' "css补全
-	Plug 'padawan-php/deoplete-padawan', { 'do': 'composer install' } "php补全
+	Plug 'padawan-php/deoplete-padawan', { 'for': 'php', 'do': 'composer install' } "php补全
 	"Plug 'phpactor/phpactor' ,  {'do': 'composer install'} "php补全
 	Plug 'scrooloose/nerdcommenter' "注释插件
 	Plug 'zchee/deoplete-zsh' "zsh补全
@@ -85,148 +86,6 @@
 
 " Config: {{{1
 
-	" Plugins: {{{2
-
-		" deoplete.nvim: {{{3
-		"let g:deoplete#enable_at_startup = 1
-		let g:deoplete#enable_at_startup = 0
-		autocmd InsertEnter * call deoplete#enable() "仅在进入插入模式时启用deoplete,加快启动速度
-		" }}}
-
-		" echodoc: {{{3
-		let g:echodoc#enable_at_startup = 1
-		let g:echodoc#type = 'echo'
-		"let g:echodoc#type = 'signature' "gonvim可用
-		" }}}
-
-		" session: {{{3
-		let g:session_autoload = 'no'
-		let g:session_autosave = 'yes'
-		nmap <leader>s <ESC>:OpenSession<CR>
-		" }}}
-
-		" csscomplete: {{{3
-		autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS noci
-		" }}}
-
-		" vebugger: {{{3
-		let g:vebugger_leader='<leader>d'
-		" }}}
-
-		" ale: {{{3
-		" gometalinter参数
-		let g:ale_go_gometalinter_options='-t --fast --disable=gocyclo --disable=gas --disable=goconst --disable=vetshadow  --disable=ineffassign'
-		" }}}
-
-		" tpope/vim-markdown: {{{3
-		let g:markdown_fenced_languages = ['html', 'css', 'python', 'bash=sh', 'golang=go', 'go', 'php'] "需要在markdown文件中高亮的代码
-		" }}}
-
-		" asyncrun: {{{3
-		if exists('g:asyncrun_status')
-			autocmd! BufWrite *.go exec ':AsyncRun go install'
-		endif
-		" }}}
-
-		" nerdcommenter: {{{3
-		map <space>c <plug>NERDCommenterToggle
-		" }}}
-
-		" nerdtree: {{{3
-		nmap <space>n <ESC>:NERDTreeToggle<CR>
-		" }}}
-
-		" notes: {{{3
-		if !exists('g:notes_directories')
-			let g:notes_directories = [$HOME.'/Dropbox/notes']
-		else
-			echo g:notes_directories
-		endif
-		" }}}
-
-		" gitv: {{{3
-		let g:Gitv_OpenHorizontal = 0
-		" }}}
-
-		" tagbar: {{{3
-		let g:tagbar_show_visibility = 1
-		nmap <space>t <ESC>:TagbarToggle<CR>
-		" }}}
-
-		" fzf: {{{3
-		nmap <leader>f <ESC>:FZF<CR>
-		" }}}
-
-		" EasyAlign: {{{3
-		xmap <space>a <Plug>(EasyAlign)
-		nmap <space>a <Plug>(EasyAlign)
-		" }}}
-
-		" ctrlp: {{{3
-		if executable("ag")
-			set grepprg=ag\ --nogroup\ --nocolor
-			let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-			let g:ctrlp_use_caching = 0
-		endif
-		let g:ctrlp_match_window = 'bottom,ttb,min:1,max:20,results:99'
-		nmap <space>b <ESC>:CtrlPBuffer<CR>
-		nmap <space>m <ESC>:CtrlPMRU<CR>
-		" }}}
-
-		" ctrlsf: {{{3
-		nmap <space>sf <ESC>:CtrlSF<space>
-		nmap <space>ss <ESC>:CtrlSFToggle<CR>
-		" }}}
-
-		" incsearch.vim: {{{3
-		nmap /  <Plug>(incsearch-forward)
-		nmap ?  <Plug>(incsearch-backward)
-		nmap g/ <Plug>(incsearch-stay)
-		nmap <space><space> <ESC>:nohlsearch<CR>
-		" }}}
-
-		" vim-airline: {{{3
-		if !exists('g:airline_symbols')
-			let g:airline_symbols = {}
-		endif
-
-		let g:airline_left_sep = '⮀'
-		let g:airline_left_alt_sep = '⮁'
-		let g:airline_right_sep = '⮂'
-		let g:airline_right_alt_sep = '⮃'
-		let g:airline_symbols.branch = '⭠'
-		let g:airline_symbols.readonly = '⭤'
-		let g:airline_symbols.linenr = '⭡'
-
-		let g:airline#extensions#tagbar#enabled = 1
-		let g:airline#extensions#syntastic#enabled = 1
-		let g:airline#extensions#quickfix#quickfix_text = 'Quickfix'
-
-		let g:airline_theme='powerlineish'
-		" }}}
-		
-		" sneak: {{{3
-		nmap s <Plug>Sneak_s
-		nmap S <Plug>Sneak_S
-		xmap s <Plug>Sneak_s
-		xmap S <Plug>Sneak_S
-		nmap f <Plug>Sneak_f
-		nmap F <Plug>Sneak_F
-		xmap f <Plug>Sneak_f
-		xmap F <Plug>Sneak_F
-		" }}}
-		
-		" vim-multiple-cursors: {{{3
-		" multiple-cursors和deoplete有冲突，要在使用multiple-cursors时自动关闭deoplete
-       	function! g:Multiple_cursors_before()
-       	  let g:deoplete#disable_auto_complete = 1
-       	endfunction
-       	function! g:Multiple_cursors_after()
-       	  let g:deoplete#disable_auto_complete = 0
-       	endfunction
-		" }}}
-	"}}}
-
 	" Misc: {{{2
 	" 关闭错误响铃
 	set noerrorbells
@@ -234,39 +93,44 @@
 	" 即时预览
 	"set inccommand=split  " 命令的更改会在preview中显示
 	set inccommand=nosplit  " 命令更改会在原位置显示
-	set completeopt-=preview "去掉烦人的预览窗口
+	set completeopt-=preview " 去掉烦人的预览窗口
 	set completeopt+=noselect,noinsert
-	set smartindent "智能缩进
-	set smartcase "智能搜索
-	set smarttab "智能tab
-	set hidden "在当前buffer没有保存时可以切换到其他buffer
+	set smartindent " 智能缩进
+	"set smartcase " 智能搜索,命令模式下补全会比较痛苦
+	set ignorecase " 忽略大小写
+	set smarttab " 智能tab
+	set hidden " 在当前buffer没有保存时可以切换到其他buffer
 	set undofile " 启用持久性撤销
-	set sessionoptions-=help "保存session时不包括help信息
+	set sessionoptions-=help " 保存session时不包括help信息
 	set whichwrap=b,s,<,>,[,]
 	" 设置自动补全
-	set wildmode=list:full
+	"set wildmode=list:full
+	set wildmode=list:longest
 	set wildmenu
+	"set wildignorecase
 	if has('mouse')
-		set mouse=a "如果鼠标可用则启用鼠标支持
+		set mouse=a " 如果鼠标可用则启用鼠标支持
 	endif
-	set isfname-== "不将=当成文件名的一部分
+	set isfname-== " 不将=当成文件名的一部分
 	" 记住上次文件打开的位置
 	au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 	" }}}
 
 	" UI: {{{2
-	set number "启用行号
-	set tabstop=4 "tab宽度设为4
-	set shiftwidth=4 "换行宽度设为4
+	set number " 启用行号
+	set tabstop=4 " tab宽度设为4
+	set shiftwidth=4 " 换行宽度设为4
 	autocmd FileType html,xml,yaml setlocal tabstop=2 shiftwidth=2
 	set background=dark
-	colo solarized
-	set shortmess+=c "关掉一些烦人的信息
-	"set cmdheight=2 "命令行高度设为2，echodoc需要
-	set noshowmode "不显示当前状态
-	set display=lastline "解决超长行显示异常的问题
-	set lazyredraw "不立即重绘
-	set cursorline "高亮当前行
+	"colo solarized
+	colo NeoSolarized
+	set shortmess+=c " 关掉一些烦人的信息
+	"set cmdheight=2 " 命令行高度设为2，echodoc需要
+	set noshowmode " 不显示当前状态
+	set display=lastline " 解决超长行显示异常的问题
+	set lazyredraw " 不立即重绘
+	set cursorline " 高亮当前行
+	set termguicolors "设置真彩色
 	" }}}
 	
 	" Bind: {{{2
@@ -340,7 +204,8 @@
 	nmap <leader>cd <ESC>:cd %:p:h<CR>
 
 	" 删除^M
-	nmap <Leader>dm mmHmn:%s/<C-V><cr>//ge<cr>'nzt'm
+	"nmap <Leader>dm mmHmn:%s/<C-V><cr>//ge<cr>'nzt'm
+	nmap <Leader>dm <ESC>:%s///g<CR>
 
 	" 删除空行
 	nmap <Leader>dbl :g/^\s*$/d<CR>
@@ -359,7 +224,7 @@
 
 	" 终端按键绑定
 	nmap <C-t> <ESC>:terminal<CR> " 进入终端
-  	tmap <Esc> <C-\><C-n> " 进入默认模式
+  	tmap <C-o> <C-\><C-n> " 进入默认模式
 	tmap <C-^> <C-\><C-n><C-^> "切换buffer
 	tmap <A-h> <C-\><C-N><C-w>h
 	tmap <A-j> <C-\><C-N><C-w>j
@@ -478,6 +343,170 @@
 
 	" }}}
 
+	" Plugins: {{{2
+
+		" deoplete.nvim: {{{3
+		"let g:deoplete#enable_at_startup = 1
+		let g:deoplete#enable_at_startup = 0
+		autocmd InsertEnter * call deoplete#enable() "仅在进入插入模式时启用deoplete,加快启动速度
+		" }}}
+
+		" echodoc: {{{3
+		let g:echodoc#enable_at_startup = 1
+		let g:echodoc#type = 'echo'
+		"let g:echodoc#type = 'signature' "gonvim可用
+		" }}}
+
+		" unite: {{{3
+		nmap <leader>b <ESC>:Unite -start-insert buffer<CR>
+		nmap <leader>h <ESC>:Unite -start-insert neomru/file<CR>
+		nmap <leader>o <ESC>:Unite outline<CR>
+		call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep','ignore_pattern',join(['\.git/',],'\|'))
+		call unite#filters#matcher_default#use(['matcher_fuzzy'])
+		call unite#filters#sorter_default#use(['sorter_rank'])
+		if executable('ag')
+			let g:unite_source_grep_command='ag'
+			let g:unite_source_grep_default_opts =
+						\ '--line-numbers --nocolor --nogroup --hidden --ignore ' .
+						\  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+			let g:unite_source_grep_recursive_opt=''
+		endif
+		autocmd FileType unite call s:unite_settings()
+		function! s:unite_settings()
+			nmap <buffer> <ESC> <Plug>(unite_exit)
+			imap <buffer> <C-c> <Plug>(unite_exit)
+		endfunction
+		" }}}
+
+		" session: {{{3
+		let g:session_autoload = 'no'
+		let g:session_autosave = 'yes'
+		nmap <leader>s <ESC>:OpenSession<CR>
+		" }}}
+
+		" csscomplete: {{{3
+		autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS noci
+		" }}}
+
+		" vebugger: {{{3
+		"let g:vebugger_leader='<leader>d'
+		" }}}
+
+		" ale: {{{3
+		" gometalinter参数
+  		let g:ale_linters = {'go': ['gometalinter', 'gofmt']}
+		let g:ale_go_gometalinter_options='-t --fast --disable=gocyclo --disable=gas --disable=goconst --disable=vetshadow  --disable=ineffassign'
+
+		nmap <silent> <C-h> <Plug>(ale_previous)
+		nmap <silent> <C-l> <Plug>(ale_next)
+		" }}}
+
+		" tpope/vim-markdown: {{{3
+		let g:markdown_fenced_languages = ['html', 'css', 'python', 'bash=sh', 'golang=go', 'go', 'php'] "需要在markdown文件中高亮的代码
+		" }}}
+
+		" asyncrun: {{{3
+		if exists('g:asyncrun_status')
+			autocmd! BufWrite *.go exec ':AsyncRun go install'
+		endif
+		" }}}
+
+		" nerdcommenter: {{{3
+		map <space>c <plug>NERDCommenterToggle
+		" }}}
+
+		" nerdtree: {{{3
+		nmap <space>n <ESC>:NERDTreeToggle<CR>
+		" }}}
+
+		" notes: {{{3
+		let g:notes_directories = [$HOME.'/Dropbox/notes']
+		" }}}
+
+		" gitv: {{{3
+		let g:Gitv_OpenHorizontal = 0
+		" }}}
+
+		" tagbar: {{{3
+		let g:tagbar_show_visibility = 1
+		nmap <space>t <ESC>:TagbarToggle<CR>
+		" }}}
+
+		" fzf: {{{3
+		nmap <leader>f <ESC>:FZF<CR>
+		" }}}
+
+		" EasyAlign: {{{3
+		xmap <space>a <Plug>(EasyAlign)
+		nmap <space>a <Plug>(EasyAlign)
+		" }}}
+
+		" ctrlp: {{{3
+		"if executable("ag")
+			"set grepprg=ag\ --nogroup\ --nocolor
+			"let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+			"let g:ctrlp_use_caching = 0
+		"endif
+		"let g:ctrlp_match_window = 'bottom,ttb,min:1,max:20,results:99'
+		"nmap <space>b <ESC>:CtrlPBuffer<CR>
+		"nmap <space>m <ESC>:CtrlPMRU<CR>
+		" }}}
+
+		" ctrlsf: {{{3
+		nmap <space>sf <ESC>:CtrlSF<space>
+		nmap <space>ss <ESC>:CtrlSFToggle<CR>
+		" }}}
+
+		" incsearch.vim: {{{3
+		nmap /  <Plug>(incsearch-forward)
+		nmap ?  <Plug>(incsearch-backward)
+		nmap g/ <Plug>(incsearch-stay)
+		nmap <space><space> <ESC>:nohlsearch<CR>
+		" }}}
+
+		" vim-airline: {{{3
+		if !exists('g:airline_symbols')
+			let g:airline_symbols = {}
+		endif
+
+		let g:airline_left_sep = '⮀'
+		let g:airline_left_alt_sep = '⮁'
+		let g:airline_right_sep = '⮂'
+		let g:airline_right_alt_sep = '⮃'
+		let g:airline_symbols.branch = '⭠'
+		let g:airline_symbols.readonly = '⭤'
+		let g:airline_symbols.linenr = '⭡'
+
+		let g:airline#extensions#tagbar#enabled = 1
+		let g:airline#extensions#syntastic#enabled = 1
+		let g:airline#extensions#quickfix#quickfix_text = 'Quickfix'
+
+		let g:airline_theme='powerlineish'
+		" }}}
+		
+		" sneak: {{{3
+		nmap s <Plug>Sneak_s
+		nmap S <Plug>Sneak_S
+		xmap s <Plug>Sneak_s
+		xmap S <Plug>Sneak_S
+		nmap f <Plug>Sneak_f
+		nmap F <Plug>Sneak_F
+		xmap f <Plug>Sneak_f
+		xmap F <Plug>Sneak_F
+		" }}}
+		
+		" vim-multiple-cursors: {{{3
+			" multiple-cursors和deoplete有冲突，要在使用multiple-cursors时自动关闭deoplete
+			function! g:Multiple_cursors_before()
+				let g:deoplete#disable_auto_complete = 1
+			endfunction
+			function! g:Multiple_cursors_after()
+				let g:deoplete#disable_auto_complete = 0
+			endfunction
+		" }}}
+		
+	"}}}
+	
 " }}}
 
 
