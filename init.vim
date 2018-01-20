@@ -460,6 +460,7 @@
 			let g:airline_symbols = {}
 		endif
 		let g:airline_detect_spell=0
+  		let g:airline#extensions#whitespace#enabled = 0
 
 		let g:airline_left_sep = '⮀'
 		let g:airline_left_alt_sep = '⮁'
