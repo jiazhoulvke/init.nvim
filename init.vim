@@ -3,14 +3,15 @@
 
 	" Misc: {{{2
 	Plug 'Chiel92/vim-autoformat' "代码自动格式化
+	Plug 'Shougo/neomru.vim'
+	Plug 'Shougo/unite-outline'
+	Plug 'Shougo/unite.vim'
 	Plug 'Shougo/vimproc.vim', {'do' : 'make'} "异步运行库
 	Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' "代码片段
 	Plug 'Valloric/MatchTagAlways' "tag配对显示
-	"Plug 'ctrlpvim/ctrlp.vim' "文件、buffer、tag、历史文件浏览
 	Plug 'dyng/ctrlsf.vim' "文件内容查找
 	Plug 'gregsexton/gitv' "git工具,类似于tig
 	Plug 'haya14busa/incsearch.vim' "对vim自带搜索的强化，可以同时搜索多个词
-	"Plug 'idanarye/vim-vebugger' "Debug工具，支持gdb、lldb等多种工具
 	Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } "基于文件名快速搜索文件
 	Plug 'junegunn/vim-easy-align' "代码对齐
 	Plug 'justinmk/vim-sneak' "快速移动,类似vim自带的f，但sneak支持多行
@@ -29,9 +30,6 @@
 	Plug 'xolox/vim-misc' "库
 	Plug 'xolox/vim-notes' "vim写日记
 	Plug 'xolox/vim-session' "管理session
-	Plug 'Shougo/unite.vim'
-	Plug 'Shougo/unite-outline'
-	Plug 'Shougo/neomru.vim'
 
 	" }}}
 
@@ -44,15 +42,15 @@
 	" }}}
 
 	" Languages: {{{2
-	Plug 'cespare/vim-toml'
-	Plug 'tpope/vim-markdown' "支持在markdown中高亮代码块
-	Plug 'groenewege/vim-less'
+	Plug 'cespare/vim-toml' "toml语法插件
+	Plug 'groenewege/vim-less' "less语法插件
+	Plug 'leafgarland/typescript-vim' "typescript 语法插件
+	Plug 'tpope/vim-markdown' "markdown语法插件，支持在markdown中高亮代码块
 	"Plug 'pangloss/vim-javascript'
 	"Plug 'chr4/nginx.vim'
 	"Plug 'vim-scripts/gtk-vim-syntax'
 	"Plug 'vim-scripts/jQuery'
 	"Plug 'jansenm/vim-cmake'
-	"Plug 'leafgarland/typescript-vim'
 	"Plug 'mitsuhiko/vim-jinja'
 	"Plug 'peterhoeg/vim-qml'
 	"Plug 'vim-scripts/tornadotmpl.vim'
@@ -66,17 +64,17 @@
 	Plug 'Shougo/context_filetype.vim' "根据上下文补全，比如可以在markdown文件中补全golang代码
 	Plug 'Shougo/echodoc.vim' "不用preview窗口也能显示函数参数
 	Plug 'Shougo/neco-syntax' "语法补全
-	Plug 'Shougo/neco-vim', {'for': 'vimscript'} "vimscript补全
+	Plug 'Shougo/neco-vim', {'for': 'vim'} "vimscript补全
 	Plug 'carlitux/deoplete-ternjs', {'for': 'javascript'} "js补全
 	Plug 'fatih/vim-go', {'for': 'go'} "golang补全
 	Plug 'zchee/deoplete-go', { 'for': 'go', 'do': 'make'} "golang补全
 	Plug 'mattn/emmet-vim', {'for': ['php', 'html', 'css', 'xml']} "html、css代码片段
 	Plug 'mhartington/nvim-typescript' "typescript补全
-	Plug 'othree/csscomplete.vim' "css补全
+	Plug 'othree/csscomplete.vim', {'for': 'css'} "css补全
 	Plug 'padawan-php/deoplete-padawan', { 'for': 'php', 'do': 'composer install' } "php补全
 	"Plug 'phpactor/phpactor' ,  {'do': 'composer install'} "php补全
 	Plug 'scrooloose/nerdcommenter' "注释插件
-	Plug 'zchee/deoplete-zsh' "zsh补全
+	Plug 'zchee/deoplete-zsh', {'for': 'zsh'} "zsh补全
 	"Plug 'zchee/deoplete-clang' " Clang补全
 
 	"}}}
@@ -104,8 +102,8 @@
 	set sessionoptions-=help " 保存session时不包括help信息
 	set whichwrap=b,s,<,>,[,]
 	" 设置自动补全
-	"set wildmode=list:full
-	set wildmode=list:longest
+	set wildmode=list:full
+	"set wildmode=list:longest
 	set wildmenu
 	"set wildignorecase
 	if has('mouse')
@@ -130,7 +128,9 @@
 	set display=lastline " 解决超长行显示异常的问题
 	set lazyredraw " 不立即重绘
 	set cursorline " 高亮当前行
-	set termguicolors "设置真彩色
+  if $TERM == 'xterm-256color'
+	  set termguicolors "设置真彩色
+  endif
 	" }}}
 	
 	" Bind: {{{2
@@ -399,6 +399,7 @@
 
 		nmap <silent> <C-h> <Plug>(ale_previous)
 		nmap <silent> <C-l> <Plug>(ale_next)
+		nmap <leader>a <Plug>(ale_first)
 		" }}}
 
 		" tpope/vim-markdown: {{{3
@@ -413,6 +414,7 @@
 
 		" nerdcommenter: {{{3
 		map <space>c <plug>NERDCommenterToggle
+		let NERDSpaceDelims = 1
 		" }}}
 
 		" nerdtree: {{{3
@@ -441,17 +443,6 @@
 		nmap <space>a <Plug>(EasyAlign)
 		" }}}
 
-		" ctrlp: {{{3
-		"if executable("ag")
-			"set grepprg=ag\ --nogroup\ --nocolor
-			"let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-			"let g:ctrlp_use_caching = 0
-		"endif
-		"let g:ctrlp_match_window = 'bottom,ttb,min:1,max:20,results:99'
-		"nmap <space>b <ESC>:CtrlPBuffer<CR>
-		"nmap <space>m <ESC>:CtrlPMRU<CR>
-		" }}}
-
 		" ctrlsf: {{{3
 		nmap <space>sf <ESC>:CtrlSF<space>
 		nmap <space>ss <ESC>:CtrlSFToggle<CR>
@@ -468,6 +459,7 @@
 		if !exists('g:airline_symbols')
 			let g:airline_symbols = {}
 		endif
+		let g:airline_detect_spell=0
 
 		let g:airline_left_sep = '⮀'
 		let g:airline_left_alt_sep = '⮁'
@@ -478,8 +470,14 @@
 		let g:airline_symbols.linenr = '⭡'
 
 		let g:airline#extensions#tagbar#enabled = 1
-		let g:airline#extensions#syntastic#enabled = 1
+
 		let g:airline#extensions#quickfix#quickfix_text = 'Quickfix'
+
+		let g:airline#extensions#ale#enabled = 1
+		let airline#extensions#ale#error_symbol = 'E:'
+		let airline#extensions#ale#warning_symbol = 'W:'
+		let airline#extensions#ale#open_lnum_symbol = '(L'
+		let airline#extensions#ale#close_lnum_symbol = ')'
 
 		let g:airline_theme='powerlineish'
 		" }}}
