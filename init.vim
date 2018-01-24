@@ -69,15 +69,18 @@
 	Plug 'fatih/vim-go', {'for': 'go'} "golang补全
 	Plug 'zchee/deoplete-go', { 'for': 'go', 'do': 'make'} "golang补全
 	Plug 'mattn/emmet-vim', {'for': ['php', 'html', 'css', 'xml']} "html、css代码片段
-	Plug 'mhartington/nvim-typescript' "typescript补全
+	Plug 'mhartington/nvim-typescript', {'for': 'typescript'} "typescript补全
 	Plug 'othree/csscomplete.vim', {'for': 'css'} "css补全
 	Plug 'padawan-php/deoplete-padawan', { 'for': 'php', 'do': 'composer install' } "php补全
 	"Plug 'phpactor/phpactor' ,  {'do': 'composer install'} "php补全
 	Plug 'scrooloose/nerdcommenter' "注释插件
 	Plug 'zchee/deoplete-zsh', {'for': 'zsh'} "zsh补全
-	"Plug 'zchee/deoplete-clang' " Clang补全
 
 	"}}}
+	
+	if filereadable($HOME.'/.config/nvim/plugin_local.vim')
+		source ~/.config/nvim/plugin_local.vim
+	endif
 
 	call plug#end()
 " }}}
@@ -91,7 +94,7 @@
 	" 即时预览
 	"set inccommand=split  " 命令的更改会在preview中显示
 	set inccommand=nosplit  " 命令更改会在原位置显示
-	set completeopt-=preview " 去掉烦人的预览窗口
+	set completeopt-=preview " 去掉补全时烦人的预览窗口
 	set completeopt+=noselect,noinsert
 	set smartindent " 智能缩进
 	"set smartcase " 智能搜索,命令模式下补全会比较痛苦
@@ -235,6 +238,7 @@
 	nmap <leader>ee <ESC>:e $MYVIMRC<CR>
 	nmap <leader>rr <ESC>:source $MYVIMRC<CR>
 	nmap <leader>el <ESC>:e $HOME/.config/nvim/init_local.vim<CR>
+	nmap <leader>ep <ESC>:e $HOME/.config/nvim/plugin_local.vim<CR>
 
 	func! GoPlay()
 		let output=system('mktemp -p $GOPATH/src -d')
@@ -505,6 +509,11 @@
 		" }}}
 		
 	"}}}
+	
+	"load local config
+	if filereadable($HOME.'/.config/nvim/init_local.vim')
+		source ~/.config/nvim/init_local.vim
+	endif
 	
 " }}}
 
