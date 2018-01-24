@@ -234,30 +234,30 @@
 	tmap <A-k> <C-\><C-N><C-w>k
 	tmap <A-l> <C-\><C-N><C-w>l
 
-	let mapleader=','
+	let g:mapleader=','
 	nmap <leader>ee <ESC>:e $MYVIMRC<CR>
 	nmap <leader>rr <ESC>:source $MYVIMRC<CR>
 	nmap <leader>el <ESC>:e $HOME/.config/nvim/init_local.vim<CR>
 	nmap <leader>ep <ESC>:e $HOME/.config/nvim/plugin_local.vim<CR>
 
 	func! GoPlay()
-		let output=system('mktemp -p $GOPATH/src -d')
-		let tempfolder=split(output,'\n')[0]
-		let main=tempfolder.'/main.go'
-		call system('touch '.main)
-		call writefile(['package main', '', 'import (','"fmt"',')', '', 'func main() {', '', '}'], main)
-		exec ':lcd '.tempfolder
+		let l:output=system('mktemp -p $GOPATH/src -d')
+		let l:tempfolder=split(l:output,'\n')[0]
+		let l:main=l:tempfolder.'/main.go'
+		call system('touch '.l:main)
+		call writefile(['package main', '', 'import (','"fmt"',')', '', 'func main() {', '', '}'], l:main)
+		exec ':lcd '.l:tempfolder
 		exec ':e main.go'
 	endfunc
 	map <leader>pg <ESC>:call GoPlay()<CR>
 
 	func! PHPPlay()
-		let output=system('mktemp -d')
-		let tempfolder=split(output,'\n')[0]
-		let main=tempfolder.'/main.php'
-		call system('touch '.main)
-		call writefile(['<?php',''], main)
-		exec ':lcd '.tempfolder
+		let l:output=system('mktemp -d')
+		let l:tempfolder=split(l:output,'\n')[0]
+		let l:main=l:tempfolder.'/main.php'
+		call system('touch '.l:main)
+		call writefile(['<?php',''], l:main)
+		exec ':lcd '.l:tempfolder
 		exec ':e main.php'
 	endfunc
 	map <leader>pp <ESC>:call PHPPlay()<CR>
