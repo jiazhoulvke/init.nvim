@@ -2,34 +2,34 @@
 	call plug#begin('~/.local/share/nvim/plugged')
 
 	" Misc: {{{2
-	Plug 'Chiel92/vim-autoformat' "代码自动格式化
+	Plug 'Chiel92/vim-autoformat' " 代码自动格式化
 	Plug 'Shougo/neomru.vim'
 	Plug 'Shougo/unite-outline'
 	Plug 'Shougo/unite.vim'
-	Plug 'Shougo/vimproc.vim', {'do' : 'make'} "异步运行库
-	Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' "代码片段
-	Plug 'Valloric/MatchTagAlways' "tag配对显示
-	Plug 'dyng/ctrlsf.vim' "文件内容查找
-	Plug 'gregsexton/gitv' "git工具,类似于tig
-	Plug 'haya14busa/incsearch.vim' "对vim自带搜索的强化，可以同时搜索多个词
-	Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } "基于文件名快速搜索文件
-	Plug 'junegunn/vim-easy-align' "代码对齐
-	Plug 'justinmk/vim-sneak' "快速移动,类似vim自带的f，但sneak支持多行
-	Plug 'majutsushi/tagbar' "显示tag
-	Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } "文件浏览器
-	Plug 'sk1418/Join' "比vim自带的join更强大
-	Plug 'skywind3000/asyncrun.vim' "异步执行命令
-	Plug 'terryma/vim-expand-region' "逐步扩大选择区域
-	Plug 'terryma/vim-multiple-cursors' "多重选择
-	Plug 'tpope/vim-fugitive' "对git的封装
-	Plug 'tpope/vim-repeat' "重复执行操作
-	Plug 'tpope/vim-surround' "对括号双引号等进行快速编辑
-	Plug 'vim-scripts/LargeFile' "针对大文件优化性能
+	Plug 'Shougo/vimproc.vim', {'do' : 'make'} " 异步运行库
+	Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " 代码片段
+	Plug 'Valloric/MatchTagAlways' " tag配对显示
+	Plug 'dyng/ctrlsf.vim' " 文件内容查找
+	Plug 'gregsexton/gitv' " git工具,类似于tig
+	Plug 'haya14busa/incsearch.vim' " 对vim自带搜索的强化，可以同时搜索多个词
+	Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 基于文件名快速搜索文件
+	Plug 'junegunn/vim-easy-align' " 代码对齐
+	Plug 'justinmk/vim-sneak' " 快速移动,类似vim自带的f，但sneak支持多行
+	Plug 'majutsushi/tagbar' " 显示tag
+	Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } " 文件浏览器
+	Plug 'sk1418/Join' " 比vim自带的join更强大
+	Plug 'skywind3000/asyncrun.vim' " 异步执行命令
+	Plug 'terryma/vim-expand-region' " 逐步扩大选择区域
+	Plug 'terryma/vim-multiple-cursors' " 多重选择
+	Plug 'tpope/vim-fugitive' " 对git的封装
+	Plug 'tpope/vim-repeat' " 重复执行操作
+	Plug 'tpope/vim-surround' " 对括号双引号等进行快速编辑
+	Plug 'vim-scripts/LargeFile' " 针对大文件优化性能
 	Plug 'vim-scripts/VisIncr' " 列编辑
-	Plug 'w0rp/ale' "异步代码检测
-	Plug 'xolox/vim-misc' "库
-	Plug 'xolox/vim-notes' "vim写日记
-	Plug 'xolox/vim-session' "管理session
+	Plug 'w0rp/ale' " 异步代码检测
+	Plug 'xolox/vim-misc' " 库
+	Plug 'xolox/vim-notes' " vim写日记
+	Plug 'xolox/vim-session' " 管理session
 
 	" }}}
 
@@ -42,11 +42,11 @@
 	" }}}
 
 	" Languages: {{{2
-	Plug 'cespare/vim-toml' "toml语法插件
-	Plug 'groenewege/vim-less' "less语法插件
-	Plug 'leafgarland/typescript-vim' "typescript 语法插件
-	Plug 'tpope/vim-markdown' "markdown语法插件，支持在markdown中高亮代码块
-	"Plug 'pangloss/vim-javascript'
+	Plug 'cespare/vim-toml' " toml语法插件
+	Plug 'groenewege/vim-less' " less语法插件
+	Plug 'leafgarland/typescript-vim' " typescript 语法插件
+	Plug 'tpope/vim-markdown' " markdown语法插件，支持在markdown中高亮代码块
+	Plug 'pangloss/vim-javascript' " 更好的缩进
 	"Plug 'chr4/nginx.vim'
 	"Plug 'vim-scripts/gtk-vim-syntax'
 	"Plug 'vim-scripts/jQuery'
@@ -59,22 +59,22 @@
 	" }}}
 
 	" Completion: {{{2
-	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "新一代补全框架
+	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " 新一代补全框架
 
-	Plug 'Shougo/context_filetype.vim' "根据上下文补全，比如可以在markdown文件中补全golang代码
-	Plug 'Shougo/echodoc.vim' "不用preview窗口也能显示函数参数
-	Plug 'Shougo/neco-syntax' "语法补全
-	Plug 'Shougo/neco-vim', {'for': 'vim'} "vimscript补全
-	Plug 'carlitux/deoplete-ternjs', {'for': 'javascript'} "js补全
-	Plug 'fatih/vim-go', {'for': 'go'} "golang补全
-	Plug 'zchee/deoplete-go', { 'for': 'go', 'do': 'make'} "golang补全
-	Plug 'mattn/emmet-vim', {'for': ['php', 'html', 'css', 'xml']} "html、css代码片段
-	Plug 'mhartington/nvim-typescript', {'for': 'typescript'} "typescript补全
-	Plug 'othree/csscomplete.vim', {'for': 'css'} "css补全
-	Plug 'padawan-php/deoplete-padawan', { 'for': 'php', 'do': 'composer install' } "php补全
-	"Plug 'phpactor/phpactor' ,  {'do': 'composer install'} "php补全
-	Plug 'scrooloose/nerdcommenter' "注释插件
-	Plug 'zchee/deoplete-zsh', {'for': 'zsh'} "zsh补全
+	Plug 'Shougo/context_filetype.vim' " 根据上下文补全，比如可以在markdown文件中补全golang代码
+	Plug 'Shougo/echodoc.vim' " 不用preview窗口也能显示函数参数
+	Plug 'Shougo/neco-syntax' " 语法补全
+	Plug 'Shougo/neco-vim', {'for': 'vim'} " vimscript补全
+	Plug 'carlitux/deoplete-ternjs', {'for': 'javascript'} " js补全
+	Plug 'fatih/vim-go', {'for': 'go'} " golang补全
+	Plug 'zchee/deoplete-go', { 'for': 'go', 'do': 'make'} " golang补全
+	Plug 'mattn/emmet-vim', {'for': ['php', 'html', 'css', 'xml']} " html、css代码片段
+	Plug 'mhartington/nvim-typescript', {'for': 'typescript'} " typescript补全
+	Plug 'othree/csscomplete.vim', {'for': 'css'} " css补全
+	Plug 'padawan-php/deoplete-padawan', { 'for': 'php', 'do': 'composer install' } " php补全
+	"Plug 'phpactor/phpactor' ,  {'do': 'composer install'} " php补全
+	Plug 'scrooloose/nerdcommenter' " 注释插件
+	Plug 'zchee/deoplete-zsh', {'for': 'zsh'} " zsh补全
 
 	"}}}
 	
@@ -132,7 +132,7 @@
 	set lazyredraw " 不立即重绘
 	set cursorline " 高亮当前行
   if $TERM == 'xterm-256color'
-	  set termguicolors "设置真彩色
+	  set termguicolors " 设置真彩色
   endif
 	" }}}
 	
@@ -228,7 +228,7 @@
 	" 终端按键绑定
 	nmap <C-t> <ESC>:terminal<CR> " 进入终端
   	tmap <C-o> <C-\><C-n> " 进入默认模式
-	tmap <C-^> <C-\><C-n><C-^> "切换buffer
+	tmap <C-^> <C-\><C-n><C-^> " 切换buffer
 	tmap <A-h> <C-\><C-N><C-w>h
 	tmap <A-j> <C-\><C-N><C-w>j
 	tmap <A-k> <C-\><C-N><C-w>k
@@ -352,13 +352,13 @@
 		" deoplete.nvim: {{{3
 		"let g:deoplete#enable_at_startup = 1
 		let g:deoplete#enable_at_startup = 0
-		autocmd InsertEnter * call deoplete#enable() "仅在进入插入模式时启用deoplete,加快启动速度
+		autocmd InsertEnter * call deoplete#enable() " 仅在进入插入模式时启用deoplete,加快启动速度
 		" }}}
 
 		" echodoc: {{{3
 		let g:echodoc#enable_at_startup = 1
 		let g:echodoc#type = 'echo'
-		"let g:echodoc#type = 'signature' "gonvim可用
+		"let g:echodoc#type = 'signature' " gonvim可用
 		" }}}
 
 		" unite: {{{3
@@ -407,7 +407,7 @@
 		" }}}
 
 		" tpope/vim-markdown: {{{3
-		let g:markdown_fenced_languages = ['html', 'css', 'python', 'bash=sh', 'golang=go', 'go', 'php'] "需要在markdown文件中高亮的代码
+		let g:markdown_fenced_languages = ['html', 'css', 'python', 'bash=sh', 'golang=go', 'go', 'php'] " 需要在markdown文件中高亮的代码
 		" }}}
 
 		" asyncrun: {{{3
