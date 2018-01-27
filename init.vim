@@ -104,6 +104,9 @@
 	set undofile " 启用持久性撤销
 	set sessionoptions-=help " 保存session时不包括help信息
 	set whichwrap=b,s,<,>,[,]
+	" 设置折叠
+	set foldlevel=3
+	set foldlevelstart=99
 	" 设置自动补全
 	set wildmode=list:full
 	"set wildmode=list:longest
@@ -113,8 +116,11 @@
 		set mouse=a " 如果鼠标可用则启用鼠标支持
 	endif
 	set isfname-== " 不将=当成文件名的一部分
-	" 记住上次文件打开的位置
-	au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+	" 记住上次文件打开的位置 last-position-jump
+	au BufReadPost *
+		 \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit' 
+		 \ |   exe "normal! g`\""
+		 \ | endif
 	" }}}
 
 	" UI: {{{2
@@ -202,6 +208,9 @@
 	nmap <C-Down> <C-w>-
 	nmap <C-Left> <C-w><
 	nmap <C-Right> <C-w>>
+
+	" 用'切换折叠状态
+	nmap ' za
 
 	" 进入当前buffer所在目录
 	nmap <leader>cd <ESC>:cd %:p:h<CR>
