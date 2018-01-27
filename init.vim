@@ -412,7 +412,7 @@
 
 		" asyncrun: {{{3
 		if exists('g:asyncrun_status')
-			autocmd! BufWrite *.go exec ':AsyncRun go install'
+			autocmd! BufWrite *.go exec ':AsyncRun! go install'
 		endif
 		" }}}
 
@@ -488,10 +488,10 @@
 		" }}}
 		
 		" sneak: {{{3
-		nmap s <Plug>Sneak_s
-		nmap S <Plug>Sneak_S
-		xmap s <Plug>Sneak_s
-		xmap S <Plug>Sneak_S
+		nmap t <Plug>Sneak_s
+		nmap T <Plug>Sneak_S
+		xmap t <Plug>Sneak_s
+		xmap T <Plug>Sneak_S
 		nmap f <Plug>Sneak_f
 		nmap F <Plug>Sneak_F
 		xmap f <Plug>Sneak_f
