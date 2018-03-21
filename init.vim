@@ -102,6 +102,7 @@
 	set smarttab " 智能tab
 	set hidden " 在当前buffer没有保存时可以切换到其他buffer
 	set undofile " 启用持久性撤销
+	set autoread " 自动读取改动的文件
 	set sessionoptions-=help " 保存session时不包括help信息
 	set whichwrap=b,s,<,>,[,]
 	" 设置折叠
@@ -217,7 +218,7 @@
 
 	" 删除^M
 	"nmap <Leader>dm mmHmn:%s/<C-V><cr>//ge<cr>'nzt'm
-	nmap <Leader>dm <ESC>:%s///g<CR>
+	nmap <Leader>dm <ESC>:%s/\r$//<CR>
 
 	" 删除空行
 	nmap <Leader>dbl :g/^\s*$/d<CR>
