@@ -103,6 +103,7 @@
 	set hidden " 在当前buffer没有保存时可以切换到其他buffer
 	set undofile " 启用持久性撤销
 	set autoread " 自动读取改动的文件
+	set noswapfile " 不使用swapfile
 	set sessionoptions-=help " 保存session时不包括help信息
 	set whichwrap=b,s,<,>,[,]
 	" 设置折叠
