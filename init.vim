@@ -12,7 +12,6 @@
 	Plug 'dyng/ctrlsf.vim' " 文件内容查找
 	Plug 'gregsexton/gitv' " git工具,类似于tig
 	Plug 'haya14busa/incsearch.vim' " 对vim自带搜索的强化，可以同时搜索多个词
-	Plug 'inkarkat/vim-mark'
 	Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 基于文件名快速搜索文件
 	Plug 'junegunn/vim-easy-align' " 代码对齐
 	Plug 'justinmk/vim-sneak' " 快速移动,类似vim自带的f，但sneak支持多行
@@ -26,6 +25,7 @@
 	Plug 'tpope/vim-repeat' " 重复执行操作
 	Plug 'tpope/vim-surround' " 对括号双引号等进行快速编辑
 	Plug 'vim-scripts/LargeFile' " 针对大文件优化性能
+	Plug 'vim-scripts/Mark--Karkat'
 	Plug 'vim-scripts/VisIncr' " 列编辑
 	Plug 'w0rp/ale' " 异步代码检测
 	Plug 'xolox/vim-misc' " 库
