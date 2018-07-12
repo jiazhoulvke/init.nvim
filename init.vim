@@ -12,6 +12,7 @@
 	Plug 'dyng/ctrlsf.vim' " 文件内容查找
 	Plug 'gregsexton/gitv' " git工具,类似于tig
 	Plug 'haya14busa/incsearch.vim' " 对vim自带搜索的强化，可以同时搜索多个词
+	Plug 'inkarkat/vim-mark'
 	Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 基于文件名快速搜索文件
 	Plug 'junegunn/vim-easy-align' " 代码对齐
 	Plug 'justinmk/vim-sneak' " 快速移动,类似vim自带的f，但sneak支持多行
@@ -68,6 +69,7 @@
 	Plug 'carlitux/deoplete-ternjs', {'for': 'javascript'} " js补全
 	Plug 'fatih/vim-go', {'for': 'go'} " golang补全
 	Plug 'zchee/deoplete-go', { 'for': 'go', 'do': 'make'} " golang补全
+	Plug 'zchee/deoplete-jedi', { 'for': 'python' } " python补全
 	Plug 'mattn/emmet-vim', {'for': ['php', 'html', 'css', 'xml']} " html、css代码片段
 	Plug 'mhartington/nvim-typescript', {'for': 'typescript'} " typescript补全
 	Plug 'othree/csscomplete.vim', {'for': 'css'} " css补全
