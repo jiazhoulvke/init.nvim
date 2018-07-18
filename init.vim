@@ -16,6 +16,7 @@
 	Plug 'junegunn/vim-easy-align' " 代码对齐
 	Plug 'justinmk/vim-sneak' " 快速移动,类似vim自带的f，但sneak支持多行
 	Plug 'majutsushi/tagbar' " 显示tag
+	Plug 'rking/ag.vim'
 	Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } " 文件浏览器
 	Plug 'sk1418/Join' " 比vim自带的join更强大
 	Plug 'skywind3000/asyncrun.vim' " 异步执行命令
