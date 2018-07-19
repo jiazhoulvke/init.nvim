@@ -30,6 +30,7 @@
 	Plug 'vim-scripts/VisIncr' " 列编辑
 	Plug 'w0rp/ale' " 异步代码检测
 	Plug 'xolox/vim-misc' " 库
+  Plug 'tmux-plugins/vim-tmux'
 	Plug 'xolox/vim-notes' " vim写日记
 	Plug 'xolox/vim-session' " 管理session
 
