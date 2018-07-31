@@ -77,7 +77,6 @@
 	Plug 'padawan-php/deoplete-padawan', { 'for': 'php', 'do': 'composer install' } " php补全
 	"Plug 'phpactor/phpactor' ,  {'do': 'composer install'} " php补全
 	Plug 'scrooloose/nerdcommenter' " 注释插件
-	Plug 'zchee/deoplete-zsh', {'for': 'zsh'} " zsh补全
 
 	"}}}
 	
