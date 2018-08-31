@@ -413,7 +413,7 @@
 		" ale: {{{3
 		" gometalinter参数
   		let g:ale_linters = {'go': ['gometalinter', 'gofmt']}
-		let g:ale_go_gometalinter_options='-t --fast --disable=gocyclo --disable=gas --disable=goconst --disable=vetshadow  --disable=ineffassign'
+		let g:ale_go_gometalinter_options='-t --fast --disable=gocyclo --disable=gas --disable=goconst --disable=vetshadow --disable=gosec --disable=ineffassign'
 
 		nmap <silent> <C-h> <Plug>(ale_previous)
 		nmap <silent> <C-l> <Plug>(ale_next)
