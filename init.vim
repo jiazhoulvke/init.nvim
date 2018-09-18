@@ -13,6 +13,7 @@
 	Plug 'gregsexton/gitv' " git工具,类似于tig
 	Plug 'haya14busa/incsearch.vim' " 对vim自带搜索的强化，可以同时搜索多个词
 	Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 基于文件名快速搜索文件
+	Plug 'junegunn/fzf.vim'
 	Plug 'junegunn/vim-easy-align' " 代码对齐
 	Plug 'justinmk/vim-sneak' " 快速移动,类似vim自带的f，但sneak支持多行
 	Plug 'majutsushi/tagbar' " 显示tag
@@ -375,8 +376,8 @@
 		" }}}
 
 		" unite: {{{3
-		nmap <leader>b <ESC>:Unite -start-insert buffer<CR>
-		nmap <leader>h <ESC>:Unite -start-insert neomru/file<CR>
+		" nmap <leader>b <ESC>:Unite -start-insert buffer<CR>
+		" nmap <leader>h <ESC>:Unite -start-insert neomru/file<CR>
 		nmap <leader>o <ESC>:Unite outline<CR>
 		call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep','ignore_pattern',join(['\.git/',],'\|'))
 		call unite#filters#matcher_default#use(['matcher_fuzzy'])
@@ -453,7 +454,9 @@
 		" }}}
 
 		" fzf: {{{3
-		nmap <leader>f <ESC>:FZF<CR>
+		nmap <leader>f <ESC>:Files<CR>
+		nmap <leader>b <ESC>:Buffers<CR>
+		nmap <leader>h <ESC>:History<CR>
 		" }}}
 
 		" EasyAlign: {{{3
