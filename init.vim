@@ -64,20 +64,21 @@
 	" Completion: {{{2
 	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " 新一代补全框架
 
+	"Plug 'phpactor/phpactor' ,  {'do': 'composer install'} " php补全
 	Plug 'Shougo/context_filetype.vim' " 根据上下文补全，比如可以在markdown文件中补全golang代码
 	Plug 'Shougo/echodoc.vim' " 不用preview窗口也能显示函数参数
 	Plug 'Shougo/neco-syntax' " 语法补全
 	Plug 'Shougo/neco-vim', {'for': 'vim'} " vimscript补全
 	Plug 'carlitux/deoplete-ternjs', {'for': 'javascript'} " js补全
 	Plug 'fatih/vim-go', {'for': 'go'} " golang补全
-	Plug 'zchee/deoplete-go', { 'for': 'go', 'do': 'make'} " golang补全
-	Plug 'zchee/deoplete-jedi', { 'for': 'python' } " python补全
 	Plug 'mattn/emmet-vim', {'for': ['php', 'html', 'css', 'xml']} " html、css代码片段
 	Plug 'mhartington/nvim-typescript', {'for': 'typescript'} " typescript补全
 	Plug 'othree/csscomplete.vim', {'for': 'css'} " css补全
 	Plug 'padawan-php/deoplete-padawan', { 'for': 'php', 'do': 'composer install' } " php补全
-	"Plug 'phpactor/phpactor' ,  {'do': 'composer install'} " php补全
 	Plug 'scrooloose/nerdcommenter' " 注释插件
+	Plug 'wannesm/wmgraphviz.vim' "graphviz补全
+	Plug 'zchee/deoplete-go', { 'for': 'go', 'do': 'make'} " golang补全
+	Plug 'zchee/deoplete-jedi', { 'for': 'python' } " python补全
 
 	"}}}
 	
@@ -523,6 +524,11 @@
 			function! g:Multiple_cursors_after()
 				let g:deoplete#disable_auto_complete = 0
 			endfunction
+		" }}}
+		
+		" wmgraphviz.vim: {{{3
+		nmap <leader>ll <ESC>:GraphvizCompile<CR>
+		nmap <leader>lv <ESC>:GraphvizShow<CR>
 		" }}}
 		
 	"}}}
