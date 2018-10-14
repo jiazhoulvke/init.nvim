@@ -16,8 +16,15 @@
 	Plug 'junegunn/fzf.vim'
 	Plug 'junegunn/vim-easy-align' " 代码对齐
 	Plug 'justinmk/vim-sneak' " 快速移动,类似vim自带的f，但sneak支持多行
+	Plug 'kana/vim-textobj-user'
+	Plug 'kana/vim-textobj-indent'
+	Plug 'kana/vim-textobj-syntax'
+	Plug 'kana/vim-textobj-function' 
+	Plug 'sgur/vim-textobj-parameter'
 	Plug 'majutsushi/tagbar' " 显示tag
 	Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } " 文件浏览器
+	Plug 'francoiscabrol/ranger.vim'
+	Plug 'rbgrouleff/bclose.vim'
 	Plug 'sk1418/Join' " 比vim自带的join更强大
 	Plug 'skywind3000/asyncrun.vim' " 异步执行命令
 	Plug 'terryma/vim-expand-region' " 逐步扩大选择区域
@@ -30,8 +37,7 @@
 	Plug 'vim-scripts/VisIncr' " 列编辑
 	Plug 'w0rp/ale' " 异步代码检测
 	Plug 'xolox/vim-misc' " 库
-  Plug 'tmux-plugins/vim-tmux'
-	Plug 'xolox/vim-notes' " vim写日记
+	Plug 'tmux-plugins/vim-tmux'
 	Plug 'xolox/vim-session' " 管理session
 
 	" }}}
@@ -441,8 +447,9 @@
 		nmap <space>n <ESC>:NERDTreeToggle<CR>
 		" }}}
 
-		" notes: {{{3
-		let g:notes_directories = [$HOME.'/Dropbox/notes']
+		" ranger: {{{
+		let g:ranger_map_keys = 0
+		nmap <space>f <ESC>:RangerWorkingDirectory<CR>
 		" }}}
 
 		" gitv: {{{3
