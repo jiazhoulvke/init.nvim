@@ -3,17 +3,17 @@
 
 	" Misc: {{{2
 	Plug 'Chiel92/vim-autoformat' " 代码自动格式化
-	Plug 'Shougo/neomru.vim'
 	Plug 'Shougo/unite-outline'
 	Plug 'Shougo/unite.vim'
+	Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 基于文件名快速搜索文件
+	" Plug 'junegunn/fzf.vim'
+	Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 	Plug 'Shougo/vimproc.vim', {'do' : 'make'} " 异步运行库
 	Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " 代码片段
 	Plug 'Valloric/MatchTagAlways' " tag配对显示
 	Plug 'dyng/ctrlsf.vim' " 文件内容查找
 	Plug 'gregsexton/gitv' " git工具,类似于tig
 	Plug 'haya14busa/incsearch.vim' " 对vim自带搜索的强化，可以同时搜索多个词
-	Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 基于文件名快速搜索文件
-	Plug 'junegunn/fzf.vim'
 	Plug 'junegunn/vim-easy-align' " 代码对齐
 	Plug 'justinmk/vim-sneak' " 快速移动,类似vim自带的f，但sneak支持多行
 	Plug 'kana/vim-textobj-user'
@@ -23,6 +23,7 @@
 	Plug 'sgur/vim-textobj-parameter'
 	Plug 'majutsushi/tagbar' " 显示tag
 	Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } " 文件浏览器
+	Plug 'justinmk/vim-dirvish'
 	Plug 'francoiscabrol/ranger.vim'
 	Plug 'rbgrouleff/bclose.vim'
 	Plug 'sk1418/Join' " 比vim自带的join更强大
@@ -70,7 +71,6 @@
 	" Completion: {{{2
 	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " 新一代补全框架
 
-	"Plug 'phpactor/phpactor' ,  {'do': 'composer install'} " php补全
 	Plug 'Shougo/context_filetype.vim' " 根据上下文补全，比如可以在markdown文件中补全golang代码
 	Plug 'Shougo/echodoc.vim' " 不用preview窗口也能显示函数参数
 	Plug 'Shougo/neco-syntax' " 语法补全
@@ -117,7 +117,7 @@
 	set sessionoptions-=help " 保存session时不包括help信息
 	set whichwrap=b,s,<,>,[,]
 	" 设置折叠
-	set foldlevel=3
+	set foldlevel=2
 	set foldlevelstart=99
 	" 设置自动补全
 	set wildmode=list:full
@@ -383,9 +383,13 @@
 		" }}}
 
 		" unite: {{{3
-		" nmap <leader>b <ESC>:Unite -start-insert buffer<CR>
-		" nmap <leader>h <ESC>:Unite -start-insert neomru/file<CR>
 		nmap <leader>o <ESC>:Unite outline<CR>
+		nmap <leader>b <ESC>:Unite buffer<CR>
+		call unite#custom#profile('default', 'context', {
+		\   'start_insert': 0,
+		\   'winheight': 10,
+		\   'direction': 'botright',
+		\ })
 		call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep','ignore_pattern',join(['\.git/',],'\|'))
 		call unite#filters#matcher_default#use(['matcher_fuzzy'])
 		call unite#filters#sorter_default#use(['sorter_rank'])
@@ -399,7 +403,11 @@
 		autocmd FileType unite call s:unite_settings()
 		function! s:unite_settings()
 			nmap <buffer> <ESC> <Plug>(unite_exit)
-			imap <buffer> <C-c> <Plug>(unite_exit)
+			" imap <buffer> <C-c> <Plug>(unite_exit)
+			imap <buffer> <C-j> <Plug>(unite_select_next_line)
+			imap <buffer> <C-k> <Plug>(unite_select_previous_line)
+			imap <buffer> <C-r> <Plug>(unite_insert_leave)
+			imap <buffer> <ESC> <Plug>(unite_exit)
 		endfunction
 		" }}}
 
@@ -451,6 +459,14 @@
 		let g:ranger_map_keys = 0
 		nmap <space>f <ESC>:RangerWorkingDirectory<CR>
 		" }}}
+		
+		" dirvish: {{{
+		nmap <space>d <ESC>:Dirvish<CR>
+		" }}}
+
+		" bclose: {{{
+		let g:no_plugin_maps = 1
+		" }}}
 
 		" gitv: {{{3
 		let g:Gitv_OpenHorizontal = 0
@@ -462,9 +478,19 @@
 		" }}}
 
 		" fzf: {{{3
-		nmap <leader>f <ESC>:Files<CR>
-		nmap <leader>b <ESC>:Buffers<CR>
-		nmap <leader>h <ESC>:History<CR>
+		" nmap <leader>f <ESC>:Files<CR>
+		" nmap <leader>b <ESC>:Buffers<CR>
+		" nmap <leader>h <ESC>:History<CR>
+		" }}}
+
+		" LeaderF: {{{3
+		nmap <leader>f <ESC>:LeaderfFile<CR>
+		" nmap <leader>b <ESC>:LeaderfBuffer<CR>
+		nmap <leader>h <ESC>:LeaderfMru<CR>
+
+		let g:Lf_StlColorscheme = 'powerline'
+		let g:Lf_StlSeparator = { 'left': '', 'right': '' }
+		let g:Lf_DefaultExternalTool = "ag"
 		" }}}
 
 		" EasyAlign: {{{3
@@ -511,7 +537,7 @@
 
 		let g:airline_theme='powerlineish'
 		" }}}
-		
+
 		" sneak: {{{3
 		nmap t <Plug>Sneak_s
 		nmap T <Plug>Sneak_S
