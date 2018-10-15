@@ -6,8 +6,8 @@
 	Plug 'Shougo/unite-outline'
 	Plug 'Shougo/unite.vim'
 	Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 基于文件名快速搜索文件
-	" Plug 'junegunn/fzf.vim'
-	Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+	Plug 'junegunn/fzf.vim'
+	" Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 	Plug 'Shougo/vimproc.vim', {'do' : 'make'} " 异步运行库
 	Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " 代码片段
 	Plug 'Valloric/MatchTagAlways' " tag配对显示
@@ -386,8 +386,8 @@
 		nmap <leader>o <ESC>:Unite outline<CR>
 		nmap <leader>b <ESC>:Unite buffer<CR>
 		call unite#custom#profile('default', 'context', {
-		\   'start_insert': 0,
-		\   'winheight': 10,
+		\   'start_insert': 1,
+		\   'winheight': 20,
 		\   'direction': 'botright',
 		\ })
 		call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep','ignore_pattern',join(['\.git/',],'\|'))
@@ -409,6 +409,22 @@
 			imap <buffer> <C-r> <Plug>(unite_insert_leave)
 			imap <buffer> <ESC> <Plug>(unite_exit)
 		endfunction
+		" }}}
+		
+		" fzf: {{{3
+		nmap <leader>f <ESC>:Files<CR>
+		" nmap <leader>b <ESC>:Buffers<CR>
+		nmap <leader>h <ESC>:History<CR>
+		" }}}
+
+		" LeaderF: {{{3
+		" nmap <leader>f <ESC>:LeaderfFile<CR>
+		" nmap <leader>b <ESC>:LeaderfBuffer<CR>
+		" nmap <leader>h <ESC>:LeaderfMru<CR>
+
+		let g:Lf_StlColorscheme = 'powerline'
+		let g:Lf_StlSeparator = { 'left': '', 'right': '' }
+		let g:Lf_DefaultExternalTool = "ag"
 		" }}}
 
 		" session: {{{3
@@ -477,21 +493,6 @@
 		nmap <space>t <ESC>:TagbarToggle<CR>
 		" }}}
 
-		" fzf: {{{3
-		" nmap <leader>f <ESC>:Files<CR>
-		" nmap <leader>b <ESC>:Buffers<CR>
-		" nmap <leader>h <ESC>:History<CR>
-		" }}}
-
-		" LeaderF: {{{3
-		nmap <leader>f <ESC>:LeaderfFile<CR>
-		" nmap <leader>b <ESC>:LeaderfBuffer<CR>
-		nmap <leader>h <ESC>:LeaderfMru<CR>
-
-		let g:Lf_StlColorscheme = 'powerline'
-		let g:Lf_StlSeparator = { 'left': '', 'right': '' }
-		let g:Lf_DefaultExternalTool = "ag"
-		" }}}
 
 		" EasyAlign: {{{3
 		xmap <space>a <Plug>(EasyAlign)
