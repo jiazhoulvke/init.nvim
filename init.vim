@@ -33,6 +33,7 @@
 	Plug 'tpope/vim-fugitive' " 对git的封装
 	Plug 'tpope/vim-repeat' " 重复执行操作
 	Plug 'tpope/vim-surround' " 对括号双引号等进行快速编辑
+	Plug 'wellle/targets.vim' " 一款牛逼至极的text-objects插件
 	Plug 'vim-scripts/LargeFile' " 针对大文件优化性能
 	Plug 'vim-scripts/Mark--Karkat'
 	Plug 'vim-scripts/VisIncr' " 列编辑
@@ -54,7 +55,7 @@
 	" Languages: {{{2
 	Plug 'cespare/vim-toml' " toml语法插件
 	Plug 'groenewege/vim-less' " less语法插件
-	Plug 'leafgarland/typescript-vim' " typescript 语法插件
+	"Plug 'leafgarland/typescript-vim' " typescript 语法插件
 	Plug 'tpope/vim-markdown' " markdown语法插件，支持在markdown中高亮代码块
 	Plug 'pangloss/vim-javascript' " 更好的缩进
 	"Plug 'chr4/nginx.vim'
@@ -78,7 +79,7 @@
 	Plug 'carlitux/deoplete-ternjs', {'for': 'javascript'} " js补全
 	Plug 'fatih/vim-go', {'for': 'go'} " golang补全
 	Plug 'mattn/emmet-vim', {'for': ['php', 'html', 'css', 'xml']} " html、css代码片段
-	Plug 'mhartington/nvim-typescript', {'for': 'typescript'} " typescript补全
+	"Plug 'mhartington/nvim-typescript', {'for': 'typescript'} " typescript补全
 	Plug 'othree/csscomplete.vim', {'for': 'css'} " css补全
 	Plug 'padawan-php/deoplete-padawan', { 'for': 'php', 'do': 'composer install' } " php补全
 	Plug 'scrooloose/nerdcommenter' " 注释插件
