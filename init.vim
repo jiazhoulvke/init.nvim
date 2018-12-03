@@ -4,7 +4,7 @@ let g:neosolarized_termtrans = 1
 call plug#begin('~/.local/share/nvim/plugged')
 
 " Misc: {{{2
-Plug 'dhruvasagar/vim-dotoo'
+Plug 'ludovicchabant/vim-gutentags'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 基于文件名快速搜索文件
 Plug 'junegunn/fzf.vim'
 Plug 'Valloric/MatchTagAlways' " tag配对显示
@@ -18,13 +18,15 @@ Plug 'kana/vim-textobj-syntax'
 Plug 'kana/vim-textobj-function' 
 Plug 'sgur/vim-textobj-parameter'
 " Plug 'majutsushi/tagbar' " 显示tag
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } " 文件浏览器
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'sk1418/Join' " 比vim自带的join更强大
 Plug 'skywind3000/asyncrun.vim' " 异步执行命令
 Plug 'terryma/vim-expand-region' " 逐步扩大选择区域
 Plug 'terryma/vim-multiple-cursors' " 多重选择
+Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive' " 对git的封装
 Plug 'tpope/vim-repeat' " 重复执行操作
+Plug 'tpope/vim-rsi' " Readline style insertion
 Plug 'tpope/vim-surround' " 对括号双引号等进行快速编辑
 Plug 'wellle/targets.vim' " 一款牛逼至极的text-objects插件
 Plug 'vim-scripts/LargeFile' " 针对大文件优化性能
@@ -33,17 +35,21 @@ Plug 'vim-scripts/VisIncr' " 列编辑
 Plug 'w0rp/ale' " 异步代码检测
 Plug 'xolox/vim-misc' " 库
 Plug 'xolox/vim-session' " 管理session
+Plug 'lilydjwg/fcitx.vim' " 自动切换中英文
 
 " }}}
 
 " UI: {{{2
+Plug 'mhinz/vim-startify' " The fancy start screen for Vim.
 Plug 'iCyMind/NeoSolarized' " 支持真彩色的solarized
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-" Plug 'lilydjwg/colorizer',{'for': ['html', 'php', 'css']}
+Plug 'ryanoasis/vim-devicons' " Adds file type glyphs/icons to popular Vim plugins
 " }}}
 
 " Languages: {{{2
+Plug 'matze/vim-ini-fold'
+Plug 'chrisbra/csv.vim'
 " Plug 'cespare/vim-toml' " toml语法插件
 " Plug 'groenewege/vim-less' " less语法插件
 " Plug 'tpope/vim-markdown' " markdown语法插件，支持在markdown中高亮代码块
@@ -66,13 +72,31 @@ Plug 'wannesm/wmgraphviz.vim' "graphviz补全
 "}}}
 
 if filereadable($HOME.'/.config/nvim/plugin_local.vim')
-		source ~/.config/nvim/plugin_local.vim
+	source ~/.config/nvim/plugin_local.vim
 endif
 
 call plug#end()
 " }}}
 
 " Config: {{{1
+
+" UI: {{{2
+set number " 启用行号
+set tabstop=4 " tab宽度设为4
+" set softtabstop=4
+set shiftwidth=4 " 换行宽度设为4
+colo NeoSolarized
+set background=dark
+set shortmess+=c " 关掉一些烦人的信息
+"set cmdheight=2 " 命令行高度设为2，echodoc需要
+set noshowmode " 不显示当前状态
+set display=lastline " 解决超长行显示异常的问题
+set lazyredraw " 不立即重绘
+set cursorline " 高亮当前行
+if $TERM == 'xterm-256color'
+	set termguicolors " 设置真彩色
+endif
+" }}}
 
 " Misc: {{{2
 " 关闭错误响铃
@@ -94,43 +118,24 @@ set noswapfile " 不使用swapfile
 set sessionoptions-=help " 保存session时不包括help信息
 set whichwrap=b,s,<,>,[,]
 " 设置折叠
-set foldlevel=2
-set foldlevelstart=99
+" set foldlevel=2
+" set foldlevelstart=99
 " 设置自动补全
 set wildmode=list:full
 "set wildmode=list:longest
 set wildmenu
 "set wildignorecase
 if has('mouse')
-		set mouse=a " 如果鼠标可用则启用鼠标支持
+	set mouse=a " 如果鼠标可用则启用鼠标支持
 endif
 set t_8f=^[[38;2;%lu;%lu;%lum
 set t_8b=^[[48;2;%lu;%lu;%lum
 set isfname-== " 不将=当成文件名的一部分
 " 记住上次文件打开的位置 last-position-jump
 au BufReadPost *
-						\ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit' 
-						\ |   exe "normal! g`\""
-						\ | endif
-" }}}
-
-" UI: {{{2
-set number " 启用行号
-" set tabstop=4 " tab宽度设为4
-set softtabstop=4
-set shiftwidth=4 " 换行宽度设为4
-" autocmd FileType html,xml,yaml setlocal tabstop=2 shiftwidth=2
-set background=dark
-colo NeoSolarized
-set shortmess+=c " 关掉一些烦人的信息
-"set cmdheight=2 " 命令行高度设为2，echodoc需要
-set noshowmode " 不显示当前状态
-set display=lastline " 解决超长行显示异常的问题
-set lazyredraw " 不立即重绘
-set cursorline " 高亮当前行
-if $TERM == 'xterm-256color'
-		set termguicolors " 设置真彩色
-endif
+			\ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit' 
+			\ |   exe "normal! g`\""
+			\ | endif
 " }}}
 
 " Bind: {{{2
@@ -224,12 +229,12 @@ nmap j gj
 nmap k gk
 
 " 命令行模式移动
-cmap <C-f> <Right>
-cmap <C-b> <Left>
-cmap <M-f> <C-Right>
-cmap <M-b> <C-Left>
-cmap <C-a> <Home>
-cmap <C-e> <End>
+"cmap <C-f> <Right>
+"cmap <C-b> <Left>
+"cmap <M-f> <C-Right>
+"cmap <M-b> <C-Left>
+"cmap <C-a> <Home>
+"cmap <C-e> <End>
 
 " 终端按键绑定
 " nmap <C-t> <ESC>:terminal<CR> " 进入终端
@@ -271,10 +276,18 @@ let g:echodoc#type = 'echo'
 "let g:echodoc#type = 'signature' " gonvim可用
 " }}}
 
-" fzf: {{{3
-nmap <leader>f <ESC>:Files<CR>
-" nmap <leader>b <ESC>:Buffers<CR>
-nmap <leader>h <ESC>:History<CR>
+" fzf.vim: {{{3
+
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+nmap gf <ESC>:Files<CR>
+nmap gb <ESC>:Buffers<CR>
+nmap gh <ESC>:History<CR>
+nmap gt <ESC>:Tags<CR>
+nmap gl <ESC>:Lines<CR>
 " }}}
 
 " session: {{{3
@@ -304,7 +317,7 @@ nmap <leader>a <Plug>(ale_first)
 
 " asyncrun: {{{3
 if exists('g:asyncrun_status')
-		autocmd! BufWrite *.go exec ':AsyncRun! go install'
+	autocmd! BufWrite *.go exec ':AsyncRun! go install'
 endif
 " }}}
 
@@ -335,31 +348,64 @@ nmap <space><space> <ESC>:nohlsearch<CR>
 " }}}
 
 " vim-airline: {{{3
+let g:airline_theme='powerlineish'
 if !exists('g:airline_symbols')
-		let g:airline_symbols = {}
+	let g:airline_symbols = {}
 endif
 let g:airline_detect_spell=0
 let g:airline#extensions#whitespace#enabled = 0
 
-let g:airline_left_sep = '⮀'
-let g:airline_left_alt_sep = '⮁'
-let g:airline_right_sep = '⮂'
-let g:airline_right_alt_sep = '⮃'
-let g:airline_symbols.branch = '⭠'
-let g:airline_symbols.readonly = '⭤'
-let g:airline_symbols.linenr = '⭡'
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = '☰'
+let g:airline_symbols.maxlinenr = ''
 
-let g:airline#extensions#tagbar#enabled = 1
+" extensions: {{{4
+
+" csv
+let g:airline#extensions#csv#enabled = 1
+
+" branch
+let g:airline#extensions#hunks#enabled = 1
+
+" keymap
+let g:airline#extensions#keymap#enabled = 1
+
+let g:airline#extensions#gutentags#enabled = 1
 
 let g:airline#extensions#quickfix#quickfix_text = 'Quickfix'
+
+let g:airline#extensions#tabline#enabled = 1
+nmap <space>1 <Plug>AirlineSelectTab1
+nmap <space>2 <Plug>AirlineSelectTab2
+nmap <space>3 <Plug>AirlineSelectTab3
+nmap <space>4 <Plug>AirlineSelectTab4
+nmap <space>5 <Plug>AirlineSelectTab5
+nmap <space>6 <Plug>AirlineSelectTab6
+nmap <space>7 <Plug>AirlineSelectTab7
+nmap <space>8 <Plug>AirlineSelectTab8
+nmap <space>9 <Plug>AirlineSelectTab9
+nmap <M-p> <Plug>AirlineSelectPrevTab
+nmap <M-n> <Plug>AirlineSelectNextTab
 
 let g:airline#extensions#ale#enabled = 1
 let airline#extensions#ale#error_symbol = 'E:'
 let airline#extensions#ale#warning_symbol = 'W:'
 let airline#extensions#ale#open_lnum_symbol = '(L'
 let airline#extensions#ale#close_lnum_symbol = ')'
+" }}}
 
-let g:airline_theme='powerlineish'
+" }}}
+
+" webdevicons: {{{3
+let g:airline_powerline_fonts = 1
+let g:webdevicons_enable_airline_tabline = 1
+let g:webdevicons_enable_airline_statusline = 1
+" let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
 " }}}
 
 " sneak: {{{3
@@ -374,28 +420,34 @@ xmap F <Plug>Sneak_F
 " }}}
 
 " vim-multiple-cursors: {{{3
-" multiple-cursors和deoplete有冲突，要在使用multiple-cursors时自动关闭deoplete
-function! g:Multiple_cursors_before()
-		let g:deoplete#disable_auto_complete = 1
-endfunction
-function! g:Multiple_cursors_after()
-		let g:deoplete#disable_auto_complete = 0
-endfunction
+let g:multi_cursor_use_default_mapping=0
+let g:multi_cursor_start_word_key      = '<C-n>'
+" let g:multi_cursor_select_all_word_key = '<A-n>'
+let g:multi_cursor_start_key           = 'g<C-n>'
+let g:multi_cursor_select_all_key      = 'g<A-n>'
+let g:multi_cursor_next_key            = '<C-n>'
+let g:multi_cursor_prev_key            = '<C-p>'
+let g:multi_cursor_skip_key            = '<C-x>'
+let g:multi_cursor_quit_key            = '<Esc>'
+" }}}
+
+" gutentags: {{{3 
+let g:gutentags_enabled = 1
+let g:gutentags_cache_dir = '~/.tags'
 " }}}
 
 " wmgraphviz.vim: {{{3
-nmap <leader>ll <ESC>:GraphvizCompile<CR>
-nmap <leader>lv <ESC>:GraphvizShow<CR>
+nmap <leader>gc <ESC>:GraphvizCompile<CR>
+nmap <leader>gs <ESC>:GraphvizShow<CR>
 " }}}
 
 " }}}
 
 "load local config
 if filereadable($HOME.'/.config/nvim/init_local.vim')
-		source ~/.config/nvim/init_local.vim
+	source ~/.config/nvim/init_local.vim
 endif
 
 " }}}
 
-
-" vim: foldmethod=marker sw=2 ts=2
+" vim: foldmethod=marker
