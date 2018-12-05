@@ -291,6 +291,20 @@ endif
 
 " Plugins Config: {{{2
 
+" vim-lua-ftplugin: {{{3
+" 注册vim-lua-ftplugin为lua的补全源
+au User Ncm2Plugin call ncm2#register_source({
+	\ 'name': 'lua',
+	\ 'priority': 9,
+	\ 'subscope_enable': 1,
+	\ 'scope': ['lua'],
+	\ 'mark': 'css',
+	\ 'word_pattern': '[.\w\-]+',
+	\ 'complete_pattern': ':\s*',
+	\ 'on_complete': ['ncm2#on_complete#omni', 'xolox#lua#omnifunc'],
+	\ })
+" }}}
+
 " gruvbox: {{{3
 let g:gruvbox_italic=1
 let g:gruvbox_contrast_dark = 'soft'
