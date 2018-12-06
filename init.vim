@@ -293,6 +293,7 @@ endif
 
 " vim-lua-ftplugin: {{{3
 " 注册vim-lua-ftplugin为lua的补全源
+let g:lua_complete_omni = 1
 au User Ncm2Plugin call ncm2#register_source({
 	\ 'name': 'lua',
 	\ 'priority': 9,
