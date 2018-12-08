@@ -68,7 +68,7 @@ Plug 'junegunn/limelight.vim' " 专注模式
 Plug 'chrisbra/csv.vim'
 Plug 'matze/vim-ini-fold'
 Plug 'tweekmonster/hl-goimport.vim' " 高亮golang包名
-Plug 'tpope/vim-markdown' " markdown语法插件，支持在markdown中高亮代码块
+" Plug 'tpope/vim-markdown' " markdown语法插件，支持在markdown中高亮代码块
 Plug 'cespare/vim-toml' " toml语法插件
 Plug 'groenewege/vim-less' " less语法插件
 Plug 'ap/vim-css-color' " css颜色高亮
@@ -118,7 +118,7 @@ call plug#end()
 set number " 启用行号
 set tabstop=4 " tab宽度设为4
 " set softtabstop=4
-" set shiftwidth=4 " 换行宽度设为4
+set shiftwidth=4 " 换行宽度设为4
 autocmd FileType python setlocal expandtab shiftwidth=4
 set background=dark
 set shortmess+=c " 关掉一些烦人的信息
@@ -293,13 +293,14 @@ endif
 
 " vim-lua-ftplugin: {{{3
 " 注册vim-lua-ftplugin为lua的补全源
+let g:lua_check_syntax = 0
 au User Ncm2Plugin call ncm2#register_source({
 	\ 'name': 'lua',
 	\ 'priority': 9,
-	\ 'subscope_enable': 1,
+	\ 'subscope_enable': 0,
 	\ 'scope': ['lua'],
-	\ 'mark': 'css',
-	\ 'word_pattern': '[.\w\-]+',
+	\ 'mark': 'lua',
+	\ 'word_pattern': '[\w\-\.]+',
 	\ 'complete_pattern': ':\s*',
 	\ 'on_complete': ['ncm2#on_complete#omni', 'xolox#lua#omnifunc'],
 	\ })
@@ -359,7 +360,7 @@ nmap <leader>a <Plug>(ale_first)
 " }}}
 
 " tpope/vim-markdown: {{{3
-let g:markdown_fenced_languages = ['c', 'cpp', 'html', 'css', 'python', 'bash=sh', 'golang=go', 'go', 'php'] " 需要在markdown文件中高亮的代码
+" let g:markdown_fenced_languages = ['c', 'cpp', 'html', 'css', 'python', 'bash=sh', 'golang=go', 'go', 'php'] " 需要在markdown文件中高亮的代码
 " }}}
 
 " asyncrun: {{{3
