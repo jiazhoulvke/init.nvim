@@ -80,6 +80,11 @@ Plug 'jansenm/vim-cmake'
 " 补全框架
 Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2'
+" LanguageServer client for NeoVim.
+Plug 'autozimu/LanguageClient-neovim', {
+  \ 'branch': 'next',
+  \ 'do': 'bash install.sh',
+  \ }
 Plug 'ncm2/ncm2-bufword' " buffer word
 Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim'
 Plug 'ncm2/ncm2-pyclang', { 'for': ['c', 'cpp', 'markdown'] }
@@ -93,8 +98,6 @@ Plug 'ncm2/ncm2-syntax' | Plug 'Shougo/neco-syntax'
 Plug 'ncm2/ncm2-ultisnips'
 " Plug 'ncm2/ncm2-markdown-subscope'
 Plug 'ncm2/ncm2-html-subscope'
-Plug 'xolox/vim-lua-ftplugin' " lua补全插件
-Plug 'xolox/vim-lua-inspect' " lua语义高亮
 
 Plug 'Shougo/echodoc.vim' " 不用preview窗口也能显示函数参数
 Plug 'fatih/vim-go', {'for': 'go'} " golang补全
@@ -291,35 +294,23 @@ endif
 
 " Plugins Config: {{{2
 
-" vim-lua-ftplugin: {{{3
-" 注册vim-lua-ftplugin为lua的补全源
-let g:lua_check_syntax = 0
-au User Ncm2Plugin call ncm2#register_source({
-	\ 'name': 'lua',
-	\ 'priority': 9,
-	\ 'subscope_enable': 0,
-	\ 'scope': ['lua'],
-	\ 'mark': 'lua',
-	\ 'word_pattern': '[\w\-\.]+',
-	\ 'complete_pattern': ':\s*',
-	\ 'on_complete': ['ncm2#on_complete#omni', 'xolox#lua#omnifunc'],
-	\ })
-" }}}
-
-" gruvbox: {{{3
-let g:gruvbox_italic=1
-let g:gruvbox_contrast_dark = 'soft'
-" }}}
-
 " ncm2: {{{3
 set completeopt=noinsert,menuone,noselect
 autocmd BufEnter * call ncm2#enable_for_buffer()
 let g:ncm2_pyclang#library_path = '/usr/lib/llvm-6.0/lib/libclang-6.0.so.1'
 inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 " let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
-let g:UltiSnipsJumpForwardTrigger	= "<c-n>"
-let g:UltiSnipsJumpBackwardTrigger	= "<c-p>"
+let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
+let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
 let g:UltiSnipsRemoveSelectModeMappings = 0
+let g:LanguageClient_serverCommands = {
+  \ 'lua': ['lua-lsp']
+  \ }
+" }}}
+
+" gruvbox: {{{3
+let g:gruvbox_italic=1
+let g:gruvbox_contrast_dark = 'soft'
 " }}}
 
 " echodoc: {{{3
