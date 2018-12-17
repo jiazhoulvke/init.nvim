@@ -355,9 +355,7 @@ nmap <leader>a <Plug>(ale_first)
 " }}}
 
 " asyncrun: {{{3
-if exists('g:asyncrun_status')
-	autocmd! BufWrite *.go exec ':AsyncRun! go install -i'
-endif
+autocmd! BufWrite *.go exec ':AsyncRun! go install -i'
 " }}}
 
 " nerdcommenter: {{{3
@@ -413,8 +411,6 @@ let g:airline#extensions#hunks#enabled = 1
 
 " keymap
 let g:airline#extensions#keymap#enabled = 1
-
-let g:airline#extensions#gutentags#enabled = 1
 
 let g:airline#extensions#quickfix#quickfix_text = 'Quickfix'
 
