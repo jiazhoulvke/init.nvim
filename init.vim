@@ -92,6 +92,7 @@ Plug 'ncm2/ncm2-cssomni', { 'for': ['css', 'markdown'] }
 Plug 'ncm2/ncm2-tern', { 'for': ['javascript', 'markdown'], 'do': 'npm install'}
 Plug 'ncm2/ncm2-go' , { 'for': ['golang', 'markdown'] }
 Plug 'ncm2/ncm2-jedi', { 'for': ['python', 'markdown'] }
+Plug 'dart-lang/dart-vim-plugin', { 'for': ['dart'] }
 Plug 'ncm2/ncm2-tmux' " tmux panel word
 " Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
 Plug 'ncm2/ncm2-syntax' | Plug 'Shougo/neco-syntax'
@@ -304,7 +305,8 @@ let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
 let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
 let g:UltiSnipsRemoveSelectModeMappings = 0
 let g:LanguageClient_serverCommands = {
-  \ 'lua': ['lua-lsp']
+  \ 'lua': ['lua-lsp'],
+  \ 'dart': ['dart_language_server'],
   \ }
 " }}}
 
