@@ -86,6 +86,7 @@ Plug 'autozimu/LanguageClient-neovim', {
   \ 'do': 'bash install.sh',
   \ }
 Plug 'ncm2/ncm2-bufword' " buffer word
+Plug 'fgrsnau/ncm-otherbuf', { 'branch': 'ncm2' } " other buffer
 Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim'
 Plug 'ncm2/ncm2-pyclang', { 'for': ['c', 'cpp', 'markdown'] }
 Plug 'ncm2/ncm2-cssomni', { 'for': ['css', 'markdown'] }
