@@ -358,12 +358,20 @@ nmap <leader>a <Plug>(ale_first)
 " }}}
 
 " asyncrun: {{{3
-autocmd! BufWrite *.go exec ':AsyncRun! go install -i'
+function! GoInstall()
+  let l:pwd=getcwd()
+  let l:f_pwd=expand('%:p:h')
+  exec ':cd '.l:f_pwd
+  exec ':AsyncRun! go install -i'
+  exec ':cd '.l:pwd
+endfunction
+" autocmd! BufWrite *.go exec ':AsyncRun! go install -i'
+autocmd! BufWrite *.go call GoInstall()
 " }}}
 
 " nerdcommenter: {{{3
 map <space>c <plug>NERDCommenterToggle
-let NERDSpaceDelims = 1
+let NERDSpaceDelims=1
 " }}}
 
 " nerdtree: {{{3
