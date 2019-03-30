@@ -50,6 +50,7 @@ Plug 'xolox/vim-session' " 管理session
 Plug 'yianwillis/vimcdoc' " 中文帮助文档
 Plug 'zhimsel/vim-stay' " 保持最后的编辑状态
 Plug 'vim-voom/VOoM' " 文档大纲
+Plug 'sbdchd/neoformat' " 代码格式化
 
 " }}}
 
@@ -91,7 +92,8 @@ Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim'
 Plug 'ncm2/ncm2-pyclang', { 'for': ['c', 'cpp', 'markdown'] }
 Plug 'ncm2/ncm2-cssomni', { 'for': ['css', 'markdown'] }
 Plug 'ncm2/ncm2-tern', { 'for': ['javascript', 'markdown'], 'do': 'npm install'}
-Plug 'ncm2/ncm2-go' , { 'for': ['golang', 'markdown'] }
+" Plug 'ncm2/ncm2-go' , { 'for': ['golang', 'markdown'] }
+Plug 'ncm2/ncm2-path' , { 'for': ['golang', 'markdown'] }
 Plug 'ncm2/ncm2-jedi', { 'for': ['python', 'markdown'] }
 Plug 'dart-lang/dart-vim-plugin', { 'for': ['dart'] }
 Plug 'ncm2/ncm2-tmux' " tmux panel word
@@ -297,6 +299,7 @@ endif
 " Plugins Config: {{{2
 
 " ncm2: {{{3
+let g:go_def_mode='guru' " or 'godef'
 set completeopt=noinsert,menuone,noselect
 autocmd BufEnter * call ncm2#enable_for_buffer()
 let g:ncm2_pyclang#library_path = '/usr/lib/llvm-6.0/lib/libclang-6.0.so.1'
@@ -305,10 +308,31 @@ inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
 let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
 let g:UltiSnipsRemoveSelectModeMappings = 0
+
+" }}}
+
+" LanguageClient-neovim {{{3
+let g:LanguageClient_diagnosticsEnable=0
 let g:LanguageClient_serverCommands = {
   \ 'lua': ['lua-lsp'],
   \ 'dart': ['dart_language_server'],
+  \ 'go': ['gopls'],
   \ }
+" autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
+" }}}
+
+" vim-go: {{{3
+let g:go_auto_type_info = 0
+" let g:go_info_mode = 'guru' " or 'gocode'
+let g:go_auto_sameids = 1
+let g:go_updatetime = 500
+let g:go_list_autoclose = 1
+" let g:go_fmt_options = {
+			" \ 'gofmt': '-s',
+			" \ }
+let g:go_fmt_fail_silently = 0
+let g:go_gocode_unimported_packages = 1
+let g:go_decls_mode = 'fzf'
 " }}}
 
 " gruvbox: {{{3
@@ -345,8 +369,15 @@ nmap <space>s <ESC>:OpenSession<CR>
 
 " ale: {{{3
 " gometalinter参数
-let g:ale_linters = {'go': ['gometalinter', 'gofmt']}
-let g:ale_go_gometalinter_options='-t --fast --disable=gocyclo --disable=gas --disable=goconst --disable=vetshadow --disable=gosec --disable=ineffassign'
+" let g:ale_linters = {'go': ['gometalinter']}
+let g:ale_linters = {'go': ['golangci-lint']}
+let g:ale_go_golangci_lint_options='--fast'
+" let g:ale_go_golangci_lint_options='--fast -D gochecknoglobals -D errcheck'
+let g:ale_go_golangci_lint_package=1
+let g:ale_go_gometalinter_options='-t --fast --disable=gocyclo --disable=gas --disable=goconst --disable=vetshadow --disable=gosec --disable=ineffassign --disable=gotype'
+let g:ale_open_list=0
+let g:ale_set_quickfix=0
+let g:ale_list_window_size=1
 
 nmap <silent> <C-h> <Plug>(ale_previous)
 nmap <silent> <C-l> <Plug>(ale_next)
@@ -431,6 +462,8 @@ let airline#extensions#ale#error_symbol = 'E:'
 let airline#extensions#ale#warning_symbol = 'W:'
 let airline#extensions#ale#open_lnum_symbol = '(L'
 let airline#extensions#ale#close_lnum_symbol = ')'
+
+let g:airline#extensions#languageclient#enabled = 1
 " }}}
 
 " }}}
