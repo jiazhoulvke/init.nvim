@@ -50,7 +50,7 @@ Plug 'xolox/vim-session' " 管理session
 Plug 'yianwillis/vimcdoc' " 中文帮助文档
 Plug 'zhimsel/vim-stay' " 保持最后的编辑状态
 Plug 'vim-voom/VOoM' " 文档大纲
-Plug 'sbdchd/neoformat' " 代码格式化
+" Plug 'sbdchd/neoformat' " 代码格式化
 
 " }}}
 
@@ -299,7 +299,7 @@ endif
 " Plugins Config: {{{2
 
 " ncm2: {{{3
-let g:go_def_mode='guru' " or 'godef'
+" let g:go_def_mode='guru' " or 'godef'
 set completeopt=noinsert,menuone,noselect
 autocmd BufEnter * call ncm2#enable_for_buffer()
 let g:ncm2_pyclang#library_path = '/usr/lib/llvm-6.0/lib/libclang-6.0.so.1'
@@ -309,6 +309,17 @@ let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
 let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
 let g:UltiSnipsRemoveSelectModeMappings = 0
 
+call ncm2#register_source({
+      \ 'name': 'go',
+      \ 'priority': 9,
+      \ 'subscope_enable': 1,
+      \ 'scope': ['go', 'golang'],
+      \ 'mark': 'golang',
+      \ 'word_pattern': '[\w\-]+',
+      \ 'complete_pattern': ['\.+'],
+      \ 'on_complete': ['ncm2#on_complete#omni', 'go#complete#Complete'],
+      \ })
+
 " }}}
 
 " LanguageClient-neovim {{{3
@@ -316,7 +327,6 @@ let g:LanguageClient_diagnosticsEnable=0
 let g:LanguageClient_serverCommands = {
   \ 'lua': ['lua-lsp'],
   \ 'dart': ['dart_language_server'],
-  \ 'go': ['gopls'],
   \ }
 " autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
 " }}}
@@ -324,15 +334,17 @@ let g:LanguageClient_serverCommands = {
 " vim-go: {{{3
 let g:go_auto_type_info = 0
 " let g:go_info_mode = 'guru' " or 'gocode'
-let g:go_auto_sameids = 1
+" let g:go_auto_sameids = 1
 let g:go_updatetime = 500
 let g:go_list_autoclose = 1
-" let g:go_fmt_options = {
-			" \ 'gofmt': '-s',
-			" \ }
+" let g:go_autodetect_gopath = 1
+let g:go_term_enabled = 1
+let g:go_gocode_propose_builtins = 0
+let g:go_gocode_propose_source = 0
+let g:go_gocode_socket_type = 'unix'
+let g:go_echo_go_info = 0
 let g:go_fmt_fail_silently = 0
-let g:go_gocode_unimported_packages = 1
-let g:go_decls_mode = 'fzf'
+let g:go_gocode_unimported_packages = 0
 " }}}
 
 " gruvbox: {{{3
@@ -357,7 +369,14 @@ nmap <leader>b <ESC>:Buffers<CR>
 nmap <leader>h <ESC>:History<CR>
 nmap <leader>t <ESC>:Tags<CR>
 nmap <leader>l <ESC>:BLines<CR>
-nmap <leader>o <ESC>:BTags<CR>
+nmap <leader>o <ESC>:call Outline()<CR>
+function! Outline()
+  if &filetype == 'go' 
+    exec ':GoDecls'
+  else
+    exec ':BTags'
+  endif
+endfunction
 " }}}
 
 " session: {{{3
