@@ -232,6 +232,9 @@ cmap <C-V> <S-Insert>
 " 列选择模式
 nmap vv <C-Q>
 
+" 普通模式下复制文件路径
+nmap <C-C> :let @+=expand('%:p')<CR>
+
 " 插入模式下上开一行
 imap <C-CR> <ESC>O
 
