@@ -60,7 +60,6 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'morhetz/gruvbox' " colorscheme
 Plug 'romainl/flattened' " colorscheme
 Plug 'iCyMind/NeoSolarized' " colorscheme
-Plug 'mhinz/vim-startify' " The fancy start screen for Vim.
 Plug 'ryanoasis/vim-devicons' " Adds file type glyphs/icons to popular Vim plugins
 Plug 'junegunn/limelight.vim' " 专注模式
 " }}}
@@ -526,10 +525,6 @@ let g:gutentags_cache_dir = '~/.tags'
 " wmgraphviz.vim: {{{3
 nmap <leader>gc <ESC>:GraphvizCompile<CR>
 nmap <leader>gs <ESC>:GraphvizShow<CR>
-" }}}
-
-" startify: {{{3
-let g:startify_session_dir = '~/.local/share/nvim/sessions'
 " }}}
 
 " }}}
