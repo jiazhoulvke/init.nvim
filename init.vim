@@ -344,7 +344,8 @@ let g:go_term_enabled = 1
 let g:go_gocode_propose_builtins = 0
 let g:go_gocode_propose_source = 0
 let g:go_gocode_socket_type = 'unix'
-let g:go_echo_go_info = 0
+let g:go_echo_go_info = 1
+let g:go_echo_command_info = 0
 let g:go_fmt_fail_silently = 0
 let g:go_gocode_unimported_packages = 0
 " }}}
