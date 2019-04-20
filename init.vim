@@ -91,7 +91,7 @@ Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim'
 Plug 'ncm2/ncm2-pyclang', { 'for': ['c', 'cpp', 'markdown'] }
 Plug 'ncm2/ncm2-cssomni', { 'for': ['css', 'markdown'] }
 Plug 'ncm2/ncm2-tern', { 'for': ['javascript', 'markdown'], 'do': 'npm install'}
-" Plug 'ncm2/ncm2-go' , { 'for': ['golang', 'markdown'] }
+Plug 'ncm2/ncm2-go' , { 'for': ['golang', 'markdown'] }
 Plug 'ncm2/ncm2-path' , { 'for': ['golang', 'markdown'] }
 Plug 'ncm2/ncm2-jedi', { 'for': ['python', 'markdown'] }
 Plug 'dart-lang/dart-vim-plugin', { 'for': ['dart'] }
@@ -311,16 +311,16 @@ let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
 let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
 let g:UltiSnipsRemoveSelectModeMappings = 0
 
-call ncm2#register_source({
-      \ 'name': 'go',
-      \ 'priority': 9,
-      \ 'subscope_enable': 1,
-      \ 'scope': ['go', 'golang'],
-      \ 'mark': 'golang',
-      \ 'word_pattern': '[\w\-]+',
-      \ 'complete_pattern': ['\.+'],
-      \ 'on_complete': ['ncm2#on_complete#omni', 'go#complete#Complete'],
-      \ })
+" call ncm2#register_source({
+      " \ 'name': 'go',
+      " \ 'priority': 9,
+      " \ 'subscope_enable': 1,
+      " \ 'scope': ['go', 'golang'],
+      " \ 'mark': 'golang',
+      " \ 'word_pattern': '[\w\-]+',
+      " \ 'complete_pattern': ['\.+'],
+      " \ 'on_complete': ['ncm2#on_complete#omni', 'go#complete#Complete'],
+      " \ })
 
 " }}}
 
