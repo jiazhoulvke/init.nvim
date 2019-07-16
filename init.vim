@@ -301,7 +301,6 @@ endif
 " Plugins Config: {{{2
 
 " ncm2: {{{3
-" let g:go_def_mode='guru' " or 'godef'
 set completeopt=noinsert,menuone,noselect
 autocmd BufEnter * call ncm2#enable_for_buffer()
 let g:ncm2_pyclang#library_path = '/usr/lib/llvm-6.0/lib/libclang-6.0.so.1'
@@ -334,8 +333,9 @@ let g:LanguageClient_serverCommands = {
 " }}}
 
 " vim-go: {{{3
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
 let g:go_auto_type_info = 0
-" let g:go_info_mode = 'guru' " or 'gocode'
 " let g:go_auto_sameids = 1
 let g:go_updatetime = 500
 let g:go_list_autoclose = 1
@@ -390,9 +390,9 @@ nmap <space>s <ESC>:OpenSession<CR>
 " }}}
 
 " ale: {{{3
-" gometalinter参数
 " let g:ale_linters = {'go': ['gometalinter']}
-let g:ale_linters = {'go': ['golangci-lint']}
+" let g:ale_linters = {'go': ['golangci-lint']}
+let g:ale_linters = {'go': ['gopls']}
 let g:ale_go_golangci_lint_options='--fast'
 " let g:ale_go_golangci_lint_options='--fast -D gochecknoglobals -D errcheck'
 let g:ale_go_golangci_lint_package=1
