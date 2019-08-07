@@ -9,7 +9,6 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'Valloric/MatchTagAlways' " tag配对显示
 Plug 'dhruvasagar/vim-zoom' " Toggle zoom in / out individual windows (splits)
 Plug 'dyng/ctrlsf.vim' " 文件内容查找
-Plug 'easymotion/vim-easymotion' " Vim motions on speed!
 Plug 'haya14busa/incsearch.vim' " 对vim自带搜索的强化，可以同时搜索多个词
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
@@ -24,7 +23,6 @@ Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter'
 Plug 'tommcdo/vim-exchange' " 用cxiw交换单词、cxi'交换‘中的文字等
 Plug 'lilydjwg/fcitx.vim' " 自动切换中英文
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'mbbill/undotree' " The ultimate undo history visualizer for VIM
 Plug 'mhinz/vim-signify' " Show a diff using Vim its sign column.
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -61,7 +59,6 @@ Plug 'morhetz/gruvbox' " colorscheme
 Plug 'romainl/flattened' " colorscheme
 Plug 'iCyMind/NeoSolarized' " colorscheme
 Plug 'ryanoasis/vim-devicons' " Adds file type glyphs/icons to popular Vim plugins
-Plug 'junegunn/limelight.vim' " 专注模式
 " }}}
 
 " Languages: {{{2
@@ -71,43 +68,29 @@ Plug 'tweekmonster/hl-goimport.vim' " 高亮golang包名
 " Plug 'tpope/vim-markdown' " markdown语法插件，支持在markdown中高亮代码块
 Plug 'cespare/vim-toml' " toml语法插件
 Plug 'groenewege/vim-less' " less语法插件
-Plug 'ap/vim-css-color' " css颜色高亮
+" Plug 'ap/vim-css-color' " css颜色高亮
 Plug 'pangloss/vim-javascript' " 更好的缩进
 Plug 'jansenm/vim-cmake'
 " }}}
 
 " Completion: {{{2
 " 补全框架
-Plug 'roxma/nvim-yarp'
-Plug 'ncm2/ncm2'
-" LanguageServer client for NeoVim.
-Plug 'autozimu/LanguageClient-neovim', {
-  \ 'branch': 'next',
-  \ 'do': 'bash install.sh',
-  \ }
-Plug 'ncm2/ncm2-bufword' " buffer word
-Plug 'fgrsnau/ncm-otherbuf', { 'branch': 'ncm2' } " other buffer
-Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim'
-Plug 'ncm2/ncm2-pyclang', { 'for': ['c', 'cpp', 'markdown'] }
-Plug 'ncm2/ncm2-cssomni', { 'for': ['css', 'markdown'] }
-Plug 'ncm2/ncm2-tern', { 'for': ['javascript', 'markdown'], 'do': 'npm install'}
-Plug 'ncm2/ncm2-go' , { 'for': ['golang', 'markdown'] }
-Plug 'ncm2/ncm2-path' , { 'for': ['golang', 'markdown'] }
-Plug 'ncm2/ncm2-jedi', { 'for': ['python', 'markdown'] }
-Plug 'dart-lang/dart-vim-plugin', { 'for': ['dart'] }
-Plug 'ncm2/ncm2-tmux' " tmux panel word
-" Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
-Plug 'ncm2/ncm2-syntax' | Plug 'Shougo/neco-syntax'
-Plug 'ncm2/ncm2-ultisnips'
-" Plug 'ncm2/ncm2-markdown-subscope'
-Plug 'ncm2/ncm2-html-subscope'
-
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'} " Css language server extension for coc.nvim
+Plug 'neoclide/coc-emmet', {'do': 'yarn install --frozen-lockfile'} " Emmet extension for coc.nvim
+Plug 'neoclide/coc-highlight', {'do': 'yarn install --frozen-lockfile'} " Document highlight and document colors support for coc.nvim<Paste>
+Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'} " Html language server extension for coc.nvim.
+Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'} " Json language extension for coc.nvim
+Plug 'neoclide/coc-prettier', {'do': 'yarn install --frozen-lockfile'} " Prettier extension for coc.nvim.
+Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'} " Python extension for coc.nvim, fork of vscode-python
+Plug 'neoclide/coc-smartf', {'do': 'yarn install --frozen-lockfile'} " Make jump to character easier.
+Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'} " Snippets solution for coc.nvim
+Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'} " Yaml language server extension for coc.nvim
 Plug 'Shougo/echodoc.vim' " 不用preview窗口也能显示函数参数
 Plug 'fatih/vim-go', {'for': 'go'} " golang补全
-Plug 'mattn/emmet-vim', {'for': ['php', 'html', 'css', 'xml']} " html、css代码片段
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " 代码片段
+" Plug 'mattn/emmet-vim', {'for': ['php', 'html', 'css', 'xml']} " html、css代码片段
+Plug 'honza/vim-snippets' " 代码片段
 Plug 'scrooloose/nerdcommenter' " 注释插件
-Plug 'wannesm/wmgraphviz.vim' "graphviz补全
 
 "}}}
 
@@ -156,6 +139,8 @@ set hidden " 在当前buffer没有保存时可以切换到其他buffer
 set undofile " 启用持久性撤销
 set autoread " 自动读取改动的文件
 set noswapfile " 不使用swapfile
+set nobackup
+set nowritebackup
 set sessionoptions-=help " 保存session时不包括help信息
 set whichwrap=b,s,<,>,[,]
 set wildmode=list:full
@@ -300,36 +285,50 @@ endif
 
 " Plugins Config: {{{2
 
-" ncm2: {{{3
-set completeopt=noinsert,menuone,noselect
-autocmd BufEnter * call ncm2#enable_for_buffer()
-let g:ncm2_pyclang#library_path = '/usr/lib/llvm-6.0/lib/libclang-6.0.so.1'
-inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
-" let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
-let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
-let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
-let g:UltiSnipsRemoveSelectModeMappings = 0
+" coc.nvim {{{3
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : 
+                                           \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" Use `[d` and `]d` to navigate diagnostics
+nmap <silent> [d <Plug>(coc-diagnostic-prev)
+nmap <silent> ]d <Plug>(coc-diagnostic-next)
 
-" call ncm2#register_source({
-      " \ 'name': 'go',
-      " \ 'priority': 9,
-      " \ 'subscope_enable': 1,
-      " \ 'scope': ['go', 'golang'],
-      " \ 'mark': 'golang',
-      " \ 'word_pattern': '[\w\-]+',
-      " \ 'complete_pattern': ['\.+'],
-      " \ 'on_complete': ['ncm2#on_complete#omni', 'go#complete#Complete'],
-      " \ })
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" format
+xmap <leader>f <Plug>(coc-format-selected)
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 " }}}
 
-" LanguageClient-neovim {{{3
-let g:LanguageClient_diagnosticsEnable=0
-let g:LanguageClient_serverCommands = {
-  \ 'lua': ['lua-lsp'],
-  \ 'dart': ['dart_language_server'],
-  \ }
-" autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
+" coc-smartf {{{3
+" press <esc> to cancel.
+nmap f <Plug>(coc-smartf-forward)
+nmap F <Plug>(coc-smartf-backward)
+nmap ; <Plug>(coc-smartf-repeat)
+nmap , <Plug>(coc-smartf-repeat-opposite)
+
+augroup Smartf
+  autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#6638F0
+  autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
+augroup end
 " }}}
 
 " vim-go: {{{3
@@ -341,6 +340,7 @@ let g:go_updatetime = 500
 let g:go_list_autoclose = 1
 " let g:go_autodetect_gopath = 1
 let g:go_term_enabled = 1
+let g:go_def_mapping_enabled = 0
 let g:go_gocode_propose_builtins = 0
 let g:go_gocode_propose_source = 0
 let g:go_gocode_socket_type = 'unix'
@@ -498,12 +498,12 @@ let g:webdevicons_enable_airline_statusline = 1
 " }}}
 
 " easymotion: {{{3
-let g:EasyMotion_do_mapping = 0
-nmap f <Plug>(easymotion-f)
-nmap F <Plug>(easymotion-F)
-" nmap t <Plug>(easymotion-t)
-" nmap T <Plug>(easymotion-T)
-nmap <leader>w <Plug>(easymotion-w)
+"let g:EasyMotion_do_mapping = 0
+"nmap f <Plug>(easymotion-f)
+"nmap F <Plug>(easymotion-F)
+"" nmap t <Plug>(easymotion-t)
+"" nmap T <Plug>(easymotion-T)
+"nmap <leader>w <Plug>(easymotion-w)
 " }}}
 
 " vim-multiple-cursors: {{{3

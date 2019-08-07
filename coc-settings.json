@@ -1,0 +1,23 @@
+{
+  "languageserver": {
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": [
+        "go.mod"
+      ],
+      "filetypes": [
+        "go"
+      ]
+    },
+    "lua": { // https://github.com/Alloyed/lua-lsp
+      "command": "lua-lsp",
+      "filetypes": [
+        "lua"
+      ]
+    }
+  },
+  "snippets.ultisnips.directories": [
+    "UltiSnips",
+    "gosnippets/UltiSnips"
+  ]
+}
