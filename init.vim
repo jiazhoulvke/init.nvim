@@ -13,7 +13,7 @@ Plug 'haya14busa/incsearch.vim' " 对vim自带搜索的强化，可以同时搜�
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 基于文件名快速搜索文件
-Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/fzf.vim'
 Plug 'junegunn/rainbow_parentheses.vim' " rainbow Simpler Rainbow Parentheses
 Plug 'junegunn/vim-easy-align' " 代码对齐
 Plug 'kana/vim-textobj-function', { 'for': ['c', 'cpp', 'vim', 'java'] }
@@ -68,19 +68,20 @@ Plug 'tweekmonster/hl-goimport.vim' " 高亮golang包名
 " Plug 'tpope/vim-markdown' " markdown语法插件，支持在markdown中高亮代码块
 Plug 'cespare/vim-toml' " toml语法插件
 Plug 'groenewege/vim-less' " less语法插件
-" Plug 'ap/vim-css-color' " css颜色高亮
+Plug 'ap/vim-css-color' " css颜色高亮
 Plug 'pangloss/vim-javascript' " 更好的缩进
 Plug 'jansenm/vim-cmake'
 " }}}
 
 " Completion: {{{2
-" 补全框架
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'Shougo/neco-vim'
+Plug 'neoclide/coc-neco'
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
 Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'} " Css language server extension for coc.nvim
 Plug 'neoclide/coc-emmet', {'do': 'yarn install --frozen-lockfile'} " Emmet extension for coc.nvim
-Plug 'neoclide/coc-highlight', {'do': 'yarn install --frozen-lockfile'} " Document highlight and document colors support for coc.nvim<Paste>
 Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'} " Html language server extension for coc.nvim.
 Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'} " Json language extension for coc.nvim
+Plug 'neoclide/coc-lists', {'do': 'yarn install --frozen-lockfile'} " Common lists for coc.nvim
 Plug 'neoclide/coc-prettier', {'do': 'yarn install --frozen-lockfile'} " Prettier extension for coc.nvim.
 Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'} " Python extension for coc.nvim, fork of vscode-python
 Plug 'neoclide/coc-smartf', {'do': 'yarn install --frozen-lockfile'} " Make jump to character easier.
@@ -88,7 +89,6 @@ Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'} " Snippet
 Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'} " Yaml language server extension for coc.nvim
 Plug 'Shougo/echodoc.vim' " 不用preview窗口也能显示函数参数
 Plug 'fatih/vim-go', {'for': 'go'} " golang补全
-" Plug 'mattn/emmet-vim', {'for': ['php', 'html', 'css', 'xml']} " html、css代码片段
 Plug 'honza/vim-snippets' " 代码片段
 Plug 'scrooloose/nerdcommenter' " 注释插件
 
@@ -314,7 +314,21 @@ nmap <leader>rn <Plug>(coc-rename)
 
 " format
 xmap <leader>f <Plug>(coc-format-selected)
+vmap <leader>f <Plug>(coc-format-selected)
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
+nmap <leader>f <ESC>:CocList files<CR>
+nmap <leader>b <ESC>:CocList buffers<CR>
+nmap <leader>h <ESC>:CocList mru<CR>
+nmap <leader>t <ESC>:CocList tags<CR>
+nmap <leader>o <ESC>:call Outline()<CR>
+function! Outline()
+	if &filetype == 'go' 
+		exec ':GoDecls'
+	else
+		exec ':CocList outline'
+	endif
+endfunction
 
 " }}}
 
@@ -335,10 +349,8 @@ augroup end
 let g:go_def_mode='gopls'
 let g:go_info_mode='gopls'
 let g:go_auto_type_info = 0
-" let g:go_auto_sameids = 1
 let g:go_updatetime = 500
 let g:go_list_autoclose = 1
-" let g:go_autodetect_gopath = 1
 let g:go_term_enabled = 1
 let g:go_def_mapping_enabled = 0
 let g:go_gocode_propose_builtins = 0
@@ -359,27 +371,6 @@ let g:gruvbox_contrast_dark = 'soft'
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'echo'
 "let g:echodoc#type = 'signature' " gonvim可用
-" }}}
-
-" fzf.vim: {{{3
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-imap <c-x><c-l> <plug>(fzf-complete-line)
-
-nmap <leader>f <ESC>:Files<CR>
-nmap <leader>b <ESC>:Buffers<CR>
-nmap <leader>h <ESC>:History<CR>
-nmap <leader>t <ESC>:Tags<CR>
-nmap <leader>l <ESC>:BLines<CR>
-nmap <leader>o <ESC>:call Outline()<CR>
-function! Outline()
-  if &filetype == 'go' 
-    exec ':GoDecls'
-  else
-    exec ':BTags'
-  endif
-endfunction
 " }}}
 
 " session: {{{3
@@ -497,13 +488,8 @@ let g:webdevicons_enable_airline_statusline = 1
 " let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
 " }}}
 
-" easymotion: {{{3
-"let g:EasyMotion_do_mapping = 0
-"nmap f <Plug>(easymotion-f)
-"nmap F <Plug>(easymotion-F)
-"" nmap t <Plug>(easymotion-t)
-"" nmap T <Plug>(easymotion-T)
-"nmap <leader>w <Plug>(easymotion-w)
+" vim-stay: {{{3
+set viewoptions=cursor,folds,slash,unix
 " }}}
 
 " vim-multiple-cursors: {{{3
@@ -521,11 +507,6 @@ let g:multi_cursor_quit_key            = '<Esc>'
 " gutentags: {{{3 
 let g:gutentags_enabled = 1
 let g:gutentags_cache_dir = '~/.tags'
-" }}}
-
-" wmgraphviz.vim: {{{3
-nmap <leader>gc <ESC>:GraphvizCompile<CR>
-nmap <leader>gs <ESC>:GraphvizShow<CR>
 " }}}
 
 " }}}

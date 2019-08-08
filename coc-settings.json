@@ -1,9 +1,12 @@
 {
+  "list.maxHeight": 20,
+  "list.autoResize": false,
   "languageserver": {
     "golang": {
       "command": "gopls",
       "rootPatterns": [
-        "go.mod"
+        "go.mod",
+        ".git"
       ],
       "filetypes": [
         "go"
