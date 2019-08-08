@@ -74,9 +74,7 @@ Plug 'jansenm/vim-cmake'
 " }}}
 
 " Completion: {{{2
-Plug 'Shougo/neco-vim'
-Plug 'neoclide/coc-neco'
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'} " Css language server extension for coc.nvim
 Plug 'neoclide/coc-emmet', {'do': 'yarn install --frozen-lockfile'} " Emmet extension for coc.nvim
 Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'} " Html language server extension for coc.nvim.
