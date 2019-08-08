@@ -83,7 +83,6 @@ Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'} " Html langua
 Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'} " Json language extension for coc.nvim
 Plug 'neoclide/coc-lists', {'do': 'yarn install --frozen-lockfile'} " Common lists for coc.nvim
 Plug 'neoclide/coc-prettier', {'do': 'yarn install --frozen-lockfile'} " Prettier extension for coc.nvim.
-Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'} " Python extension for coc.nvim, fork of vscode-python
 Plug 'neoclide/coc-smartf', {'do': 'yarn install --frozen-lockfile'} " Make jump to character easier.
 Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'} " Snippets solution for coc.nvim
 Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'} " Yaml language server extension for coc.nvim
