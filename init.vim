@@ -13,7 +13,6 @@ Plug 'haya14busa/incsearch.vim' " 对vim自带搜索的强化，可以同时搜�
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 基于文件名快速搜索文件
-" Plug 'junegunn/fzf.vim'
 Plug 'junegunn/rainbow_parentheses.vim' " rainbow Simpler Rainbow Parentheses
 Plug 'junegunn/vim-easy-align' " 代码对齐
 Plug 'kana/vim-textobj-function', { 'for': ['c', 'cpp', 'vim', 'java'] }
@@ -113,9 +112,7 @@ set noshowmode " 不显示当前状态
 set display=lastline " 解决超长行显示异常的问题
 set lazyredraw " 不立即重绘
 set cursorline " 高亮当前行
-if $TERM == 'xterm-256color'
-	set termguicolors " 设置真彩色
-endif
+set termguicolors " 设置真彩色
 if !exists('g:myvimrc_colorscheme_loaded')
 	exec 'colo '.g:myvimrc_colorschemes[g:myvimrc_colorscheme_index]
 	let g:myvimrc_colorscheme_loaded = 1
