@@ -83,6 +83,7 @@ Plug 'neoclide/coc-prettier', {'do': 'yarn install --frozen-lockfile'} " Prettie
 Plug 'neoclide/coc-smartf', {'do': 'yarn install --frozen-lockfile'} " Make jump to character easier.
 Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'} " Snippets solution for coc.nvim
 Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'} " Yaml language server extension for coc.nvim
+" :CocInstall coc-phpls coc-vimlsp
 Plug 'Shougo/echodoc.vim' " 不用preview窗口也能显示函数参数
 Plug 'fatih/vim-go', {'for': 'go'} " golang补全
 Plug 'honza/vim-snippets' " 代码片段
