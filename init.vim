@@ -156,8 +156,8 @@ set isfname-== " 不将=当成文件名的一部分
 " Bind: {{{2
 
 " 翻页
-nmap <C-j> <C-f>zz
-nmap <C-k> <C-b>zz
+nmap <M-j> <C-f>zz
+nmap <M-k> <C-b>zz
 nmap <M-f> <PageDown>
 nmap <M-v> <PageUp>
 imap <M-f> <PageDown>
@@ -172,10 +172,6 @@ nmap <silent> <space>j <C-w>j
 nmap <silent> <space>k <C-w>k
 nmap <silent> <space>h <C-w>h
 nmap <silent> <space>l <C-w>l
-nmap <M-j> <C-w>j
-nmap <M-k> <C-w>k
-nmap <M-h> <C-w>h
-nmap <M-l> <C-w>l
 
 " 关闭窗口
 map <M-c> <ESC>:close<CR>
@@ -281,8 +277,13 @@ endif
 " Plugins Config: {{{2
 
 " coc.nvim {{{3
+inoremap <silent><expr> <M-.> coc#refresh()
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" inoremap <expr> <cr> pumvisible() ? '\<C-y>' : '\<C-g>u\<CR>'
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : 
                                            \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
 " Use `[d` and `]d` to navigate diagnostics
 nmap <silent> [d <Plug>(coc-diagnostic-prev)
 nmap <silent> ]d <Plug>(coc-diagnostic-next)
@@ -376,11 +377,11 @@ nmap <space>s <ESC>:OpenSession<CR>
 " }}}
 
 " ale: {{{3
-" let g:ale_linters = {'go': ['gometalinter']}
+let g:ale_enabled = 0
+let g:ale_linters = {'go': ['gometalinter']}
 " let g:ale_linters = {'go': ['golangci-lint']}
-let g:ale_linters = {'go': ['gopls']}
-let g:ale_go_golangci_lint_options='--fast'
-" let g:ale_go_golangci_lint_options='--fast -D gochecknoglobals -D errcheck'
+" let g:ale_linters = {'go': ['gopls']}
+let g:ale_go_golangci_lint_options='--fast -D gochecknoglobals -D errcheck'
 let g:ale_go_golangci_lint_package=1
 let g:ale_go_gometalinter_options='-t --fast --disable=gocyclo --disable=gas --disable=goconst --disable=vetshadow --disable=gosec --disable=ineffassign --disable=gotype'
 let g:ale_open_list=0
