@@ -74,16 +74,7 @@ Plug 'jansenm/vim-cmake'
 
 " Completion: {{{2
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'} " Css language server extension for coc.nvim
-Plug 'neoclide/coc-emmet', {'do': 'yarn install --frozen-lockfile'} " Emmet extension for coc.nvim
-Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'} " Html language server extension for coc.nvim.
-Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'} " Json language extension for coc.nvim
-Plug 'neoclide/coc-lists', {'do': 'yarn install --frozen-lockfile'} " Common lists for coc.nvim
-Plug 'neoclide/coc-prettier', {'do': 'yarn install --frozen-lockfile'} " Prettier extension for coc.nvim.
-Plug 'neoclide/coc-smartf', {'do': 'yarn install --frozen-lockfile'} " Make jump to character easier.
-Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'} " Snippets solution for coc.nvim
-Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'} " Yaml language server extension for coc.nvim
-" :CocInstall coc-phpls coc-vimlsp
+" :CocInstall coc-css coc-emmet coc-html coc-json coc-lists coc-prettier coc-smartf coc-snippets coc-yaml coc-phpls coc-vimlsp
 Plug 'Shougo/echodoc.vim' " 不用preview窗口也能显示函数参数
 Plug 'fatih/vim-go', {'for': 'go'} " golang补全
 Plug 'honza/vim-snippets' " 代码片段
@@ -406,7 +397,7 @@ function! GoInstall()
   exec ':cd '.l:pwd
 endfunction
 " autocmd! BufWrite *.go exec ':AsyncRun! go install -i'
-autocmd! BufWrite *.go call GoInstall()
+" autocmd! BufWrite *.go call GoInstall()
 " }}}
 
 " nerdcommenter: {{{3
