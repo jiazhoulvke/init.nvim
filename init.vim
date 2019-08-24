@@ -23,6 +23,7 @@ Plug 'sgur/vim-textobj-parameter'
 Plug 'tommcdo/vim-exchange' " 用cxiw交换单词、cxi'交换‘中的文字等
 Plug 'lilydjwg/fcitx.vim' " 自动切换中英文
 Plug 'mbbill/undotree' " The ultimate undo history visualizer for VIM
+Plug 'justinmk/vim-sneak'
 Plug 'mhinz/vim-signify' " Show a diff using Vim its sign column.
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'sk1418/Join' " 比vim自带的join更强大
@@ -74,7 +75,7 @@ Plug 'jansenm/vim-cmake'
 
 " Completion: {{{2
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" :CocInstall coc-css coc-emmet coc-html coc-json coc-lists coc-prettier coc-smartf coc-snippets coc-yaml coc-phpls coc-vimlsp
+" :CocInstall coc-css coc-emmet coc-html coc-json coc-lists coc-prettier coc-snippets coc-yaml coc-phpls coc-vimlsp
 Plug 'Shougo/echodoc.vim' " 不用preview窗口也能显示函数参数
 Plug 'fatih/vim-go', {'for': 'go'} " golang补全
 Plug 'honza/vim-snippets' " 代码片段
