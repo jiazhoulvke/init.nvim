@@ -75,7 +75,6 @@ Plug 'jansenm/vim-cmake'
 
 " Completion: {{{2
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" :CocInstall coc-css coc-emmet coc-html coc-json coc-lists coc-prettier coc-snippets coc-yaml coc-phpls coc-vimlsp
 Plug 'Shougo/echodoc.vim' " 不用preview窗口也能显示函数参数
 Plug 'fatih/vim-go', {'for': 'go'} " golang补全
 Plug 'honza/vim-snippets' " 代码片段
@@ -269,6 +268,8 @@ endif
 " Plugins Config: {{{2
 
 " coc.nvim {{{3
+" 安装coc插件
+call coc#add_extension('coc-marketplace','coc-css','coc-emmet','coc-html','coc-json','coc-lists','coc-prettier','coc-snippets','coc-yaml','coc-phpls','coc-vimlsp','coc-calc')
 inoremap <silent><expr> <M-.> coc#refresh()
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
@@ -318,19 +319,6 @@ function! Outline()
 	endif
 endfunction
 
-" }}}
-
-" coc-smartf {{{3
-" press <esc> to cancel.
-nmap f <Plug>(coc-smartf-forward)
-nmap F <Plug>(coc-smartf-backward)
-nmap ; <Plug>(coc-smartf-repeat)
-nmap , <Plug>(coc-smartf-repeat-opposite)
-
-augroup Smartf
-  autocmd User SmartfEnter :hi Conceal ctermfg=220 guifg=#6638F0
-  autocmd User SmartfLeave :hi Conceal ctermfg=239 guifg=#504945
-augroup end
 " }}}
 
 " vim-go: {{{3
