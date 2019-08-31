@@ -257,10 +257,12 @@ tmap <A-l> <C-\><C-N><C-w>l
 let g:mapleader=','
 nmap <leader>ee <ESC>:e $MYVIMRC<CR>
 nmap <leader>rr <ESC>:source $MYVIMRC<CR>
-nmap <leader>el <ESC>:e $HOME/.config/nvim/init_local.vim<CR>
-nmap <leader>ep <ESC>:e $HOME/.config/nvim/plugin_local.vim<CR>
-nmap <leader>es <ESC>:e $HOME/.config/nvim/preset.vim<CR>
-nmap <leader>ea <ESC>:e $HOME/.config/nvim/ab.vim<CR>
+nmap <leader>el <ESC>:e $NVIM_PATH/init_local.vim<CR>
+nmap <leader>ep <ESC>:e $NVIM_PATH/plugin_local.vim<CR>
+nmap <leader>es <ESC>:e $NVIM_PATH/preset.vim<CR>
+nmap <leader>ea <ESC>:e $NVIM_PATH/ab.vim<CR>
+
+nmap <C-6> <C-^>
 
 " }}}
 
@@ -414,10 +416,19 @@ nmap <space>sf <ESC>:CtrlSF<space>
 nmap <space>ss <ESC>:CtrlSFToggle<CR>
 " }}}
 
+" sneak: {{{3
+map  f <Plug>Sneak_f
+map  F <Plug>Sneak_F
+xmap f <Plug>Sneak_s
+xmap F <Plug>Sneak_F
+map  t <Plug>Sneak_t
+map  T <Plug>Sneak_T
+" }}}
+
 " incsearch.vim: {{{3
 nmap /  <Plug>(incsearch-forward)
 nmap ?  <Plug>(incsearch-backward)
-nmap g/ <Plug>(incsearch-stay)
+nmap g/ <Plug>(incsearch-s;ay)
 nmap <space><space> <ESC>:nohlsearch<CR>
 " }}}
 
