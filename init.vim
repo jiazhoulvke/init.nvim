@@ -35,8 +35,7 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree
 Plug 'sk1418/Join' " 比vim自带的join更强大
 Plug 'skywind3000/asyncrun.vim' " 异步执行命令
 Plug 'terryma/vim-expand-region' " 逐步扩大选择区域
-Plug 'terryma/vim-multiple-cursors' " 多重选择
-Plug 'tpope/vim-dadbod' " Modern database interface for Vim
+Plug 'terryma/vim-multiple-cussors' " 多重选择
 Plug 'tpope/vim-eunuch' " Helpers for UNIX
 Plug 'tpope/vim-fugitive' " 对git的封装
 Plug 'tpope/vim-repeat' " 重复执行操作
@@ -378,7 +377,7 @@ let g:ale_list_window_size=1
 
 nmap <silent> <C-h> <Plug>(ale_previous)
 nmap <silent> <C-l> <Plug>(ale_next)
-nmap <leader>a <Plug>(ale_first)
+" nmap <leader>a <Plug>(ale_first)
 " }}}
 
 " tpope/vim-markdown: {{{3
