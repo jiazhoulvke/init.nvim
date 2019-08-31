@@ -1,3 +1,5 @@
 /.netrwhist
 /init_local.vim
 /plugin_local.vim
+/autoload/plug.vim.old
+/autoload/plug.vim

@@ -1,5 +1,11 @@
-if filereadable($HOME.'/.config/nvim/preset.vim')
-	source ~/.config/nvim/preset.vim
+if has('win32')
+	let $NVIM_PATH=$LOCALAPPDATA.'/nvim'
+else
+	let $NVIM_PATH=$HOME.'/.config/nvim'
+endif
+
+if filereadable($NVIM_PATH.'/preset.vim')
+	source $NVIM_PATH/preset.vim
 endif
 
 " Plugins: {{{1
@@ -82,8 +88,8 @@ Plug 'scrooloose/nerdcommenter' " 注释插件
 
 "}}}
 
-if filereadable($HOME.'/.config/nvim/plugin_local.vim')
-	source ~/.config/nvim/plugin_local.vim
+if filereadable($NVIM_PATH.'/plugin_local.vim')
+	source $NVIM_PATH/plugin_local.vim
 endif
 
 call plug#end()
@@ -259,8 +265,8 @@ nmap <leader>ea <ESC>:e $HOME/.config/nvim/ab.vim<CR>
 " }}}
 
 " AB: {{{2
-if filereadable($HOME.'/.config/nvim/ab.vim')
-	source ~/.config/nvim/ab.vim
+if filereadable($NVIM_PATH.'/ab.vim')
+	source $NVIM_PATH/ab.vim
 endif
 
 " }}}
@@ -488,8 +494,8 @@ let g:gutentags_cache_dir = '~/.tags'
 " }}}
 
 "load local config
-if filereadable($HOME.'/.config/nvim/init_local.vim')
-	source ~/.config/nvim/init_local.vim
+if filereadable($NVIM_PATH.'/init_local.vim')
+	source $NVIM_PATH/init_local.vim
 endif
 
 " }}}
