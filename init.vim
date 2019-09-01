@@ -21,21 +21,21 @@ Plug 'inkarkat/vim-mark'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 基于文件名快速搜索文件
 Plug 'junegunn/rainbow_parentheses.vim' " rainbow Simpler Rainbow Parentheses
 Plug 'junegunn/vim-easy-align' " 代码对齐
+Plug 'justinmk/vim-sneak'
 Plug 'kana/vim-textobj-function', { 'for': ['c', 'cpp', 'vim', 'java'] }
 Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-syntax'
 Plug 'kana/vim-textobj-user'
-Plug 'sgur/vim-textobj-parameter'
-Plug 'tommcdo/vim-exchange' " 用cxiw交换单词、cxi'交换‘中的文字等
 Plug 'lilydjwg/fcitx.vim' " 自动切换中英文
+Plug 'ludovicchabant/vim-gutentags' " A Vim plugin that manages your tag files
 Plug 'mbbill/undotree' " The ultimate undo history visualizer for VIM
-Plug 'justinmk/vim-sneak'
 Plug 'mhinz/vim-signify' " Show a diff using Vim its sign column.
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'sgur/vim-textobj-parameter'
 Plug 'sk1418/Join' " 比vim自带的join更强大
 Plug 'skywind3000/asyncrun.vim' " 异步执行命令
 Plug 'terryma/vim-expand-region' " 逐步扩大选择区域
-Plug 'terryma/vim-multiple-cussors' " 多重选择
+Plug 'tommcdo/vim-exchange' " 用cxiw交换单词、cxi'交换‘中的文字等
 Plug 'tpope/vim-eunuch' " Helpers for UNIX
 Plug 'tpope/vim-fugitive' " 对git的封装
 Plug 'tpope/vim-repeat' " 重复执行操作
@@ -46,14 +46,13 @@ Plug 'tpope/vim-surround' " 对括号双引号等进行快速编辑
 Plug 'tpope/vim-unimpaired' " Pairs of handy bracket mappings
 Plug 'vim-scripts/LargeFile' " 针对大文件优化性能
 Plug 'vim-scripts/VisIncr' " 列编辑
+Plug 'vim-voom/VOoM' " 文档大纲
 Plug 'w0rp/ale' " 异步代码检测
 Plug 'wellle/targets.vim' " 一款牛逼至极的text-objects插件
 Plug 'xolox/vim-misc' " 库
 Plug 'xolox/vim-session' " 管理session
 Plug 'yianwillis/vimcdoc' " 中文帮助文档
 Plug 'zhimsel/vim-stay' " 保持最后的编辑状态
-Plug 'vim-voom/VOoM' " 文档大纲
-" Plug 'sbdchd/neoformat' " 代码格式化
 
 " }}}
 
@@ -70,7 +69,7 @@ Plug 'ryanoasis/vim-devicons' " Adds file type glyphs/icons to popular Vim plugi
 Plug 'chrisbra/csv.vim'
 Plug 'matze/vim-ini-fold'
 Plug 'tweekmonster/hl-goimport.vim' " 高亮golang包名
-" Plug 'tpope/vim-markdown' " markdown语法插件，支持在markdown中高亮代码块
+Plug 'tpope/vim-markdown' " markdown语法插件，支持在markdown中高亮代码块
 Plug 'cespare/vim-toml' " toml语法插件
 Plug 'groenewege/vim-less' " less语法插件
 Plug 'ap/vim-css-color' " css颜色高亮
@@ -381,7 +380,7 @@ nmap <silent> <C-l> <Plug>(ale_next)
 " }}}
 
 " tpope/vim-markdown: {{{3
-" let g:markdown_fenced_languages = ['c', 'cpp', 'html', 'css', 'python', 'bash=sh', 'golang=go', 'go', 'php'] " 需要在markdown文件中高亮的代码
+let g:markdown_fenced_languages = ['c', 'cpp', 'html', 'css', 'python', 'bash=sh', 'golang=go', 'go', 'php'] " 需要在markdown文件中高亮的代码
 " }}}
 
 " asyncrun: {{{3
@@ -482,18 +481,6 @@ let g:webdevicons_enable_airline_statusline = 1
 
 " vim-stay: {{{3
 set viewoptions=cursor,folds,slash,unix
-" }}}
-
-" vim-multiple-cursors: {{{3
-let g:multi_cursor_use_default_mapping=0
-let g:multi_cursor_start_word_key      = '<C-n>'
-" let g:multi_cursor_select_all_word_key = '<A-n>'
-let g:multi_cursor_start_key           = 'g<C-n>'
-let g:multi_cursor_select_all_key      = 'g<A-n>'
-let g:multi_cursor_next_key            = '<C-n>'
-let g:multi_cursor_prev_key            = '<C-p>'
-let g:multi_cursor_skip_key            = '<C-x>'
-let g:multi_cursor_quit_key            = '<Esc>'
 " }}}
 
 " gutentags: {{{3 
