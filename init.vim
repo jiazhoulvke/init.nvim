@@ -150,6 +150,8 @@ set isfname-== " 不将=当成文件名的一部分
 
 " Bind: {{{2
 
+let g:mapleader=','
+
 " 翻页
 nmap <M-j> <C-f>zz
 nmap <M-k> <C-b>zz
@@ -203,7 +205,7 @@ cmap <C-V> <S-Insert>
 nmap vv <C-Q>
 
 " 普通模式下复制文件路径
-nmap <C-C> :let @+=expand('%:p')<CR>
+map <Leader>cp :let @+=expand('%:p')<CR>
 
 " 插入模式下上开一行
 imap <C-CR> <ESC>O
@@ -255,7 +257,6 @@ tmap <A-j> <C-\><C-N><C-w>j
 tmap <A-k> <C-\><C-N><C-w>k
 tmap <A-l> <C-\><C-N><C-w>l
 
-let g:mapleader=','
 nmap <leader>ee <ESC>:e $MYVIMRC<CR>
 nmap <leader>rr <ESC>:source $MYVIMRC<CR>
 nmap <leader>el <ESC>:e $NVIM_PATH/init_local.vim<CR>
