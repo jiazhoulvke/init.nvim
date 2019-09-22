@@ -239,6 +239,9 @@ nmap <Leader>dm <ESC>:%s/\r$//<CR>
 " 删除空行
 nmap <Leader>dbl :g/^\s*$/d<CR>
 
+" json格式化
+nmap <leader>jq <ESC>:%!jq '.'<CR>
+
 " 每次移动相对屏幕的一行
 nmap j gj
 nmap k gk
@@ -260,7 +263,7 @@ nmap <leader>ep <ESC>:e $NVIM_PATH/plugin_local.vim<CR>
 nmap <leader>es <ESC>:e $NVIM_PATH/preset.vim<CR>
 nmap <leader>ea <ESC>:e $NVIM_PATH/ab.vim<CR>
 
-nmap <C-6> <C-^>
+map <C-6> <C-^>
 
 " }}}
 
@@ -275,7 +278,7 @@ endif
 
 " coc.nvim {{{3
 " 安装coc插件
-call coc#add_extension('coc-marketplace','coc-css','coc-emmet','coc-html','coc-json','coc-lists','coc-prettier','coc-snippets','coc-yaml','coc-phpls','coc-vimlsp','coc-calc')
+call coc#add_extension('coc-marketplace','coc-css','coc-emmet','coc-html','coc-json','coc-lists','coc-snippets','coc-yaml','coc-phpls','coc-vimlsp','coc-calc')
 inoremap <silent><expr> <M-.> coc#refresh()
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
