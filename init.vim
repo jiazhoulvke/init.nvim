@@ -21,7 +21,6 @@ Plug 'inkarkat/vim-mark'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 基于文件名快速搜索文件
 Plug 'junegunn/rainbow_parentheses.vim' " rainbow Simpler Rainbow Parentheses
 Plug 'junegunn/vim-easy-align' " 代码对齐
-Plug 'justinmk/vim-sneak'
 Plug 'kana/vim-textobj-function', { 'for': ['c', 'cpp', 'vim', 'java'] }
 Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-syntax'
@@ -30,6 +29,7 @@ Plug 'lilydjwg/fcitx.vim' " 自动切换中英文
 Plug 'ludovicchabant/vim-gutentags' " A Vim plugin that manages your tag files
 Plug 'mbbill/undotree' " The ultimate undo history visualizer for VIM
 Plug 'mhinz/vim-signify' " Show a diff using Vim its sign column.
+Plug 'rhysd/clever-f.vim' " Extended f, F, t and T key mappings for Vim
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'sgur/vim-textobj-parameter'
 Plug 'sk1418/Join' " 比vim自带的join更强大
@@ -69,7 +69,8 @@ Plug 'ryanoasis/vim-devicons' " Adds file type glyphs/icons to popular Vim plugi
 Plug 'chrisbra/csv.vim'
 Plug 'matze/vim-ini-fold'
 Plug 'tweekmonster/hl-goimport.vim' " 高亮golang包名
-Plug 'tpope/vim-markdown' " markdown语法插件，支持在markdown中高亮代码块
+" Plug 'tpope/vim-markdown' " markdown语法插件，支持在markdown中高亮代码块
+Plug 'SidOfc/mkdx' " A vim plugin that adds some nice extra's for working with markdown documents
 Plug 'cespare/vim-toml' " toml语法插件
 Plug 'groenewege/vim-less' " less语法插件
 Plug 'ap/vim-css-color' " css颜色高亮
@@ -413,15 +414,6 @@ nmap <space>a <Plug>(EasyAlign)
 " ctrlsf: {{{3
 nmap <space>sf <ESC>:CtrlSF<space>
 nmap <space>ss <ESC>:CtrlSFToggle<CR>
-" }}}
-
-" sneak: {{{3
-map  f <Plug>Sneak_f
-map  F <Plug>Sneak_F
-xmap f <Plug>Sneak_s
-xmap F <Plug>Sneak_F
-map  t <Plug>Sneak_t
-map  T <Plug>Sneak_T
 " }}}
 
 " incsearch.vim: {{{3
