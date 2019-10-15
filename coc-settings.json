@@ -5,6 +5,7 @@
   "suggest.noselect": false,
   "languageserver": {
     "golang": {
+      // go get -v golang.org/x/tools/gopls@latest
       "command": "gopls",
       "rootPatterns": [
         "go.mod"
