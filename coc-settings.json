@@ -3,6 +3,10 @@
   "list.autoResize": false,
   "suggest.echodocSupport": true,
   "suggest.noselect": false,
+  "suggest.enablePreview":true,
+  "vetur.format.enable": true,
+  "vetur.format.options.tabSize": 2,
+  "codeLens.enable": true,
   "languageserver": {
     "golang": {
       // go get -v golang.org/x/tools/gopls@latest

@@ -8,36 +8,45 @@ if filereadable($NVIM_PATH.'/preset.vim')
 	source $NVIM_PATH/preset.vim
 endif
 
+if filereadable($NVIM_PATH.'/preset_local.vim')
+	source $NVIM_PATH/preset_local.vim
+endif
+
 " Plugins: {{{1
 call plug#begin('~/.local/share/nvim/plugged')
 
 " Misc: {{{2
-Plug 'Valloric/MatchTagAlways' " tag配对显示
-Plug 'dhruvasagar/vim-zoom' " Toggle zoom in / out individual windows (splits)
-Plug 'dyng/ctrlsf.vim' " 文件内容查找
+if has('unix')
+	Plug 'lilydjwg/fcitx.vim' " 自动切换中英文
+	Plug 'tpope/vim-eunuch' " Helpers for UNIX
+endif
+Plug 'Valloric/MatchTagAlways', {'for': ['html','xhtml', 'xml', 'vue']} " tag配对显示
+Plug 'Yggdroot/indentLine', { 'for': ['c', 'cpp', 'python', 'php', 'javascript', 'typescript', 'html', 'xml', 'vue', 'vim'] } " Show vertical lines for indent with conceal feature
+Plug 'dhruvasagar/vim-zoom' " Toggle zoom in / out individual windows (splits) maps: <C-w>m
+Plug 'dyng/ctrlsf.vim', {'on': 'CtrlSF'} " 文件内容查找
 Plug 'haya14busa/incsearch.vim' " 对vim自带搜索的强化，可以同时搜索多个词
-Plug 'inkarkat/vim-ingo-library'
-Plug 'inkarkat/vim-mark'
+Plug 'inkarkat/vim-ingo-library' " Vimscript library of common functions
+Plug 'inkarkat/vim-mark' " Highlight several words in different colors simultaneously.
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 基于文件名快速搜索文件
-Plug 'junegunn/rainbow_parentheses.vim' " rainbow Simpler Rainbow Parentheses
+Plug 'junegunn/goyo.vim', {'for': ['markdown', 'vimwiki', 'text']}
+Plug 'junegunn/limelight.vim', {'for': ['markdown', 'vimwiki', 'text']}
+Plug 'junegunn/vim-after-object' " Defines text objects to target text after the designated characters.
 Plug 'junegunn/vim-easy-align' " 代码对齐
 Plug 'kana/vim-textobj-function', { 'for': ['c', 'cpp', 'vim', 'java'] }
 Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-syntax'
-Plug 'kana/vim-textobj-user'
-Plug 'lilydjwg/fcitx.vim' " 自动切换中英文
+Plug 'kana/vim-textobj-user' | Plug 'sgur/vim-textobj-parameter'
 Plug 'ludovicchabant/vim-gutentags' " A Vim plugin that manages your tag files
-Plug 'mbbill/undotree' " The ultimate undo history visualizer for VIM
+Plug 'mbbill/undotree', {'on': 'UndotreeToggle'} " The ultimate undo history visualizer for VIM
 Plug 'mhinz/vim-signify' " Show a diff using Vim its sign column.
 Plug 'rhysd/clever-f.vim' " Extended f, F, t and T key mappings for Vim
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'sgur/vim-textobj-parameter'
-Plug 'sk1418/Join' " 比vim自带的join更强大
-Plug 'skywind3000/asyncrun.vim' " 异步执行命令
+Plug 'sk1418/Join', {'on': 'Join'} " 比vim自带的join更强大
+Plug 'skywind3000/asyncrun.vim', { 'on': 'AsyncRun' } " 异步执行命令
 Plug 'terryma/vim-expand-region' " 逐步扩大选择区域
 Plug 'tommcdo/vim-exchange' " 用cxiw交换单词、cxi'交换‘中的文字等
-Plug 'tpope/vim-eunuch' " Helpers for UNIX
-Plug 'tpope/vim-fugitive' " 对git的封装
+Plug 'tomtom/tcomment_vim' " An extensible & universal comment vim-plugin that also handles embedded filetypes
+Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim', { 'on': 'GV' } " 对git的封装
 Plug 'tpope/vim-repeat' " 重复执行操作
 Plug 'tpope/vim-rsi' " Readline style insertion
 Plug 'tpope/vim-sleuth' " Heuristically set buffer options
@@ -45,37 +54,49 @@ Plug 'tpope/vim-speeddating' " use CTRL-A/CTRL-X to increment dates, times, and 
 Plug 'tpope/vim-surround' " 对括号双引号等进行快速编辑
 Plug 'tpope/vim-unimpaired' " Pairs of handy bracket mappings
 Plug 'vim-scripts/LargeFile' " 针对大文件优化性能
-Plug 'vim-scripts/VisIncr' " 列编辑
-Plug 'vim-voom/VOoM' " 文档大纲
-Plug 'w0rp/ale' " 异步代码检测
-Plug 'wellle/targets.vim' " 一款牛逼至极的text-objects插件
-Plug 'xolox/vim-misc' " 库
-Plug 'xolox/vim-session' " 管理session
+Plug 'vim-scripts/VisIncr', { 'on': ['I', 'IA'] } " 列编辑
+Plug 'vim-voom/VOoM', { 'on': ['Voom', 'VoomToggle'] } " 文档大纲
+Plug 'voldikss/vim-translate-me', { 'on': ['Translate', 'TranslateW', 'TranslateWV'] } " (Neo)Vim translation plugin
+Plug 'w0rp/ale', { 'for': 'c' } " 异步代码检测
+Plug 'wellle/targets.vim' " Vim plugin that provides additional text objects: ({[<t(tags)
+Plug 'xolox/vim-misc' " Miscellaneous auto-load Vim scripts
+Plug 'xolox/vim-session', {'on': ['OpenSession', 'SaveSession']} " Extended session management for Vim (:mksession on steroids) 
 Plug 'yianwillis/vimcdoc' " 中文帮助文档
 Plug 'zhimsel/vim-stay' " 保持最后的编辑状态
-
 " }}}
 
 " UI: {{{2
-Plug 'bling/vim-airline' " beautiful status line
-Plug 'vim-airline/vim-airline-themes'
+if exists('g:use_lightline')
+	Plug 'itchyny/lightline.vim'
+else
+	Plug 'bling/vim-airline' " beautiful status line
+	Plug 'vim-airline/vim-airline-themes'
+endif
+
+"themes
+Plug 'iCyMind/NeoSolarized' " colorscheme
 Plug 'morhetz/gruvbox' " colorscheme
 Plug 'romainl/flattened' " colorscheme
-Plug 'iCyMind/NeoSolarized' " colorscheme
+
 Plug 'ryanoasis/vim-devicons' " Adds file type glyphs/icons to popular Vim plugins
+Plug 'luochen1990/rainbow', { 'for':  ['python', 'javascript', 'jsx', 'html', 'css', 'go', 'vim', 'toml'], 'on': 'RainbowToggle' } " Rainbow Parentheses Improved, shorter code, no level limit, smooth and fast, powerful configuration.
+Plug 't9md/vim-choosewin', { 'on': 'ChooseWin' } " Land on window you chose like tmux's 'display-pane'
 " }}}
 
 " Languages: {{{2
-Plug 'chrisbra/csv.vim'
-Plug 'matze/vim-ini-fold'
-Plug 'tweekmonster/hl-goimport.vim' " 高亮golang包名
-" Plug 'tpope/vim-markdown' " markdown语法插件，支持在markdown中高亮代码块
-Plug 'SidOfc/mkdx' " A vim plugin that adds some nice extra's for working with markdown documents
-Plug 'cespare/vim-toml' " toml语法插件
-Plug 'groenewege/vim-less' " less语法插件
-Plug 'ap/vim-css-color' " css颜色高亮
-Plug 'pangloss/vim-javascript' " 更好的缩进
-Plug 'jansenm/vim-cmake'
+Plug 'SidOfc/mkdx', {'for': 'markdown'} " A vim plugin that adds some nice extra's for working with markdown documents
+Plug 'ap/vim-css-color', {'for': ['html','php','vue']} " css颜色高亮
+Plug 'cespare/vim-toml', {'for': 'toml'} " toml语法插件
+Plug 'chrisbra/csv.vim', {'for': 'csv'}
+Plug 'dag/vim-fish', {'for': 'fish'}
+Plug 'groenewege/vim-less', {'for': 'less'} " less语法插件
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': 'markdown' } " markdown preview plugin for (neo)vim
+Plug 'jansenm/vim-cmake', {'for': 'cmake'}
+Plug 'matze/vim-ini-fold', {'for': 'ini'}
+Plug 'pangloss/vim-javascript', {'for': 'javascript'} " 更好的缩进
+Plug 'tpope/vim-markdown', {'for': 'markdown'} " markdown语法插件，支持在markdown中高亮代码块
+Plug 'tweekmonster/hl-goimport.vim', {'for': 'go'} " 高亮golang包名
+Plug 'vimwiki/vimwiki' " Personal Wiki for Vim
 " }}}
 
 " Completion: {{{2
@@ -83,7 +104,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'Shougo/echodoc.vim' " 不用preview窗口也能显示函数参数
 Plug 'fatih/vim-go', {'for': 'go'} " golang补全
 Plug 'honza/vim-snippets' " 代码片段
-Plug 'scrooloose/nerdcommenter' " 注释插件
+
 
 "}}}
 
@@ -142,12 +163,6 @@ endif
 set t_8f=^[[38;2;%lu;%lu;%lum
 set t_8b=^[[48;2;%lu;%lu;%lum
 set isfname-== " 不将=当成文件名的一部分
-" 记住上次文件打开的位置 last-position-jump
-" au BufReadPost *
-			" \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit' 
-			" \ |   exe "normal! g`\""
-			" \ | endif
-" }}}
 
 " Bind: {{{2
 
@@ -200,7 +215,7 @@ vmap <C-C> "+y
 nmap <C-V> "+gp
 vmap <C-V> "+gp
 imap <C-V> <C-O>"+gp
-cmap <C-V> <S-Insert>
+cmap <C-V> 
 
 " 列选择模式
 nmap vv <C-Q>
@@ -280,7 +295,7 @@ endif
 
 " coc.nvim {{{3
 " 安装coc插件
-call coc#add_extension('coc-marketplace','coc-css','coc-emmet','coc-html','coc-json','coc-lists','coc-snippets','coc-yaml','coc-phpls','coc-vimlsp','coc-calc')
+call coc#add_extension('coc-marketplace','coc-css','coc-emmet','coc-html','coc-json','coc-lists','coc-snippets','coc-yaml','coc-phpls','coc-vimlsp','coc-calc','coc-tsserver','coc-vetur')
 inoremap <silent><expr> <M-.> coc#refresh()
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
@@ -321,13 +336,13 @@ nmap <leader>f <ESC>:CocList files<CR>
 nmap <leader>b <ESC>:CocList buffers<CR>
 nmap <leader>h <ESC>:CocList mru<CR>
 nmap <leader>t <ESC>:CocList tags<CR>
-nmap <leader>o <ESC>:call Outline()<CR>
-function! Outline()
-	if &filetype == 'go' 
-		exec ':GoDecls'
-	else
-		exec ':CocList outline'
-	endif
+nmap <leader>o <ESC>:call <SID>Outline()<CR>
+function! s:Outline()
+  if &filetype == 'go' 
+    exec ':GoDecls'
+  else
+    exec ':CocList outline'
+  endif
 endfunction
 
 " }}}
@@ -350,14 +365,17 @@ let g:go_gocode_unimported_packages = 0
 " }}}
 
 " gruvbox: {{{3
-let g:gruvbox_italic=1
+let g:gruvbox_italic=0
 let g:gruvbox_contrast_dark = 'soft'
 " }}}
 
 " echodoc: {{{3
 let g:echodoc#enable_at_startup = 1
-let g:echodoc#type = 'echo'
-"let g:echodoc#type = 'signature' " gonvim可用
+if has('nvim-0.3.8')
+  let g:echodoc#type = 'floating'
+else
+  let g:echodoc#type = 'echo'
+endif
 " }}}
 
 " session: {{{3
@@ -368,24 +386,16 @@ nmap <space>s <ESC>:OpenSession<CR>
 " }}}
 
 " ale: {{{3
-let g:ale_enabled = 0
-let g:ale_linters = {'go': ['gometalinter']}
-" let g:ale_linters = {'go': ['golangci-lint']}
-" let g:ale_linters = {'go': ['gopls']}
-let g:ale_go_golangci_lint_options='--fast -D gochecknoglobals -D errcheck'
-let g:ale_go_golangci_lint_package=1
-let g:ale_go_gometalinter_options='-t --fast --disable=gocyclo --disable=gas --disable=goconst --disable=vetshadow --disable=gosec --disable=ineffassign --disable=gotype'
 let g:ale_open_list=0
 let g:ale_set_quickfix=0
 let g:ale_list_window_size=1
 
 nmap <silent> <C-h> <Plug>(ale_previous)
 nmap <silent> <C-l> <Plug>(ale_next)
-" nmap <leader>a <Plug>(ale_first)
 " }}}
 
 " tpope/vim-markdown: {{{3
-let g:markdown_fenced_languages = ['c', 'cpp', 'html', 'css', 'python', 'bash=sh', 'golang=go', 'go', 'php'] " 需要在markdown文件中高亮的代码
+let g:markdown_fenced_languages = ['c', 'cpp', 'html', 'css', 'python', 'bash=sh', 'golang=go', 'go', 'php', 'js=javascript'] " 需要在markdown文件中高亮的代码
 " }}}
 
 " asyncrun: {{{3
@@ -398,11 +408,6 @@ function! GoInstall()
 endfunction
 " autocmd! BufWrite *.go exec ':AsyncRun! go install -i'
 " autocmd! BufWrite *.go call GoInstall()
-" }}}
-
-" nerdcommenter: {{{3
-map <space>c <plug>NERDCommenterToggle
-let NERDSpaceDelims=1
 " }}}
 
 " nerdtree: {{{3
@@ -483,6 +488,85 @@ set viewoptions=cursor,folds,slash,unix
 let g:gutentags_cache_dir = '~/.tags'
 " }}}
 
+" MatchTagAlways: {{{3
+let g:mta_filetypes = {
+      \ 'html' : 1,
+      \ 'xhtml' : 1,
+      \ 'xml' : 1,
+      \ 'vue' : 1,
+      \}
+" }}}
+
+" Voom: {{{3
+let g:voom_return_key = "<C-m>"
+let g:voom_tab_key = "<Tab>"
+function! s:VoomToggleExt()
+	let l:filetypes = ['markdown', 'vimwiki', 'html', 'python']
+	if index(l:filetypes, &filetype)>=0
+		exec 'VoomToggle '.&filetype
+	else
+		exec 'VoomToggle'
+	endif
+endfunction
+
+nmap <leader>v <ESC>:call <SID>VoomToggleExt()<CR>
+" }}}
+
+" vimwiki: {{{3
+if has('unix') || has('mac')
+	let g:vimwiki_list = [ { 'path': '~/Dropbox/VimWiki/', 'path_html': '~/Dropbox/VimWiki/_html/' }, { 'path': '~/Documents/VimWiki/', 'path_html': '~/Documents/VimWiki/_html/' } ]
+else
+	let drive_list = ['D', 'E', 'F', 'G']
+	for drive in drive_list
+		let dropbox_path = drive . ':\Dropbox'
+		if isdirectory(dropbox_path)
+			let g:vimwiki_list = [ { 'path': dropbox_path.'\VimWiki\', 'path_html': dropbox_path.'\VimWiki_html\' }, { 'path': '~/Documents/VimWiki/', 'path_html': '~/Documents/VimWiki/_html/' } ]
+			break
+		endif
+	endfor
+endif
+nmap <Leader>wf <Plug>VimwikiFollowLink
+nmap <Leader>wn <Plug>VimwikiNextLink
+nmap <Leader>wp <Plug>VimwikiPrevLink
+" }}}
+
+" limelight: {{{3
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
+" }}}
+
+" tcomment: {{{3
+let g:tcomment_maps = 0
+nmap <silent> <C-/> <Plug>TComment_gcc
+xmap <silent> <C-/> <Plug>TComment_gcc
+nmap <silent> <M-/> <Plug>TComment_gcc
+xmap <silent> <M-/> <Plug>TComment_gcc
+" }}}
+
+" indentLine: {{{3
+let g:indentLine_char = '┊'
+let g:indentLine_fileType = ['c', 'cpp', 'python', 'php', 'javascript', 'typescript', 'html', 'xml', 'vue', 'vim']
+let g:indentLine_fileTypeExclude = ['text']
+let g:indentLine_bufTypeExclude = ['help', 'terminal']
+let g:indentLine_bufNameExclude = ['_.*', 'NERD_tree.*']
+" }}}
+
+" vim-sleuth: {{{3
+let g:sleuth_automatic = 1
+" }}}
+
+" vim-translate-me: {{{3
+let g:vtm_default_mapping = 0
+let g:vtm_default_engines = ['youdao', 'ciba', 'google']
+nmap <silent> <leader>t <Plug>TranslateW
+vmap <silent> <leader>t <Plug>TranslateWV
+" }}}
+
+" choosewin: {{{3
+nmap <leader>cw <ESC>:ChooseWin<CR>
+let g:choosewin_overlay_enable = 1
+" }}}
+
 " }}}
 
 "load local config
@@ -492,4 +576,4 @@ endif
 
 " }}}
 
-" vim: foldmethod=marker
+" vim: foldmethod=marker tabstop=4
