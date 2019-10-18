@@ -100,7 +100,7 @@ Plug 'dag/vim-fish', { 'for': 'fish' }
 Plug 'groenewege/vim-less', { 'for': 'less' } " less语法插件
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': 'markdown' } " markdown preview plugin for (neo)vim
 Plug 'jansenm/vim-cmake', { 'for': 'cmake' }
-Plug 'matze/vim-ini-fold', { 'for': 'ini' }
+Plug 'matze/vim-ini-fold', { 'for': ['dosini', 'ini'] }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' } " 更好的缩进
 Plug 'tpope/vim-markdown', { 'for': 'markdown' } " markdown语法插件，支持在markdown中高亮代码块
 Plug 'tweekmonster/hl-goimport.vim', { 'for': 'go' } " 高亮golang包名
@@ -406,7 +406,7 @@ nmap <silent> <C-l> <Plug>(ale_next)
 " }}}
 
 " tpope/vim-markdown: {{{3
-let g:markdown_fenced_languages = ['c', 'cpp', 'html', 'css', 'python', 'bash=sh', 'golang=go', 'go', 'php', 'js=javascript'] " 需要在markdown文件中高亮的代码
+let g:markdown_fenced_languages = ['bash=sh', 'c', 'cpp', 'css', 'html', 'ini=dosini', 'golang=go', 'go', 'js=javascript', 'php', 'python'] " 需要在markdown文件中高亮的代码
 " }}}
 
 " asyncrun: {{{3
@@ -593,7 +593,7 @@ nmap <leader>v <ESC>:call <SID>VoomToggleExt()<CR>
 
 " vimwiki: {{{3
 let nested_syntaxes = {
-	  \ 'bash':       'bash',
+	  \ 'bash':       'sh',
 	  \ 'c':          'c',
 	  \ 'c++':        'cpp',
 	  \ 'cpp':        'cpp',
@@ -602,6 +602,7 @@ let nested_syntaxes = {
 	  \ 'go':         'go',
 	  \ 'golang':     'go',
 	  \ 'html':       'html',
+	  \ 'ini':        'dosini',
 	  \ 'java':       'java',
 	  \ 'javascript': 'javascript',
 	  \ 'js':         'javascript',
@@ -611,6 +612,7 @@ let nested_syntaxes = {
 	  \ 'py':         'python',
 	  \ 'python':     'python',
 	  \ 'scss':       'scss',
+	  \ 'sh':         'sh',
 	  \ 'toml':       'toml',
 	  \ 'ts':         'typescript',
 	  \ 'typescript': 'typescript',
