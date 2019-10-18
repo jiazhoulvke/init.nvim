@@ -130,7 +130,9 @@ set noshowmode " 不显示当前状态
 set display=lastline " 解决超长行显示异常的问题
 set lazyredraw " 不立即重绘
 set cursorline " 高亮当前行
-set termguicolors " 设置真彩色
+if exists('g:use_truecolor')
+	set termguicolors " 设置真彩色
+endif
 if !exists('g:myvimrc_colorscheme_loaded')
 	exec 'colo '.g:myvimrc_colorschemes[g:myvimrc_colorscheme_index]
 	let g:myvimrc_colorscheme_loaded = 1
