@@ -155,6 +155,7 @@ set inccommand=nosplit  " 命令更改会在原位置显示
 " set completeopt-=preview " 去掉补全时烦人的预览窗口
 " set completeopt+=noselect,noinsert
 set smartindent " 智能缩进
+set autoindent
 set ignorecase " 忽略大小写
 set smarttab " 智能tab
 set hidden " 在当前buffer没有保存时可以切换到其他buffer
@@ -472,6 +473,36 @@ nmap <space>sf <ESC>:CtrlSF<space>
 nmap <space>ss <ESC>:CtrlSFToggle<CR>
 " }}}
 
+" clever-f: {{{3
+nmap f <Plug>(clever-f-f)
+nmap F <Plug>(clever-f-F)
+nmap t <Plug>(clever-f-t)
+nmap T <Plug>(clever-f-T)
+" }}}
+
+" zoom: {{{3
+nmap <C-w>m <Plug>(zoom-toggle)
+" }}}
+
+" expand-region: {{{3
+map + <Plug>(expand_region_expand)
+map _ <Plug>(expand_region_shrink)
+" }}}
+"
+
+" vim-speeddating: {{{
+nmap <C-a> <Plug>SpeedDatingUp
+nmap <C-x> <Plug>SpeedDatingDown
+" }}}
+
+" vim-surround: {{{
+nmap ds <Plug>Dsurround
+nmap cs <Plug>Csurround
+nmap yss <Plug>Yssurround
+nmap ys <Plug>Ysurround
+xmap S <Plug>VSurround
+" }}}
+
 " incsearch.vim: {{{3
 nmap /  <Plug>(incsearch-forward)
 nmap ?  <Plug>(incsearch-backward)
@@ -598,6 +629,13 @@ else
 		endif
 	endfor
 endif
+nmap <Leader>ww <Plug>VimwikiIndex
+nmap <Leader>ws <Plug>VimwikiUISelect
+nmap <Leader>wt <Plug>VimwikiTabIndex
+nmap <Leader>wi <Plug>VimwikiDiaryIndex
+nmap <Leader>w<Leader>w <Plug>VimwikiMakeDiaryNote
+nmap <Leader>w<Leader>t <Plug>VimwikiTabMakeDiaryNote
+nmap <Leader>w<Leader>m <Plug>VimwikiMakeTomorrowDiaryNote
 nmap <Leader>wf <Plug>VimwikiFollowLink
 nmap <Leader>wn <Plug>VimwikiNextLink
 nmap <Leader>wp <Plug>VimwikiPrevLink
