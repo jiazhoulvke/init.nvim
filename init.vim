@@ -17,14 +17,16 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 " Misc: {{{2
 if has('unix')
-	Plug 'lilydjwg/fcitx.vim' " 自动切换中英文
+	if !has('mac')
+		Plug 'lilydjwg/fcitx.vim' " 自动切换中英文
+	endif
 	Plug 'tpope/vim-eunuch' " Helpers for UNIX
 endif
 Plug 'Valloric/MatchTagAlways', { 'for': ['html','xhtml', 'xml', 'vue'] } " tag配对显示
 Plug 'Yggdroot/indentLine', { 'for': ['c', 'cpp', 'python', 'php', 'javascript', 'typescript', 'html', 'xml', 'vue', 'vim'] } " Show vertical lines for indent with conceal feature
-Plug 'dhruvasagar/vim-zoom' " Toggle zoom in / out individual windows (splits) maps: <C-w>m
+Plug 'dhruvasagar/vim-zoom', { 'on': '<Plug>(zoom-toggle)' } " Toggle zoom in / out individual windows (splits) maps: <C-w>m
 Plug 'dyng/ctrlsf.vim', { 'on': 'CtrlSF' } " 文件内容查找
-Plug 'haya14busa/incsearch.vim' " 对vim自带搜索的强化，可以同时搜索多个词
+Plug 'haya14busa/incsearch.vim',{ 'on': ['<Plug>(incsearch-forward)', '<Plug>(incsearch-backward)'] } " 对vim自带搜索的强化，可以同时搜索多个词
 Plug 'inkarkat/vim-ingo-library' " Vimscript library of common functions
 Plug 'inkarkat/vim-mark', { 'on': [ '<Plug>MarkToggle', '<Plug>MarkSet', 'Mark' ] } " Highlight several words in different colors simultaneously.
 Plug 'jiazhoulvke/vim-sleuth' " Heuristically set buffer options
@@ -40,7 +42,7 @@ Plug 'kana/vim-textobj-user' | Plug 'sgur/vim-textobj-parameter'
 Plug 'ludovicchabant/vim-gutentags' " A Vim plugin that manages your tag files
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " The ultimate undo history visualizer for VIM
 Plug 'mhinz/vim-signify' " Show a diff using Vim its sign column.
-Plug 'rhysd/clever-f.vim' " Extended f, F, t and T key mappings for Vim
+Plug 'rhysd/clever-f.vim', { 'on': [ '<Plug>(clever-f-f)', '<Plug>(clever-f-F)', '<Plug>(clever-f-t)', '<Plug>(clever-f-T)'] } " Extended f, F, t and T key mappings for Vim
 if exists('g:use_nerdtree')
   Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin'
 else
@@ -50,14 +52,14 @@ else
 endif
 Plug 'sk1418/Join', { 'on': 'Join' } " 比vim自带的join更强大
 Plug 'skywind3000/asyncrun.vim', { 'on': 'AsyncRun' } " 异步执行命令
-Plug 'terryma/vim-expand-region' " 逐步扩大选择区域
-Plug 'tommcdo/vim-exchange' " 用cxiw交换单词、cxi'交换‘中的文字等
-Plug 'tomtom/tcomment_vim' " An extensible & universal comment vim-plugin that also handles embedded filetypes
+Plug 'terryma/vim-expand-region', { 'on': ['<Plug>(expand_region_expand)', '<Plug>(expand_region_shrink)'] } " 逐步扩大选择区域
+Plug 'tommcdo/vim-exchange', { 'on': ['<Plug>(ExchangeLine)', '<Plug>(Exchange)'] } " 用cxiw交换单词、cxi'交换‘中的文字等
+Plug 'tomtom/tcomment_vim', { 'on': '<Plug>TComment_gcc' }  " An extensible & universal comment vim-plugin that also handles embedded filetypes
 Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim', { 'on': 'GV' } " 对git的封装
 Plug 'tpope/vim-repeat' " 重复执行操作
 Plug 'tpope/vim-rsi' " Readline style insertion
-Plug 'tpope/vim-speeddating' " use CTRL-A/CTRL-X to increment dates, times, and more
-Plug 'tpope/vim-surround' " 对括号双引号等进行快速编辑
+Plug 'tpope/vim-speeddating', { 'on': ['<Plug>SpeedDatingUp', '<Plug>SpeedDatingDown'] } " use CTRL-A/CTRL-X to increment dates, times, and more
+Plug 'tpope/vim-surround', { 'on': ['<Plug>Dsurround', '<Plug>Csurround', '<Plug>Yssurround', '<Plug>Ysurround', '<Plug>VSurround'] } " 对括号双引号等进行快速编辑
 Plug 'tpope/vim-unimpaired' " Pairs of handy bracket mappings
 Plug 'vim-scripts/LargeFile' " 针对大文件优化性能
 Plug 'vim-scripts/VisIncr', { 'on': ['I', 'IA'] } " 列编辑
@@ -85,7 +87,7 @@ Plug 'morhetz/gruvbox' " colorscheme
 Plug 'romainl/flattened' " colorscheme
 
 Plug 'ryanoasis/vim-devicons' " Adds file type glyphs/icons to popular Vim plugins
-Plug 'luochen1990/rainbow', { 'for':  ['python', 'javascript', 'jsx', 'html', 'css', 'go', 'vim', 'toml'], 'on': 'RainbowToggle' } " Rainbow Parentheses Improved, shorter code, no level limit, smooth and fast, powerful configuration.
+Plug 'luochen1990/rainbow', { 'for':  ['python', 'javascript', 'jsx', 'html', 'css', 'go', 'vim', 'toml', 'lisp', 'scheme'], 'on': 'RainbowToggle' } " Rainbow Parentheses Improved, shorter code, no level limit, smooth and fast, powerful configuration.
 Plug 't9md/vim-choosewin', { 'on': 'ChooseWin' } " Land on window you chose like tmux's 'display-pane'
 " }}}
 
@@ -102,7 +104,7 @@ Plug 'matze/vim-ini-fold', { 'for': 'ini' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' } " 更好的缩进
 Plug 'tpope/vim-markdown', { 'for': 'markdown' } " markdown语法插件，支持在markdown中高亮代码块
 Plug 'tweekmonster/hl-goimport.vim', { 'for': 'go' } " 高亮golang包名
-Plug 'vimwiki/vimwiki' " Personal Wiki for Vim
+Plug 'vimwiki/vimwiki', { 'on': ['<Plug>VimwikiIndex', '<Plug>VimwikiUISelect', '<Plug>VimwikiTabIndex', '<Plug>VimwikiDiaryIndex', '<Plug>VimwikiMakeDiaryNote', '<Plug>VimwikiTabMakeDiaryNote', '<Plug>VimwikiMakeTomorrowDiaryNote' ] } " Personal Wiki for Vim
 " }}}
 
 " Completion: {{{2
@@ -424,14 +426,6 @@ nmap <space>n <ESC>:NERDTreeToggle<CR>
 
 " defx: {{{3
 map <silent> - :Defx -columns=git:mark:icons:indent:filename:type -winwidth=30 -split=vertical -direction=topleft -show_ignored_files=0 -toggle=1 -resume=1<CR>
-" call defx#custom#option('_', {
-" 	  \ 'winwidth': 30,
-" 	  \ 'split': 'vertical',
-" 	  \ 'direction': 'topleft',
-" 	  \ 'show_ignored_files': 0,
-" 	  \ 'toggle': 1,
-" 	  \ 'resume': 1,
-" 	  \ })
 autocmd FileType defx call s:defx_settings()
 function! s:defx_settings() abort
   setl nospell
@@ -646,6 +640,14 @@ nmap <leader>cw <ESC>:ChooseWin<CR>
 let g:choosewin_overlay_enable = 1
 " }}}
 
+" vim-exchange: {{{3
+let g:exchange_no_mappings = 1
+nmap cxx <Plug>(ExchangeLine)
+nmap cxc <Plug>(ExchangeClear)
+nmap cx <Plug>(Exchange)
+xmap X <Plug>(Exchange)
+" }}}
+
 " }}}
 
 "load local config
@@ -655,4 +657,4 @@ endif
 
 " }}}
 
-" vim: foldmethod=marker tabstop=4
+" vim: foldmethod=marker tabstop=4 shiftwidth=4
