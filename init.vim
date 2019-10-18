@@ -215,7 +215,7 @@ vmap <C-C> "+y
 nmap <C-V> "+gp
 vmap <C-V> "+gp
 imap <C-V> <C-O>"+gp
-cmap <C-V> 
+cmap <C-V> <S-Insert>
 
 " 列选择模式
 nmap vv <C-Q>
@@ -514,13 +514,13 @@ nmap <leader>v <ESC>:call <SID>VoomToggleExt()<CR>
 
 " vimwiki: {{{3
 if has('unix') || has('mac')
-	let g:vimwiki_list = [ { 'path': '~/Dropbox/VimWiki/', 'path_html': '~/Dropbox/VimWiki/_html/' }, { 'path': '~/Documents/VimWiki/', 'path_html': '~/Documents/VimWiki/_html/' } ]
+	let g:vimwiki_list = [ { 'path': '~/Dropbox/VimWiki/', 'path_html': '~/Dropbox/VimWiki/_html/', 'auto_toc': 1 }, { 'path': '~/Documents/VimWiki/', 'path_html': '~/Documents/VimWiki/_html/' } ]
 else
 	let drive_list = ['D', 'E', 'F', 'G']
 	for drive in drive_list
 		let dropbox_path = drive . ':\Dropbox'
 		if isdirectory(dropbox_path)
-			let g:vimwiki_list = [ { 'path': dropbox_path.'\VimWiki\', 'path_html': dropbox_path.'\VimWiki_html\' }, { 'path': '~/Documents/VimWiki/', 'path_html': '~/Documents/VimWiki/_html/' } ]
+			let g:vimwiki_list = [ { 'path': dropbox_path.'\VimWiki\', 'path_html': dropbox_path.'\VimWiki_html\', 'auto_toc': 1 }, { 'path': '~/Documents/VimWiki/', 'path_html': '~/Documents/VimWiki/_html/' } ]
 			break
 		endif
 	endfor
