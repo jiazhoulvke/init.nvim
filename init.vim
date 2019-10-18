@@ -41,7 +41,13 @@ Plug 'ludovicchabant/vim-gutentags' " A Vim plugin that manages your tag files
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " The ultimate undo history visualizer for VIM
 Plug 'mhinz/vim-signify' " Show a diff using Vim its sign column.
 Plug 'rhysd/clever-f.vim' " Extended f, F, t and T key mappings for Vim
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin'
+if exists('g:use_nerdtree')
+  Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin'
+else
+  Plug 'Shougo/defx.nvim', { 'on': 'Defx' ,'do': ':UpdateRemotePlugins' }
+  Plug 'kristijanhusak/defx-git', { 'on': 'Defx' }
+  Plug 'kristijanhusak/defx-icons', { 'on': 'Defx' }
+endif
 Plug 'sk1418/Join', { 'on': 'Join' } " 比vim自带的join更强大
 Plug 'skywind3000/asyncrun.vim', { 'on': 'AsyncRun' } " 异步执行命令
 Plug 'terryma/vim-expand-region' " 逐步扩大选择区域
@@ -416,6 +422,46 @@ endfunction
 nmap <space>n <ESC>:NERDTreeToggle<CR>
 " }}}
 
+" defx: {{{3
+map <silent> - :Defx -columns=git:mark:icons:indent:filename:type -winwidth=30 -split=vertical -direction=topleft -show_ignored_files=0 -toggle=1 -resume=1<CR>
+" call defx#custom#option('_', {
+" 	  \ 'winwidth': 30,
+" 	  \ 'split': 'vertical',
+" 	  \ 'direction': 'topleft',
+" 	  \ 'show_ignored_files': 0,
+" 	  \ 'toggle': 1,
+" 	  \ 'resume': 1,
+" 	  \ })
+autocmd FileType defx call s:defx_settings()
+function! s:defx_settings() abort
+  setl nospell
+  setl signcolumn=no
+  setl nonumber
+  nnoremap <silent><buffer><expr> <CR>
+  \ defx#is_directory() ?
+  \ defx#do_action('open_or_close_tree') :
+  \ defx#do_action('drop',)
+  nmap <silent><buffer><expr> <2-LeftMouse>
+  \ defx#is_directory() ?
+  \ defx#do_action('open_or_close_tree') :
+  \ defx#do_action('drop',)
+  nnoremap <silent><buffer><expr> s defx#do_action('drop', 'split')
+  nnoremap <silent><buffer><expr> v defx#do_action('drop', 'vsplit')
+  nnoremap <silent><buffer><expr> t defx#do_action('drop', 'tabe')
+  nnoremap <silent><buffer><expr> o defx#do_action('open_tree')
+  nnoremap <silent><buffer><expr> O defx#do_action('open_tree_recursive')
+  nnoremap <silent><buffer><expr> c defx#do_action('copy')
+  nnoremap <silent><buffer><expr> p defx#do_action('paste')
+  nnoremap <silent><buffer><expr> m defx#do_action('rename')
+  nnoremap <silent><buffer><expr> d defx#do_action('remove', 1)
+  nnoremap <silent><buffer><expr> a defx#do_action('new_multiple_files')
+  nnoremap <silent><buffer><expr> u defx#do_action('cd', ['..'])
+  nnoremap <silent><buffer><expr> . defx#do_action('toggle_ignored_files')
+  nnoremap <silent><buffer><expr> <Space> defx#do_action('toggle_select')
+  nnoremap <silent><buffer><expr> R defx#do_action('redraw')
+endfunction
+" }}}
+
 " vim-easy-align: {{{3
 xmap <space>a <Plug>(EasyAlign)
 nmap <space>a <Plug>(EasyAlign)
@@ -570,15 +616,15 @@ autocmd! User GoyoLeave Limelight!
 
 " tcomment: {{{3
 let g:tcomment_maps = 0
-nmap <silent> <C-/> <Plug>TComment_gcc
-xmap <silent> <C-/> <Plug>TComment_gcc
+nmap <silent> <space>c <Plug>TComment_gcc
+xmap <silent> <space>c <Plug>TComment_gcc
 nmap <silent> <M-/> <Plug>TComment_gcc
 xmap <silent> <M-/> <Plug>TComment_gcc
 " }}}
 
 " indentLine: {{{3
 let g:indentLine_char = '┊'
-let g:indentLine_fileType = ['c', 'cpp', 'python', 'php', 'javascript', 'typescript', 'html', 'xml', 'vue', 'vim']
+let g:indentLine_fileType = ['c', 'cpp', 'python', 'php', 'javascript', 'typescript', 'html', 'xml', 'vue']
 let g:indentLine_fileTypeExclude = ['text']
 let g:indentLine_bufTypeExclude = ['help', 'terminal']
 let g:indentLine_bufNameExclude = ['_.*', 'NERD_tree.*']
