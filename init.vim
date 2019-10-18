@@ -20,28 +20,29 @@ if has('unix')
 	Plug 'lilydjwg/fcitx.vim' " 自动切换中英文
 	Plug 'tpope/vim-eunuch' " Helpers for UNIX
 endif
-Plug 'Valloric/MatchTagAlways', {'for': ['html','xhtml', 'xml', 'vue']} " tag配对显示
+Plug 'Valloric/MatchTagAlways', { 'for': ['html','xhtml', 'xml', 'vue'] } " tag配对显示
 Plug 'Yggdroot/indentLine', { 'for': ['c', 'cpp', 'python', 'php', 'javascript', 'typescript', 'html', 'xml', 'vue', 'vim'] } " Show vertical lines for indent with conceal feature
 Plug 'dhruvasagar/vim-zoom' " Toggle zoom in / out individual windows (splits) maps: <C-w>m
-Plug 'dyng/ctrlsf.vim', {'on': 'CtrlSF'} " 文件内容查找
+Plug 'dyng/ctrlsf.vim', { 'on': 'CtrlSF' } " 文件内容查找
 Plug 'haya14busa/incsearch.vim' " 对vim自带搜索的强化，可以同时搜索多个词
 Plug 'inkarkat/vim-ingo-library' " Vimscript library of common functions
-Plug 'inkarkat/vim-mark' " Highlight several words in different colors simultaneously.
+Plug 'inkarkat/vim-mark', { 'on': [ '<Plug>MarkToggle', '<Plug>MarkSet', 'Mark' ] } " Highlight several words in different colors simultaneously.
+Plug 'jiazhoulvke/vim-sleuth' " Heuristically set buffer options
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 基于文件名快速搜索文件
-Plug 'junegunn/goyo.vim', {'for': ['markdown', 'vimwiki', 'text']}
-Plug 'junegunn/limelight.vim', {'for': ['markdown', 'vimwiki', 'text']}
+Plug 'junegunn/goyo.vim', { 'on': 'Goyo', 'for': ['markdown', 'vimwiki', 'text'] }
+Plug 'junegunn/limelight.vim', { 'for': ['markdown', 'vimwiki', 'text'] }
 Plug 'junegunn/vim-after-object' " Defines text objects to target text after the designated characters.
-Plug 'junegunn/vim-easy-align' " 代码对齐
+Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] } " 代码对齐
 Plug 'kana/vim-textobj-function', { 'for': ['c', 'cpp', 'vim', 'java'] }
 Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-syntax'
 Plug 'kana/vim-textobj-user' | Plug 'sgur/vim-textobj-parameter'
 Plug 'ludovicchabant/vim-gutentags' " A Vim plugin that manages your tag files
-Plug 'mbbill/undotree', {'on': 'UndotreeToggle'} " The ultimate undo history visualizer for VIM
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " The ultimate undo history visualizer for VIM
 Plug 'mhinz/vim-signify' " Show a diff using Vim its sign column.
 Plug 'rhysd/clever-f.vim' " Extended f, F, t and T key mappings for Vim
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'sk1418/Join', {'on': 'Join'} " 比vim自带的join更强大
+Plug 'sk1418/Join', { 'on': 'Join' } " 比vim自带的join更强大
 Plug 'skywind3000/asyncrun.vim', { 'on': 'AsyncRun' } " 异步执行命令
 Plug 'terryma/vim-expand-region' " 逐步扩大选择区域
 Plug 'tommcdo/vim-exchange' " 用cxiw交换单词、cxi'交换‘中的文字等
@@ -49,7 +50,6 @@ Plug 'tomtom/tcomment_vim' " An extensible & universal comment vim-plugin that a
 Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim', { 'on': 'GV' } " 对git的封装
 Plug 'tpope/vim-repeat' " 重复执行操作
 Plug 'tpope/vim-rsi' " Readline style insertion
-Plug 'tpope/vim-sleuth' " Heuristically set buffer options
 Plug 'tpope/vim-speeddating' " use CTRL-A/CTRL-X to increment dates, times, and more
 Plug 'tpope/vim-surround' " 对括号双引号等进行快速编辑
 Plug 'tpope/vim-unimpaired' " Pairs of handy bracket mappings
@@ -60,7 +60,7 @@ Plug 'voldikss/vim-translate-me', { 'on': ['Translate', 'TranslateW', 'Translate
 Plug 'w0rp/ale', { 'for': 'c' } " 异步代码检测
 Plug 'wellle/targets.vim' " Vim plugin that provides additional text objects: ({[<t(tags)
 Plug 'xolox/vim-misc' " Miscellaneous auto-load Vim scripts
-Plug 'xolox/vim-session', {'on': ['OpenSession', 'SaveSession']} " Extended session management for Vim (:mksession on steroids) 
+Plug 'xolox/vim-session', { 'on': ['OpenSession', 'SaveSession'] } " Extended session management for Vim (:mksession on steroids) 
 Plug 'yianwillis/vimcdoc' " 中文帮助文档
 Plug 'zhimsel/vim-stay' " 保持最后的编辑状态
 " }}}
@@ -84,25 +84,25 @@ Plug 't9md/vim-choosewin', { 'on': 'ChooseWin' } " Land on window you chose like
 " }}}
 
 " Languages: {{{2
-Plug 'SidOfc/mkdx', {'for': 'markdown'} " A vim plugin that adds some nice extra's for working with markdown documents
-Plug 'ap/vim-css-color', {'for': ['html','php','vue']} " css颜色高亮
-Plug 'cespare/vim-toml', {'for': 'toml'} " toml语法插件
-Plug 'chrisbra/csv.vim', {'for': 'csv'}
-Plug 'dag/vim-fish', {'for': 'fish'}
-Plug 'groenewege/vim-less', {'for': 'less'} " less语法插件
+Plug 'SidOfc/mkdx', { 'for': 'markdown' } " A vim plugin that adds some nice extra's for working with markdown documents
+Plug 'ap/vim-css-color', { 'for': ['html', 'php', 'vue'] } " css颜色高亮
+Plug 'cespare/vim-toml', { 'for': 'toml' } " toml语法插件
+Plug 'chrisbra/csv.vim', { 'for': 'csv' }
+Plug 'dag/vim-fish', { 'for': 'fish' }
+Plug 'groenewege/vim-less', { 'for': 'less' } " less语法插件
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': 'markdown' } " markdown preview plugin for (neo)vim
-Plug 'jansenm/vim-cmake', {'for': 'cmake'}
-Plug 'matze/vim-ini-fold', {'for': 'ini'}
-Plug 'pangloss/vim-javascript', {'for': 'javascript'} " 更好的缩进
-Plug 'tpope/vim-markdown', {'for': 'markdown'} " markdown语法插件，支持在markdown中高亮代码块
-Plug 'tweekmonster/hl-goimport.vim', {'for': 'go'} " 高亮golang包名
+Plug 'jansenm/vim-cmake', { 'for': 'cmake' }
+Plug 'matze/vim-ini-fold', { 'for': 'ini' }
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' } " 更好的缩进
+Plug 'tpope/vim-markdown', { 'for': 'markdown' } " markdown语法插件，支持在markdown中高亮代码块
+Plug 'tweekmonster/hl-goimport.vim', { 'for': 'go' } " 高亮golang包名
 Plug 'vimwiki/vimwiki' " Personal Wiki for Vim
 " }}}
 
 " Completion: {{{2
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'Shougo/echodoc.vim' " 不用preview窗口也能显示函数参数
-Plug 'fatih/vim-go', {'for': 'go'} " golang补全
+Plug 'fatih/vim-go', { 'for': 'go' } " golang补全
 Plug 'honza/vim-snippets' " 代码片段
 
 
@@ -416,9 +416,15 @@ endfunction
 nmap <space>n <ESC>:NERDTreeToggle<CR>
 " }}}
 
-" EasyAlign: {{{3
+" vim-easy-align: {{{3
 xmap <space>a <Plug>(EasyAlign)
 nmap <space>a <Plug>(EasyAlign)
+" }}}
+
+" vim-mark: {{{
+let g:mw_no_mappings = 1
+nmap <leader>m <Plug>MarkSet
+xmap <leader>m <Plug>MarkSet
 " }}}
 
 " ctrlsf: {{{3
@@ -515,14 +521,39 @@ nmap <leader>v <ESC>:call <SID>VoomToggleExt()<CR>
 " }}}
 
 " vimwiki: {{{3
+let nested_syntaxes = {
+	  \ 'bash':       'bash',
+	  \ 'c':          'c',
+	  \ 'c++':        'cpp',
+	  \ 'cpp':        'cpp',
+	  \ 'css':        'css',
+	  \ 'fish':       'fish',
+	  \ 'go':         'go',
+	  \ 'golang':     'go',
+	  \ 'html':       'html',
+	  \ 'java':       'java',
+	  \ 'javascript': 'javascript',
+	  \ 'js':         'javascript',
+	  \ 'json':       'json',
+	  \ 'lua':        'lua',
+	  \ 'php':        'php',
+	  \ 'py':         'python',
+	  \ 'python':     'python',
+	  \ 'scss':       'scss',
+	  \ 'toml':       'toml',
+	  \ 'ts':         'typescript',
+	  \ 'typescript': 'typescript',
+	  \ 'vue':        'vue',
+	  \ 'xml':        'xml',
+	\ }
 if has('unix') || has('mac')
-	let g:vimwiki_list = [ { 'path': '~/Dropbox/VimWiki/', 'path_html': '~/Dropbox/VimWiki/_html/', 'auto_toc': 1 }, { 'path': '~/Documents/VimWiki/', 'path_html': '~/Documents/VimWiki/_html/' } ]
+	let g:vimwiki_list = [ { 'path': '~/Dropbox/VimWiki/', 'path_html': '~/Dropbox/VimWiki/_html/', 'auto_toc': 1, 'nested_syntaxes' : nested_syntaxes }, { 'path': '~/Documents/VimWiki/', 'path_html': '~/Documents/VimWiki_html/', 'auto_toc': 1, 'nested_syntaxes': nested_syntaxes } ]
 else
 	let drive_list = ['D', 'E', 'F', 'G']
 	for drive in drive_list
 		let dropbox_path = drive . ':\Dropbox'
 		if isdirectory(dropbox_path)
-			let g:vimwiki_list = [ { 'path': dropbox_path.'\VimWiki\', 'path_html': dropbox_path.'\VimWiki_html\', 'auto_toc': 1 }, { 'path': '~/Documents/VimWiki/', 'path_html': '~/Documents/VimWiki/_html/' } ]
+			let g:vimwiki_list = [ { 'path': dropbox_path.'\VimWiki\', 'path_html': dropbox_path.'\VimWiki_html\', 'auto_toc': 1, 'nested_syntaxes': nested_syntaxes }, { 'path': '~/Documents/VimWiki/', 'path_html': '~/Documents/VimWiki_html/', 'auto_toc': 1, 'nested_syntaxes': nested_syntaxes } ]
 			break
 		endif
 	endfor
