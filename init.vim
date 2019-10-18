@@ -64,7 +64,7 @@ Plug 'tpope/vim-unimpaired' " Pairs of handy bracket mappings
 Plug 'vim-scripts/LargeFile' " 针对大文件优化性能
 Plug 'vim-scripts/VisIncr', { 'on': ['I', 'IA'] } " 列编辑
 Plug 'vim-voom/VOoM', { 'on': ['Voom', 'VoomToggle'] } " 文档大纲
-Plug 'voldikss/vim-translate-me', { 'on': ['Translate', 'TranslateW', 'TranslateWV'] } " (Neo)Vim translation plugin
+Plug 'voldikss/vim-translate-me', { 'on': ['Translate', 'TranslateW', 'TranslateWV', '<Plug>TranslateW', '<Plug>TranslateWV'] } " (Neo)Vim translation plugin
 Plug 'w0rp/ale', { 'for': 'c' } " 异步代码检测
 Plug 'wellle/targets.vim' " Vim plugin that provides additional text objects: ({[<t(tags)
 Plug 'xolox/vim-misc' " Miscellaneous auto-load Vim scripts
@@ -102,7 +102,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': 'ma
 Plug 'jansenm/vim-cmake', { 'for': 'cmake' }
 Plug 'matze/vim-ini-fold', { 'for': ['dosini', 'ini'] }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' } " 更好的缩进
-Plug 'tpope/vim-markdown', { 'for': 'markdown' } " markdown语法插件，支持在markdown中高亮代码块
+Plug 'rhysd/vim-gfm-syntax', { 'for': 'markdown' } " GitHub Flavored Markdown syntax highlight extension for Vim
 Plug 'tweekmonster/hl-goimport.vim', { 'for': 'go' } " 高亮golang包名
 Plug 'vimwiki/vimwiki', { 'on': ['<Plug>VimwikiIndex', '<Plug>VimwikiUISelect', '<Plug>VimwikiTabIndex', '<Plug>VimwikiDiaryIndex', '<Plug>VimwikiMakeDiaryNote', '<Plug>VimwikiTabMakeDiaryNote', '<Plug>VimwikiMakeTomorrowDiaryNote' ] } " Personal Wiki for Vim
 " }}}
