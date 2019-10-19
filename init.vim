@@ -616,11 +616,12 @@ let nested_syntaxes = {
 	  \ 'toml':       'toml',
 	  \ 'ts':         'typescript',
 	  \ 'typescript': 'typescript',
+	  \ 'vim':        'vim',
 	  \ 'vue':        'vue',
 	  \ 'xml':        'xml',
 	\ }
 if has('unix') || has('mac')
-	let g:vimwiki_list = [ { 'path': '~/Dropbox/VimWiki/', 'path_html': '~/Dropbox/VimWiki/_html/', 'auto_toc': 1, 'nested_syntaxes' : nested_syntaxes }, { 'path': '~/Documents/VimWiki/', 'path_html': '~/Documents/VimWiki_html/', 'auto_toc': 1, 'nested_syntaxes': nested_syntaxes } ]
+	let g:vimwiki_list = [ { 'path': '~/Dropbox/VimWiki/', 'path_html': '~/Dropbox/VimWiki_html/', 'auto_toc': 1, 'nested_syntaxes' : nested_syntaxes }, { 'path': '~/Documents/VimWiki/', 'path_html': '~/Documents/VimWiki_html/', 'auto_toc': 1, 'nested_syntaxes': nested_syntaxes } ]
 else
 	let drive_list = ['D', 'E', 'F', 'G']
 	for drive in drive_list
