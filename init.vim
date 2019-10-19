@@ -422,7 +422,9 @@ endfunction
 " }}}
 
 " nerdtree: {{{3
-nmap <space>n <ESC>:NERDTreeToggle<CR>
+if exists('g:use_nerdtree')
+	nmap <space>n <ESC>:NERDTreeToggle<CR>
+endif
 " }}}
 
 " defx: {{{3
