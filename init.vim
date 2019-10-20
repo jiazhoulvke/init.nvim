@@ -30,6 +30,16 @@ if has('unix')
 	endif
 	Plug 'tpope/vim-eunuch' " Helpers for UNIX
 endif
+if exists('g:use_defx')
+  Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'kristijanhusak/defx-git'
+  Plug 'kristijanhusak/defx-icons'
+endif
+if exists('g:use_nerdtree')
+  Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+  Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+endif
 Plug 'Valloric/MatchTagAlways', { 'for': ['html','xhtml', 'xml', 'vue'] } " tag配对显示
 Plug 'Yggdroot/indentLine', { 'for': ['c', 'cpp', 'python', 'php', 'javascript', 'typescript', 'html', 'xml', 'vue', 'vim'] } " Show vertical lines for indent with conceal feature
 Plug 'dhruvasagar/vim-zoom', { 'on': '<Plug>(zoom-toggle)' } " Toggle zoom in / out individual windows (splits) maps: <C-w>m
@@ -52,13 +62,6 @@ Plug 'ludovicchabant/vim-gutentags' " A Vim plugin that manages your tag files
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " The ultimate undo history visualizer for VIM
 Plug 'mhinz/vim-signify' " Show a diff using Vim its sign column.
 Plug 'rhysd/clever-f.vim', { 'on': [ '<Plug>(clever-f-f)', '<Plug>(clever-f-F)', '<Plug>(clever-f-t)', '<Plug>(clever-f-T)'] } " Extended f, F, t and T key mappings for Vim
-if exists('g:use_defx')
-  Plug 'Shougo/defx.nvim', { 'on': 'Defx' ,'do': ':UpdateRemotePlugins' }
-  Plug 'kristijanhusak/defx-git', { 'on': 'Defx' }
-  Plug 'kristijanhusak/defx-icons', { 'on': 'Defx' }
-else
-  Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin'
-endif
 Plug 'sk1418/Join', { 'on': 'Join' } " 比vim自带的join更强大
 Plug 'skywind3000/asyncrun.vim', { 'on': 'AsyncRun' } " 异步执行命令
 Plug 'terryma/vim-expand-region', { 'on': ['<Plug>(expand_region_expand)', '<Plug>(expand_region_shrink)'] } " 逐步扩大选择区域
@@ -437,35 +440,82 @@ endif
 " }}}
 
 " defx: {{{3
-map <silent> - :Defx -columns=git:mark:icons:indent:filename:type -winwidth=30 -split=vertical -direction=topleft -show_ignored_files=0 -toggle=1 -resume=1<CR>
+if exists('g:use_defx')
+
+call defx#custom#column('icon', {
+      \ 'directory_icon': '▸',
+      \ 'opened_icon': '▾',
+      \ 'root_icon': ' ',
+      \ })
+
+call defx#custom#option('_', {
+			\ 'winwidth': 35,
+			\ 'columns': 'git:mark:indent:icons:filename:type',
+			\ 'split': 'vertical',
+			\ 'direction': 'topleft',
+			\ 'show_ignored_files': 0,
+			\ 'buffer_name': '',
+			\ 'toggle': 1,
+			\ 'resume': 1
+			\ })
+
+call defx#custom#column('indent', {
+			\ 'indent': '  ',
+			\ })
+
+nmap <silent> - :Defx<CR>
+
 autocmd FileType defx call s:defx_settings()
 function! s:defx_settings() abort
-  setl nospell
-  setl signcolumn=no
-  setl nonumber
-  nnoremap <silent><buffer><expr> <CR>
-  \ defx#is_directory() ?
-  \ defx#do_action('open_or_close_tree') :
-  \ defx#do_action('drop',)
-  nmap <silent><buffer><expr> <2-LeftMouse>
-  \ defx#is_directory() ?
-  \ defx#do_action('open_or_close_tree') :
-  \ defx#do_action('drop',)
-  nnoremap <silent><buffer><expr> s defx#do_action('drop', 'split')
-  nnoremap <silent><buffer><expr> v defx#do_action('drop', 'vsplit')
-  nnoremap <silent><buffer><expr> t defx#do_action('drop', 'tabe')
-  nnoremap <silent><buffer><expr> o defx#do_action('open_tree')
-  nnoremap <silent><buffer><expr> O defx#do_action('open_tree_recursive')
-  nnoremap <silent><buffer><expr> c defx#do_action('copy')
-  nnoremap <silent><buffer><expr> p defx#do_action('paste')
-  nnoremap <silent><buffer><expr> m defx#do_action('rename')
-  nnoremap <silent><buffer><expr> d defx#do_action('remove', 1)
-  nnoremap <silent><buffer><expr> a defx#do_action('new_multiple_files')
-  nnoremap <silent><buffer><expr> u defx#do_action('cd', ['..'])
-  nnoremap <silent><buffer><expr> . defx#do_action('toggle_ignored_files')
-  nnoremap <silent><buffer><expr> <Space> defx#do_action('toggle_select')
-  nnoremap <silent><buffer><expr> R defx#do_action('redraw')
+	setl nospell
+	setl signcolumn=no
+	setl nonumber
+	" nnoremap <silent><buffer><expr> <CR>
+	" 			\ defx#is_directory() ?
+	" 			\ defx#do_action('open_or_close_tree') :
+	" 			\ defx#do_action('drop',)
+	nmap <silent><buffer><expr> <2-LeftMouse>
+				\ defx#is_directory() ?
+				\ defx#do_action('open_or_close_tree') :
+				\ defx#do_action('drop',)
+	nnoremap <silent><buffer><expr> s defx#do_action('drop', 'split')
+	nnoremap <silent><buffer><expr> v defx#do_action('drop', 'vsplit')
+	nnoremap <silent><buffer><expr> t defx#do_action('drop', 'tabe')
+	nnoremap <silent><buffer><expr> o
+				\ defx#is_directory() ?
+				\ defx#do_action('open_or_close_tree') :
+				\ defx#do_action('drop',)
+	nnoremap <silent><buffer><expr> O defx#do_action('open_tree_recursive')
+	nnoremap <silent><buffer><expr> c defx#do_action('copy')
+	nnoremap <silent><buffer><expr> p defx#do_action('paste')
+	nnoremap <silent><buffer><expr> m defx#do_action('rename')
+	nnoremap <silent><buffer><expr> dd defx#do_action('remove', 1)
+	nnoremap <silent><buffer><expr> a defx#do_action('new_multiple_files')
+	nnoremap <silent><buffer><expr> u defx#do_action('cd', ['..'])
+	nnoremap <silent><buffer><expr> . defx#do_action('toggle_ignored_files')
+	nnoremap <silent><buffer><expr> <CR> defx#do_action('toggle_select')
+	nnoremap <silent><buffer><expr> R defx#do_action('redraw')
+	nnoremap <silent><buffer><expr> / defx#do_action('search',)
 endfunction
+endif
+" }}}
+
+" kristijanhusak/defx-git: {{{3
+let g:defx_git#indicators = {
+			\ 'Modified'  : '✹',
+			\ 'Staged'    : '✚',
+			\ 'Untracked' : '✭',
+			\ 'Renamed'   : '➜',
+			\ 'Unmerged'  : '═',
+			\ 'Ignored'   : '☒',
+			\ 'Deleted'   : '✖',
+			\ 'Unknown'   : '?'
+			\ }
+let g:defx_git#column_length = 0
+" }}}
+
+" kristijanhusak/defx-icons: {{{3
+let g:defx_icons_enable_syntax_highlight = 1
 " }}}
 
 " vim-easy-align: {{{3
@@ -563,7 +613,7 @@ let g:airline#extensions#languageclient#enabled = 1
 
 " }}}
 
-" webdevicons: {{{3
+" vim-devicons: {{{3
 let g:airline_powerline_fonts = 1
 let g:webdevicons_enable_airline_tabline = 1
 let g:webdevicons_enable_airline_statusline = 1
