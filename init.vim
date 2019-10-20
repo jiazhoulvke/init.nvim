@@ -30,6 +30,7 @@ Plug 'haya14busa/incsearch.vim',{ 'on': ['<Plug>(incsearch-forward)', '<Plug>(in
 Plug 'inkarkat/vim-ingo-library' " Vimscript library of common functions
 Plug 'inkarkat/vim-mark', { 'on': [ '<Plug>MarkToggle', '<Plug>MarkSet', 'Mark' ] } " Highlight several words in different colors simultaneously.
 Plug 'jiazhoulvke/vim-sleuth' " Heuristically set buffer options
+Plug 'jiazhoulvke/vim-plug-helper.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 基于文件名快速搜索文件
 Plug 'junegunn/goyo.vim', { 'on': 'Goyo', 'for': ['markdown', 'vimwiki', 'text'] }
 Plug 'junegunn/limelight.vim', { 'for': ['markdown', 'vimwiki', 'text'] }
@@ -175,6 +176,8 @@ set t_8f=^[[38;2;%lu;%lu;%lum
 set t_8b=^[[48;2;%lu;%lu;%lum
 set isfname-== " 不将=当成文件名的一部分
 
+" }}}
+
 " Bind: {{{2
 
 let g:mapleader=','
@@ -304,8 +307,7 @@ endif
 
 " Plugins Config: {{{2
 
-" coc.nvim {{{3
-" 安装coc插件
+" coc.nvim: {{{3
 call coc#add_extension('coc-marketplace','coc-css','coc-emmet','coc-html','coc-json','coc-lists','coc-snippets','coc-yaml','coc-phpls','coc-vimlsp','coc-calc','coc-tsserver','coc-vetur')
 inoremap <silent><expr> <M-.> coc#refresh()
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -405,7 +407,7 @@ nmap <silent> <C-h> <Plug>(ale_previous)
 nmap <silent> <C-l> <Plug>(ale_next)
 " }}}
 
-" tpope/vim-markdown: {{{3
+" rhysd/vim-gfm-syntax {{{3
 let g:markdown_fenced_languages = ['bash=sh', 'c', 'cpp', 'css', 'html', 'ini=dosini', 'golang=go', 'go', 'js=javascript', 'php', 'python'] " 需要在markdown文件中高亮的代码
 " }}}
 
@@ -475,12 +477,12 @@ nmap <space>sf <ESC>:CtrlSF<space>
 nmap <space>ss <ESC>:CtrlSFToggle<CR>
 " }}}
 
-" clever-f: {{{3
+" clever-f: {
 nmap f <Plug>(clever-f-f)
 nmap F <Plug>(clever-f-F)
 nmap t <Plug>(clever-f-t)
 nmap T <Plug>(clever-f-T)
-" }}}
+" }
 
 " zoom: {{{3
 nmap <C-w>m <Plug>(zoom-toggle)
@@ -492,12 +494,12 @@ map _ <Plug>(expand_region_shrink)
 " }}}
 "
 
-" vim-speeddating: {{{
+" vim-speeddating: {{{3
 nmap <C-a> <Plug>SpeedDatingUp
 nmap <C-x> <Plug>SpeedDatingDown
 " }}}
 
-" vim-surround: {{{
+" surround: {{{3
 nmap ds <Plug>Dsurround
 nmap cs <Plug>Csurround
 nmap yss <Plug>Yssurround
@@ -689,6 +691,11 @@ nmap cxx <Plug>(ExchangeLine)
 nmap cxc <Plug>(ExchangeClear)
 nmap cx <Plug>(Exchange)
 xmap X <Plug>(Exchange)
+" }}}
+
+" markdown-preview {{{3
+let g:mkdp_auto_start = 0
+let g:mkdp_auto_close = 0
 " }}}
 
 " }}}

@@ -1,4 +1,7 @@
 {
+  "list.source.files.args": ["--hidden", "--files", "-uu"],
+  "list.source.grep.args": ["--hidden", "-uu"],
+  "list.source.mru.maxLength": 4096,
   "list.maxHeight": 20,
   "list.autoResize": false,
   "suggest.echodocSupport": true,
