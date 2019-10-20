@@ -1,21 +1,29 @@
-if has('win32')
-	let $NVIM_PATH=$LOCALAPPDATA.'/nvim'
+if !has('nvim')
+	let $MY_VIM_PATH = $HOME.'/.vim'
 else
-	let $NVIM_PATH=$HOME.'/.config/nvim'
+	if has('win32')
+		let $MY_VIM_PATH=$LOCALAPPDATA.'/nvim'
+	else
+		let $MY_VIM_PATH=$HOME.'/.config/nvim'
+	endif
 endif
 
-if filereadable($NVIM_PATH.'/preset.vim')
-	source $NVIM_PATH/preset.vim
+if filereadable($MY_VIM_PATH.'/preset.vim')
+	source $MY_VIM_PATH/preset.vim
 endif
 
-if filereadable($NVIM_PATH.'/preset_local.vim')
-	source $NVIM_PATH/preset_local.vim
+if filereadable($MY_VIM_PATH.'/preset_local.vim')
+	source $MY_VIM_PATH/preset_local.vim
 endif
 
 " Plugins: {{{1
 call plug#begin('~/.local/share/nvim/plugged')
 
 " Misc: {{{2
+if !has('nvim')
+	Plug 'roxma/nvim-yarp'
+	Plug 'roxma/vim-hug-neovim-rpc'
+endif
 if has('unix')
 	if !has('mac')
 		Plug 'lilydjwg/fcitx.vim' " 自动切换中英文
@@ -44,12 +52,12 @@ Plug 'ludovicchabant/vim-gutentags' " A Vim plugin that manages your tag files
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " The ultimate undo history visualizer for VIM
 Plug 'mhinz/vim-signify' " Show a diff using Vim its sign column.
 Plug 'rhysd/clever-f.vim', { 'on': [ '<Plug>(clever-f-f)', '<Plug>(clever-f-F)', '<Plug>(clever-f-t)', '<Plug>(clever-f-T)'] } " Extended f, F, t and T key mappings for Vim
-if exists('g:use_nerdtree')
-  Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin'
-else
+if exists('g:use_defx')
   Plug 'Shougo/defx.nvim', { 'on': 'Defx' ,'do': ':UpdateRemotePlugins' }
   Plug 'kristijanhusak/defx-git', { 'on': 'Defx' }
   Plug 'kristijanhusak/defx-icons', { 'on': 'Defx' }
+else
+  Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin'
 endif
 Plug 'sk1418/Join', { 'on': 'Join' } " 比vim自带的join更强大
 Plug 'skywind3000/asyncrun.vim', { 'on': 'AsyncRun' } " 异步执行命令
@@ -117,8 +125,8 @@ Plug 'honza/vim-snippets' " 代码片段
 
 "}}}
 
-if filereadable($NVIM_PATH.'/plugin_local.vim')
-	source $NVIM_PATH/plugin_local.vim
+if filereadable($MY_VIM_PATH.'/plugin_local.vim')
+	source $MY_VIM_PATH/plugin_local.vim
 endif
 
 call plug#end()
@@ -142,17 +150,16 @@ set cursorline " 高亮当前行
 if exists('g:use_truecolor')
 	set termguicolors " 设置真彩色
 endif
-if !exists('g:myvimrc_colorscheme_loaded')
-	exec 'colo '.g:myvimrc_colorschemes[g:myvimrc_colorscheme_index]
-	let g:myvimrc_colorscheme_loaded = 1
-endif
+colorscheme gruvbox
 " }}}
 
 " Misc: {{{2
 set noerrorbells
 set novisualbell
 set nospell
-set inccommand=nosplit  " 命令更改会在原位置显示
+if has('nvim')
+	set inccommand=nosplit  " 命令更改会在原位置显示
+endif
 " set completeopt-=preview " 去掉补全时烦人的预览窗口
 " set completeopt+=noselect,noinsert
 set smartindent " 智能缩进
@@ -289,18 +296,18 @@ tmap <A-l> <C-\><C-N><C-w>l
 
 nmap <leader>ee <ESC>:e $MYVIMRC<CR>
 nmap <leader>rr <ESC>:source $MYVIMRC<CR>
-nmap <leader>el <ESC>:e $NVIM_PATH/init_local.vim<CR>
-nmap <leader>ep <ESC>:e $NVIM_PATH/plugin_local.vim<CR>
-nmap <leader>es <ESC>:e $NVIM_PATH/preset.vim<CR>
-nmap <leader>ea <ESC>:e $NVIM_PATH/ab.vim<CR>
+nmap <leader>el <ESC>:e $MY_VIM_PATH/init_local.vim<CR>
+nmap <leader>ep <ESC>:e $MY_VIM_PATH/plugin_local.vim<CR>
+nmap <leader>es <ESC>:e $MY_VIM_PATH/preset.vim<CR>
+nmap <leader>ea <ESC>:e $MY_VIM_PATH/ab.vim<CR>
 
 map <C-6> <C-^>
 
 " }}}
 
 " AB: {{{2
-if filereadable($NVIM_PATH.'/ab.vim')
-	source $NVIM_PATH/ab.vim
+if filereadable($MY_VIM_PATH.'/ab.vim')
+	source $MY_VIM_PATH/ab.vim
 endif
 
 " }}}
@@ -701,8 +708,8 @@ let g:mkdp_auto_close = 0
 " }}}
 
 "load local config
-if filereadable($NVIM_PATH.'/init_local.vim')
-	source $NVIM_PATH/init_local.vim
+if filereadable($MY_VIM_PATH.'/init_local.vim')
+	source $MY_VIM_PATH/init_local.vim
 endif
 
 " }}}
