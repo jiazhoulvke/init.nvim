@@ -207,6 +207,7 @@ if has('nvim')
 	set viewdir=~/.local/share/nvim/view
 else
 	set viewdir=~/.vim/view
+	set undodir=~/.vim/undo
 endif
 
 " }}}
