@@ -321,7 +321,7 @@ nmap <leader>ee <ESC>:e $MYVIMRC<CR>
 nmap <leader>rr <ESC>:source $MYVIMRC<CR>
 nmap <leader>el <ESC>:e $MY_VIM_PATH/init_local.vim<CR>
 nmap <leader>ep <ESC>:e $MY_VIM_PATH/plugin_local.vim<CR>
-nmap <leader>es <ESC>:e $MY_VIM_PATH/preset.vim<CR>
+nmap <leader>es <ESC>:e $MY_VIM_PATH/preset_local.vim<CR>
 nmap <leader>ea <ESC>:e $MY_VIM_PATH/ab.vim<CR>
 
 map <C-6> <C-^>
