@@ -106,6 +106,7 @@ Plug 't9md/vim-choosewin', { 'on': 'ChooseWin' } " Land on window you chose like
 
 " Languages: {{{2
 Plug 'SidOfc/mkdx', { 'for': 'markdown' } " A vim plugin that adds some nice extra's for working with markdown documents
+Plug 'aklt/plantuml-syntax', { 'for': 'plantuml' }
 Plug 'ap/vim-css-color', { 'for': ['html', 'php', 'vue'] } " css颜色高亮
 Plug 'cespare/vim-toml', { 'for': 'toml' } " toml语法插件
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
@@ -116,6 +117,8 @@ Plug 'jansenm/vim-cmake', { 'for': 'cmake' }
 Plug 'matze/vim-ini-fold', { 'for': ['dosini', 'ini'] }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' } " 更好的缩进
 Plug 'rhysd/vim-gfm-syntax', { 'for': 'markdown' } " GitHub Flavored Markdown syntax highlight extension for Vim
+Plug 'dhruvasagar/vim-table-mode', { 'for': 'markdown' }
+Plug 'mzlogin/vim-kramdown-tab', { 'for': 'markdown' }
 Plug 'tweekmonster/hl-goimport.vim', { 'for': 'go' } " 高亮golang包名
 Plug 'vimwiki/vimwiki', { 'on': ['<Plug>VimwikiIndex', '<Plug>VimwikiUISelect', '<Plug>VimwikiTabIndex', '<Plug>VimwikiDiaryIndex', '<Plug>VimwikiMakeDiaryNote', '<Plug>VimwikiTabMakeDiaryNote', '<Plug>VimwikiMakeTomorrowDiaryNote' ] } " Personal Wiki for Vim
 " }}}
@@ -437,8 +440,22 @@ nmap <silent> <C-h> <Plug>(ale_previous)
 nmap <silent> <C-l> <Plug>(ale_next)
 " }}}
 
-" rhysd/vim-gfm-syntax {{{3
-let g:markdown_fenced_languages = ['bash=sh', 'c', 'cpp', 'css', 'html', 'ini=dosini', 'golang=go', 'go', 'js=javascript', 'php', 'python'] " 需要在markdown文件中高亮的代码
+" rhysd/vim-gfm-syntax: {{{3
+let g:markdown_fenced_languages = ['bash=sh', 'c', 'cpp', 'css', 'html', 'ini=dosini', 'golang=go', 'go', 'js=javascript', 'php', 'plantuml', 'python'] " 需要在markdown文件中高亮的代码
+" }}}
+
+" dhruvasagar/vim-table-mode: {{{3
+autocmd FileType markdown
+			\ let g:table_mode_align_char = ":" |
+			\ let g:table_mode_always_active = 0 |
+			\ let g:table_mode_corner = "|" |
+			\ let g:table_mode_corner_corner = "|" |
+			\ let g:table_mode_fillchar = '-' |
+			\ let g:table_mode_header_fillchar = "-" |
+			\ let g:table_mode_map_prefix = '\t' |
+			\ let g:table_mode_separator = '|' |
+			\ let g:table_mode_toggle_map = 'm' |
+			\ exec 'TableModeEnable'
 " }}}
 
 " asyncrun: {{{3
@@ -520,11 +537,6 @@ endfunction
 endif
 " }}}
 
-" vista: {{{3
-let g:vista_echo_cursor_strategy = 'both'
-nmap <space>t <ESC>:Vista<CR>
-" }}}
-
 " kristijanhusak/defx-git: {{{3
 let g:defx_git#indicators = {
 			\ 'Modified'  : '✹',
@@ -541,6 +553,12 @@ let g:defx_git#column_length = 0
 
 " kristijanhusak/defx-icons: {{{3
 let g:defx_icons_enable_syntax_highlight = 1
+" }}}
+
+" vista: {{{3
+let g:vista_echo_cursor_strategy = 'both'
+let g:vista_close_on_jump = 1
+nmap <space>t <ESC>:Vista!!<CR>
 " }}}
 
 " vim-easy-align: {{{3
