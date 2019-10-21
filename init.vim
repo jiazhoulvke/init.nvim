@@ -454,7 +454,7 @@ endfunction
 
 " nerdtree: {{{3
 if exists('g:use_nerdtree')
-	nmap <space>n <ESC>:NERDTreeToggle<CR>
+	nmap - <ESC>:NERDTreeToggle<CR>
 endif
 " }}}
 
@@ -719,7 +719,7 @@ nmap <Leader>wi <Plug>VimwikiDiaryIndex
 nmap <Leader>w<Leader>w <Plug>VimwikiMakeDiaryNote
 nmap <Leader>w<Leader>t <Plug>VimwikiTabMakeDiaryNote
 nmap <Leader>w<Leader>m <Plug>VimwikiMakeTomorrowDiaryNote
-nmap <Leader>wf <Plug>VimwikiFollowLink
+nmap <Leader><Leader> <Plug>VimwikiFollowLink
 nmap <Leader>wn <Plug>VimwikiNextLink
 nmap <Leader>wp <Plug>VimwikiPrevLink
 " }}}
