@@ -154,9 +154,23 @@ if exists('g:use_truecolor')
 	set termguicolors " 设置真彩色
 endif
 colorscheme gruvbox
+if has("gui_running")
+	set guioptions-=m
+	set guioptions-=T
+	set guioptions-=L
+	set guioptions-=r
+endif
 " }}}
 
 " Misc: {{{2
+set fileencodings=utf-8,chinese,latin-1,gbk,gb18030,gk2312
+set encoding=utf-8
+if has('gui_running') && !has('nvim')
+	if filereadable($VIMRUNTIME.'/delmenu.vim') && filereadable($VIMRUNTIME.'/menu.vim')
+		source $VIMRUNTIME/delmenu.vim
+		source $VIMRUNTIME/menu.vim
+	endif
+endif
 set noerrorbells
 set novisualbell
 set nospell
@@ -185,6 +199,11 @@ endif
 set t_8f=^[[38;2;%lu;%lu;%lum
 set t_8b=^[[48;2;%lu;%lu;%lum
 set isfname-== " 不将=当成文件名的一部分
+if has('nvim')
+	set viewdir=~/.local/share/nvim/view
+else
+	set viewdir=~/.vim/view
+endif
 
 " }}}
 
