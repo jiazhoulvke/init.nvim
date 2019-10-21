@@ -40,6 +40,7 @@ if exists('g:use_nerdtree')
   Plug 'Xuyuanp/nerdtree-git-plugin'
   Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 endif
+Plug 'liuchengxu/vista.vim' "Viewer & Finder for LSP symbols and tags
 Plug 'Valloric/MatchTagAlways', { 'for': ['html','xhtml', 'xml', 'vue'] } " tag配对显示
 Plug 'Yggdroot/indentLine', { 'for': ['c', 'cpp', 'python', 'php', 'javascript', 'typescript', 'html', 'xml', 'vue', 'vim'] } " Show vertical lines for indent with conceal feature
 Plug 'dhruvasagar/vim-zoom', { 'on': '<Plug>(zoom-toggle)' } " Toggle zoom in / out individual windows (splits) maps: <C-w>m
@@ -377,7 +378,7 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 nmap <leader>f <ESC>:CocList files<CR>
 nmap <leader>b <ESC>:CocList buffers<CR>
 nmap <leader>h <ESC>:CocList mru<CR>
-nmap <leader>t <ESC>:CocList tags<CR>
+" nmap <leader>t <ESC>:CocList tags<CR>
 nmap <leader>o <ESC>:call <SID>Outline()<CR>
 function! s:Outline()
   if &filetype == 'go' 
@@ -517,6 +518,11 @@ function! s:defx_settings() abort
 	nnoremap <silent><buffer><expr> / defx#do_action('search',)
 endfunction
 endif
+" }}}
+
+" vista: {{{3
+let g:vista_echo_cursor_strategy = 'both'
+nmap <space>t <ESC>:Vista<CR>
 " }}}
 
 " kristijanhusak/defx-git: {{{3
