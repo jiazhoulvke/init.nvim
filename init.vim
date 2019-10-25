@@ -41,6 +41,7 @@ if exists('g:use_nerdtree')
   Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 endif
 Plug 'liuchengxu/vista.vim' "Viewer & Finder for LSP symbols and tags
+Plug 'liuchengxu/vim-clap'
 Plug 'Valloric/MatchTagAlways', { 'for': ['html','xhtml', 'xml', 'vue'] } " tag配对显示
 Plug 'Yggdroot/indentLine', { 'for': ['c', 'cpp', 'python', 'php', 'javascript', 'typescript', 'html', 'xml', 'vue', 'vim'] } " Show vertical lines for indent with conceal feature
 Plug 'dhruvasagar/vim-zoom', { 'on': '<Plug>(zoom-toggle)' } " Toggle zoom in / out individual windows (splits) maps: <C-w>m
@@ -105,22 +106,24 @@ Plug 't9md/vim-choosewin', { 'on': 'ChooseWin' } " Land on window you chose like
 " }}}
 
 " Languages: {{{2
+" markdown-plugins: {{{3
 Plug 'SidOfc/mkdx', { 'for': 'markdown' } " A vim plugin that adds some nice extra's for working with markdown documents
+Plug 'dhruvasagar/vim-table-mode', { 'for': 'markdown' }
+Plug 'iamcco/markdown-preview.nvim', { 'for': 'markdown', 'do': 'cd app & yarn install'} " markdown preview plugin for (neo)vim
+Plug 'mzlogin/vim-kramdown-tab', { 'for': 'markdown' }
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+" }}}
 Plug 'aklt/plantuml-syntax', { 'for': 'plantuml' }
 Plug 'ap/vim-css-color', { 'for': ['html', 'php', 'vue'] } " css颜色高亮
 Plug 'cespare/vim-toml', { 'for': 'toml' } " toml语法插件
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 Plug 'dag/vim-fish', { 'for': 'fish' }
 Plug 'groenewege/vim-less', { 'for': 'less' } " less语法插件
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install', 'for': 'markdown' } " markdown preview plugin for (neo)vim
 Plug 'jansenm/vim-cmake', { 'for': 'cmake' }
 Plug 'matze/vim-ini-fold', { 'for': ['dosini', 'ini'] }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' } " 更好的缩进
-Plug 'rhysd/vim-gfm-syntax', { 'for': 'markdown' } " GitHub Flavored Markdown syntax highlight extension for Vim
-Plug 'dhruvasagar/vim-table-mode', { 'for': 'markdown' }
-Plug 'mzlogin/vim-kramdown-tab', { 'for': 'markdown' }
 Plug 'tweekmonster/hl-goimport.vim', { 'for': 'go' } " 高亮golang包名
-Plug 'vimwiki/vimwiki', { 'on': ['<Plug>VimwikiIndex', '<Plug>VimwikiUISelect', '<Plug>VimwikiTabIndex', '<Plug>VimwikiDiaryIndex', '<Plug>VimwikiMakeDiaryNote', '<Plug>VimwikiTabMakeDiaryNote', '<Plug>VimwikiMakeTomorrowDiaryNote' ] } " Personal Wiki for Vim
+Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' , 'on': ['<Plug>VimwikiIndex', '<Plug>VimwikiUISelect', '<Plug>VimwikiTabIndex', '<Plug>VimwikiDiaryIndex', '<Plug>VimwikiMakeDiaryNote', '<Plug>VimwikiTabMakeDiaryNote', '<Plug>VimwikiMakeTomorrowDiaryNote' ] } " Personal Wiki for Vim
 " }}}
 
 " Completion: {{{2
@@ -154,6 +157,7 @@ set noshowmode " 不显示当前状态
 set display=lastline " 解决超长行显示异常的问题
 set lazyredraw " 不立即重绘
 set cursorline " 高亮当前行
+set conceallevel=2
 if exists('g:use_truecolor')
 	set termguicolors " 设置真彩色
 endif
@@ -441,36 +445,6 @@ nmap <silent> <C-h> <Plug>(ale_previous)
 nmap <silent> <C-l> <Plug>(ale_next)
 " }}}
 
-" rhysd/vim-gfm-syntax: {{{3
-let g:markdown_fenced_languages = ['bash=sh', 'c', 'cpp', 'css', 'html', 'ini=dosini', 'golang=go', 'go', 'js=javascript', 'php', 'plantuml', 'python'] " 需要在markdown文件中高亮的代码
-" }}}
-
-" dhruvasagar/vim-table-mode: {{{3
-autocmd FileType markdown
-			\ let g:table_mode_align_char = ":" |
-			\ let g:table_mode_always_active = 0 |
-			\ let g:table_mode_corner = "|" |
-			\ let g:table_mode_corner_corner = "|" |
-			\ let g:table_mode_fillchar = '-' |
-			\ let g:table_mode_header_fillchar = "-" |
-			\ let g:table_mode_map_prefix = '\t' |
-			\ let g:table_mode_separator = '|' |
-			\ let g:table_mode_toggle_map = 'm' |
-			\ exec 'TableModeEnable'
-" }}}
-
-" asyncrun: {{{3
-function! GoInstall()
-  let l:pwd=getcwd()
-  let l:f_pwd=expand('%:p:h')
-  exec ':cd '.l:f_pwd
-  exec ':AsyncRun! go install -i'
-  exec ':cd '.l:pwd
-endfunction
-" autocmd! BufWrite *.go exec ':AsyncRun! go install -i'
-" autocmd! BufWrite *.go call GoInstall()
-" }}}
-
 " nerdtree: {{{3
 if exists('g:use_nerdtree')
 	nmap - <ESC>:NERDTreeToggle<CR>
@@ -508,10 +482,6 @@ function! s:defx_settings() abort
 	setl nospell
 	setl signcolumn=no
 	setl nonumber
-	" nnoremap <silent><buffer><expr> <CR>
-	" 			\ defx#is_directory() ?
-	" 			\ defx#do_action('open_or_close_tree') :
-	" 			\ defx#do_action('drop',)
 	nmap <silent><buffer><expr> <2-LeftMouse>
 				\ defx#is_directory() ?
 				\ defx#do_action('open_or_close_tree') :
@@ -554,6 +524,13 @@ let g:defx_git#column_length = 0
 
 " kristijanhusak/defx-icons: {{{3
 let g:defx_icons_enable_syntax_highlight = 1
+" }}}
+
+" liuchengxu/vim-clap: {{{3
+nmap <leader>f <ESC>:Clap files<CR>
+nmap <leader>b <ESC>:Clap buffers<CR>
+nmap <leader>h <ESC>:Clap history<CR>
+nmap <leader>l <ESC>:Clap lines<CR>
 " }}}
 
 " vista: {{{3
@@ -682,8 +659,6 @@ let g:mta_filetypes = {
 " }}}
 
 " Voom: {{{3
-let g:voom_return_key = "<C-m>"
-let g:voom_tab_key = "<Tab>"
 function! s:VoomToggleExt()
 	let l:filetypes = ['markdown', 'vimwiki', 'html', 'python']
 	if index(l:filetypes, &filetype)>=0
@@ -694,6 +669,65 @@ function! s:VoomToggleExt()
 endfunction
 
 nmap <leader>v <ESC>:call <SID>VoomToggleExt()<CR>
+" }}}
+
+" markdown: {{{3
+let g:markdown_fenced_languages = ['bash=sh', 'c', "c++=cpp", 'cpp', 'css', 'html', 'ini=dosini', 'golang=go', 'go', 'js=javascript', 'javascript', 'mysql', 'php', 'plantuml', 'py=python', 'python', 'sh', 'sql', 'vim'] " 需要在markdown文件中高亮的代码
+" }}}
+
+" plasticboy/vim-markdown: {{{3
+let g:vim_markdown_fenced_languages = g:markdown_fenced_languages
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_toc_autofit = 1
+let g:vim_markdown_conceal = 1
+let g:vim_markdown_conceal_code_blocks = 0
+let g:vim_markdown_follow_anchor = 1
+let g:vim_markdown_math = 1
+" }}}
+
+" dhruvasagar/vim-table-mode: {{{3
+let g:table_mode_align_char = ":"
+let g:table_mode_always_active = 0
+let g:table_mode_corner = "|"
+let g:table_mode_corner_corner = "|"
+let g:table_mode_fillchar = '-'
+let g:table_mode_header_fillchar = "-"
+let g:table_mode_map_prefix = '\t'
+let g:table_mode_separator = '|'
+let g:table_mode_toggle_map = 'm'
+" }}}
+
+" SidOfc/mkdx: {{{3
+if exists('g:mkdx#settings')
+	let g:mkdx#settings = {
+		\ 'map': { 'enable': 0 }
+	  \ }
+endif
+
+function! s:toggleMarkdownListItemCheckbox()
+    let sID = synID(line('.'), col('.'), 1)
+	let sName = synIDattr(sID, 'name')
+	if sName != 'mkdListItemLine' && sName != 'mkdListItem'
+		return
+	endif
+	if match(getline('.'), '^\s*[\*\-] \[[ -x]\] ') > -1
+		call mkdx#ToggleCheckboxState()
+	else
+		call mkdx#ToggleCheckboxTask()
+	endif
+endfunction
+
+function! s:markdownSettings()
+	nmap<silent><buffer> <C-space> :call <SID>toggleMarkdownListItemCheckbox()<CR>
+	nmap<silent><buffer> <C-t> :call mkdx#ToggleCheckboxTask()<CR>
+endfunction
+
+autocmd! BufNew,BufRead *.md call s:markdownSettings()
+" }}}
+
+" markdown-preview {{{3
+let g:mkdp_auto_start = 0
+let g:mkdp_auto_close = 0
 " }}}
 
 " vimwiki: {{{3
@@ -713,11 +747,16 @@ let nested_syntaxes = {
 	  \ 'js':         'javascript',
 	  \ 'json':       'json',
 	  \ 'lua':        'lua',
+	  \ 'mysql':      'mysql',
 	  \ 'php':        'php',
+	  \ 'plantuml':   'plantuml',
 	  \ 'py':         'python',
 	  \ 'python':     'python',
+	  \ 'reg':        'registry',
+	  \ 'samba':      'samba',
 	  \ 'scss':       'scss',
 	  \ 'sh':         'sh',
+	  \ 'sql':        'sql',
 	  \ 'toml':       'toml',
 	  \ 'ts':         'typescript',
 	  \ 'typescript': 'typescript',
@@ -792,11 +831,6 @@ nmap cxx <Plug>(ExchangeLine)
 nmap cxc <Plug>(ExchangeClear)
 nmap cx <Plug>(Exchange)
 xmap X <Plug>(Exchange)
-" }}}
-
-" markdown-preview {{{3
-let g:mkdp_auto_start = 0
-let g:mkdp_auto_close = 0
 " }}}
 
 " }}}
