@@ -156,7 +156,7 @@ set shortmess+=c " 关掉一些烦人的信息
 set noshowmode " 不显示当前状态
 set display=lastline " 解决超长行显示异常的问题
 set lazyredraw " 不立即重绘
-set cursorline " 高亮当前行
+set nocursorline " 不高亮当前行
 set conceallevel=2
 if exists('g:use_truecolor')
 	set termguicolors " 设置真彩色
@@ -672,7 +672,7 @@ nmap <leader>v <ESC>:call <SID>VoomToggleExt()<CR>
 " }}}
 
 " markdown: {{{3
-let g:markdown_fenced_languages = ['bash=sh', 'c', "c++=cpp", 'cpp', 'css', 'html', 'ini=dosini', 'golang=go', 'go', 'js=javascript', 'javascript', 'mysql', 'php', 'plantuml', 'py=python', 'python', 'sh', 'sql', 'vim'] " 需要在markdown文件中高亮的代码
+let g:markdown_fenced_languages = ['bash=sh', 'c', 'ini=dosini', 'go', 'mysql', 'php', 'py=python', 'python', 'sh', 'sql', 'vim'] " 需要在markdown文件中高亮的代码
 " }}}
 
 " plasticboy/vim-markdown: {{{3
@@ -735,41 +735,23 @@ let g:mkdp_auto_close = 0
 " }}}
 
 " vimwiki: {{{3
+
+" 通过使用:profile进行分析，发现添加太多语言的高亮会严重拖慢
+" 打开wiki文件的速度，所以只定义一些自己经常会用的语言比较好
 let nested_syntaxes = {
-	  \ 'bash':       'sh',
 	  \ 'c':          'c',
-	  \ 'c++':        'cpp',
-	  \ 'cpp':        'cpp',
-	  \ 'css':        'css',
-	  \ 'fish':       'fish',
 	  \ 'go':         'go',
-	  \ 'golang':     'go',
-	  \ 'html':       'html',
 	  \ 'ini':        'dosini',
-	  \ 'java':       'java',
-	  \ 'javascript': 'javascript',
 	  \ 'js':         'javascript',
-	  \ 'json':       'json',
 	  \ 'lua':        'lua',
 	  \ 'mysql':      'mysql',
 	  \ 'php':        'php',
-	  \ 'plantuml':   'plantuml',
-	  \ 'py':         'python',
 	  \ 'python':     'python',
-	  \ 'reg':        'registry',
-	  \ 'samba':      'samba',
-	  \ 'scss':       'scss',
 	  \ 'sh':         'sh',
-	  \ 'sql':        'sql',
-	  \ 'toml':       'toml',
-	  \ 'ts':         'typescript',
-	  \ 'typescript': 'typescript',
 	  \ 'vim':        'vim',
-	  \ 'vue':        'vue',
-	  \ 'xml':        'xml',
 	\ }
-let g:vimwiki_valid_html_tags = 'b,i,s,u,sub,sup,kbd,br,hr, pre, script'
-if has('unix') || has('mac')
+let g:vimwiki_valid_html_tags = 'b,i,s,u,sub,sup,kbd,br,hr,pre,script'
+if has('unix')
 	let g:vimwiki_list = [ { 'path': '~/Dropbox/VimWiki/', 'path_html': '~/Dropbox/VimWiki_html/', 'template_path': '~/Dropbox/VimWiki/templates', 'template_default': 'default', 'template_ext': '.html', 'auto_toc': 1, 'nested_syntaxes' : nested_syntaxes }, { 'path': '~/Documents/VimWiki/', 'path_html': '~/Documents/VimWiki_html/', 'auto_toc': 1, 'nested_syntaxes': nested_syntaxes } ]
 else
 	let drive_list = ['D', 'E', 'F', 'G']
