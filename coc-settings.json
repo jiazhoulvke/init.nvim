@@ -11,24 +11,6 @@
   "vetur.format.options.tabSize": 2,
   "codeLens.enable": true,
   "languageserver": {
-    "golang": {
-      // go get -v golang.org/x/tools/gopls@latest
-      "command": "gopls",
-      "rootPatterns": [
-        "go.mod"
-      ],
-      "filetypes": [
-        "go"
-      ]
-    },
-    "lua": { 
-      // https://github.com/Alloyed/lua-lsp
-      //luarocks install --server=http://luarocks.org/dev lua-lsp
-      "command": "lua-lsp",
-      "filetypes": [
-        "lua"
-      ]
-    }
   },
   "snippets.ultisnips.directories": [
     "UltiSnips",

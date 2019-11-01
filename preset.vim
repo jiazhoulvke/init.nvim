@@ -1,4 +1,5 @@
 let g:neosolarized_termtrans = 1 " NeoSolarized背景透明
+let g:gruvbox_italic=1
 
 " disable builtin plugins {{{1
 let g:loaded_2html_plugin = 1
