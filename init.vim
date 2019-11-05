@@ -334,6 +334,22 @@ nmap <leader>ea <ESC>:e $MY_VIM_PATH/ab.vim<CR>
 
 map <C-6> <C-^>
 
+function! EditSnip()
+	let ftype = &filetype
+	if ftype == ''
+		let ftype = 'all'
+	endif
+	let snip_dir = $MY_VIM_PATH.'/UltiSnips/'
+	if !isdirectory(snip_dir)
+		call mkdir(snip_dir)
+	endif
+	let snip_file = snip_dir . ftype .'.snippets'
+	exec 'edit ' snip_file
+endfunction
+command! EditSnip call EditSnip()
+
+nmap <leader>en <ESC>:EditSnip<CR>
+
 " }}}
 
 " AB: {{{2
