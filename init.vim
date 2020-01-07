@@ -171,7 +171,7 @@ endif
 " }}}
 
 " Misc: {{{2
-set fileencodings=utf-8,chinese,latin-1,gbk,gb18030,gk2312
+set fileencodings=utf-8,chinese,gbk,gb18030,gk2312,latin-1
 set encoding=utf-8
 if has('gui_running') && !has('nvim')
 	if filereadable($VIMRUNTIME.'/delmenu.vim') && filereadable($VIMRUNTIME.'/menu.vim')
