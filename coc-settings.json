@@ -7,10 +7,21 @@
   "suggest.echodocSupport": true,
   "suggest.noselect": false,
   "suggest.enablePreview":true,
+  "suggest.fixInsertedWord": false,
+  "suggest.removeDuplicateItems": true,
   "vetur.format.enable": true,
   "vetur.format.options.tabSize": 2,
   "codeLens.enable": true,
   "languageserver": {
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": [
+        "go.mod"
+      ],
+      "filetypes": [
+        "go"
+      ]
+    }
   },
   "snippets.ultisnips.directories": [
     "UltiSnips",

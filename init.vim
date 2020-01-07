@@ -362,7 +362,7 @@ endif
 " Plugins Config: {{{2
 
 " coc.nvim: {{{3
-call coc#add_extension('coc-go','coc-lua','coc-marketplace','coc-css','coc-emmet','coc-html','coc-json','coc-lists','coc-snippets','coc-yaml','coc-phpls','coc-vimlsp','coc-calc','coc-tsserver','coc-vetur')
+call coc#add_extension('coc-lua','coc-marketplace','coc-css','coc-emmet','coc-html','coc-json','coc-lists','coc-snippets','coc-yaml','coc-phpls','coc-vimlsp','coc-calc','coc-tsserver','coc-vetur')
 inoremap <silent><expr> <M-.> coc#refresh()
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
