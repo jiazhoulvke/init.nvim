@@ -40,15 +40,14 @@ if exists('g:use_nerdtree')
   Plug 'Xuyuanp/nerdtree-git-plugin'
   Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 endif
-Plug 'liuchengxu/vista.vim' "Viewer & Finder for LSP symbols and tags
-Plug 'liuchengxu/vim-clap'
 Plug 'Valloric/MatchTagAlways', { 'for': ['html','xhtml', 'xml', 'vue'] } " tag配对显示
+Plug 'RRethy/vim-illuminate' " Vim plugin for automatically highlighting other uses of the word under the cursor
 Plug 'Yggdroot/indentLine', { 'for': ['c', 'cpp', 'python', 'php', 'javascript', 'typescript', 'html', 'xml', 'vue', 'vim'] } " Show vertical lines for indent with conceal feature
 Plug 'dhruvasagar/vim-zoom', { 'on': '<Plug>(zoom-toggle)' } " Toggle zoom in / out individual windows (splits) maps: <C-w>m
 Plug 'dyng/ctrlsf.vim', { 'on': 'CtrlSF' } " 文件内容查找
-Plug 'haya14busa/incsearch.vim',{ 'on': ['<Plug>(incsearch-forward)', '<Plug>(incsearch-backward)'] } " 对vim自带搜索的强化，可以同时搜索多个词
+Plug 'brooth/far.vim', { 'on': 'Far' } " Find And Replace Vim plugin
 Plug 'inkarkat/vim-ingo-library' " Vimscript library of common functions
-Plug 'inkarkat/vim-mark', { 'on': [ '<Plug>MarkToggle', '<Plug>MarkSet', 'Mark' ] } " Highlight several words in different colors simultaneously.
+Plug 'lfv89/vim-interestingwords' " A vim plugin for highlighting and navigating through different words in a buffer.
 Plug 'jiazhoulvke/vim-sleuth' " Heuristically set buffer options
 Plug 'jiazhoulvke/vim-plug-helper.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 基于文件名快速搜索文件
@@ -60,7 +59,7 @@ Plug 'kana/vim-textobj-function', { 'for': ['c', 'cpp', 'vim', 'java'] }
 Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-syntax'
 Plug 'kana/vim-textobj-user' | Plug 'sgur/vim-textobj-parameter'
-Plug 'ludovicchabant/vim-gutentags' " A Vim plugin that manages your tag files
+" Plug 'ludovicchabant/vim-gutentags' " A Vim plugin that manages your tag files
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " The ultimate undo history visualizer for VIM
 Plug 'mhinz/vim-signify' " Show a diff using Vim its sign column.
 Plug 'rhysd/clever-f.vim', { 'on': [ '<Plug>(clever-f-f)', '<Plug>(clever-f-F)', '<Plug>(clever-f-t)', '<Plug>(clever-f-T)'] } " Extended f, F, t and T key mappings for Vim
@@ -68,8 +67,9 @@ Plug 'sk1418/Join', { 'on': 'Join' } " 比vim自带的join更强大
 Plug 'skywind3000/asyncrun.vim', { 'on': 'AsyncRun' } " 异步执行命令
 Plug 'terryma/vim-expand-region', { 'on': ['<Plug>(expand_region_expand)', '<Plug>(expand_region_shrink)'] } " 逐步扩大选择区域
 Plug 'tommcdo/vim-exchange', { 'on': ['<Plug>(ExchangeLine)', '<Plug>(Exchange)'] } " 用cxiw交换单词、cxi'交换‘中的文字等
-Plug 'tomtom/tcomment_vim', { 'on': '<Plug>TComment_gcc' }  " An extensible & universal comment vim-plugin that also handles embedded filetypes
+Plug 'tpope/vim-commentary' " comment stuff out
 Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim', { 'on': 'GV' } " 对git的封装
+Plug 'christoomey/vim-conflicted', { 'on': 'Conflicted' } " Easy git merge conflict resolution in Vim
 Plug 'tpope/vim-repeat' " 重复执行操作
 Plug 'tpope/vim-rsi' " Readline style insertion
 Plug 'tpope/vim-speeddating', { 'on': ['<Plug>SpeedDatingUp', '<Plug>SpeedDatingDown'] } " use CTRL-A/CTRL-X to increment dates, times, and more
@@ -541,19 +541,6 @@ let g:defx_git#column_length = 0
 let g:defx_icons_enable_syntax_highlight = 1
 " }}}
 
-" liuchengxu/vim-clap: {{{3
-nmap <leader>f <ESC>:Clap files<CR>
-nmap <leader>b <ESC>:Clap buffers<CR>
-nmap <leader>h <ESC>:Clap history<CR>
-nmap <leader>l <ESC>:Clap lines<CR>
-" }}}
-
-" vista: {{{3
-let g:vista_echo_cursor_strategy = 'both'
-let g:vista_close_on_jump = 1
-nmap <space>t <ESC>:Vista!!<CR>
-" }}}
-
 " vim-easy-align: {{{3
 xmap <space>a <Plug>(EasyAlign)
 nmap <space>a <Plug>(EasyAlign)
@@ -598,13 +585,6 @@ nmap cs <Plug>Csurround
 nmap yss <Plug>Yssurround
 nmap ys <Plug>Ysurround
 xmap S <Plug>VSurround
-" }}}
-
-" incsearch.vim: {{{3
-nmap /  <Plug>(incsearch-forward)
-nmap ?  <Plug>(incsearch-backward)
-nmap g/ <Plug>(incsearch-s;ay)
-nmap <space><space> <ESC>:nohlsearch<CR>
 " }}}
 
 " vim-airline: {{{3
@@ -767,7 +747,7 @@ let nested_syntaxes = {
 	\ }
 let g:vimwiki_valid_html_tags = 'b,i,s,u,sub,sup,kbd,br,hr,pre,script'
 if has('unix')
-	let g:vimwiki_list = [ { 'path': '~/Dropbox/VimWiki/', 'path_html': '~/Dropbox/VimWiki_html/', 'template_path': '~/Dropbox/VimWiki/templates', 'template_default': 'default', 'template_ext': '.html', 'auto_toc': 1, 'nested_syntaxes' : nested_syntaxes }, { 'path': '~/Documents/VimWiki/', 'path_html': '~/Documents/VimWiki_html/', 'auto_toc': 1, 'nested_syntaxes': nested_syntaxes } ]
+	let g:vimwiki_list = [ { 'path': '~/Dropbox/VimWiki/', 'path_html': '~/Dropbox/VimWiki_html/', 'template_path': '~/Dropbox/VimWiki/templates', 'template_default': 'default', 'template_ext': '.html', 'auto_toc': 1, 'nested_syntaxes' : nested_syntaxes }, { 'path': '~/Documents/VimWiki/', 'path_html': '~/Documents/VimWiki_html/', 'template_path': '~/Dropbox/VimWiki/templates', 'template_default': 'default', 'template_ext': '.html', 'auto_toc': 1, 'nested_syntaxes': nested_syntaxes } ]
 else
 	let drive_list = ['D', 'E', 'F', 'G']
 	for drive in drive_list
@@ -793,14 +773,6 @@ nmap <Leader>wp <Plug>VimwikiPrevLink
 " limelight: {{{3
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
-" }}}
-
-" tcomment: {{{3
-let g:tcomment_maps = 0
-nmap <silent> <space>c <Plug>TComment_gcc
-xmap <silent> <space>c <Plug>TComment_gcc
-nmap <silent> <M-/> <Plug>TComment_gcc
-xmap <silent> <M-/> <Plug>TComment_gcc
 " }}}
 
 " indentLine: {{{3
