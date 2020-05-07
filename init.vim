@@ -316,6 +316,8 @@ nmap <leader>jq <ESC>:%!jq '.'<CR>
 nmap j gj
 nmap k gk
 
+nmap <space><space> <ESC>:nohlsearch<CR>
+
 " 终端按键绑定
 " nmap <C-t> <ESC>:terminal<CR> " 进入终端
 tmap <C-o> <C-\><C-n> " 进入默认模式
