@@ -85,6 +85,7 @@ Plug 'xolox/vim-misc' " Miscellaneous auto-load Vim scripts
 Plug 'xolox/vim-session', { 'on': ['OpenSession', 'SaveSession'] } " Extended session management for Vim (:mksession on steroids) 
 Plug 'yianwillis/vimcdoc' " 中文帮助文档
 Plug 'zhimsel/vim-stay' " 保持最后的编辑状态
+Plug 'Lenovsky/nuake' " A Quake-style terminal panel for Neovim and Vim
 " }}}
 
 " UI: {{{2
@@ -807,6 +808,13 @@ nmap cxx <Plug>(ExchangeLine)
 nmap cxc <Plug>(ExchangeClear)
 nmap cx <Plug>(Exchange)
 xmap X <Plug>(Exchange)
+" }}}
+
+" nuake: {{{3
+let g:nuake_size = 0.35
+nnoremap <C-]> :Nuake<CR>
+inoremap <C-]> <C-\><C-n>:Nuake<CR>
+tnoremap <C-]> <C-\><C-n>:Nuake<CR>
 " }}}
 
 " }}}
