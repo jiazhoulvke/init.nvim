@@ -590,6 +590,19 @@ nmap ys <Plug>Ysurround
 xmap S <Plug>VSurround
 " }}}
 
+" lightline.vim: {{{3
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ }
+  \ }
+" }}}
+
 " vim-airline: {{{3
 let g:airline_theme='powerlineish'
 if !exists('g:airline_symbols')
