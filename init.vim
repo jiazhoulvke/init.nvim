@@ -265,10 +265,10 @@ vmap <C-X> "+x
 vmap <C-C> "+y
 
 " CTRL-V粘贴
-nmap <C-V> "+gp
 vmap <C-V> "+gp
-imap <C-V> <C-O>"+gp
 cmap <C-V> <S-Insert>
+nnoremap <C-v> <ESC>i<C-r>+<ESC>
+imap <C-v> <C-r>+
 
 " 列选择模式
 nmap vv <C-Q>
