@@ -461,9 +461,7 @@ nmap <silent> <C-l> <Plug>(ale_next)
 " }}}
 
 " nerdtree: {{{3
-if exists('g:use_nerdtree')
-	nmap - <ESC>:NERDTreeToggle<CR>
-endif
+nmap - <ESC>:NERDTreeToggle<CR>
 " }}}
 
 " vim-easy-align: {{{3
