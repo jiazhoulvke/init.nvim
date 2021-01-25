@@ -44,6 +44,7 @@ Plug 'lfv89/vim-interestingwords' " A vim plugin for highlighting and navigating
 Plug 'jiazhoulvke/vim-sleuth' " Heuristically set buffer options
 Plug 'jiazhoulvke/vim-plug-helper.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 基于文件名快速搜索文件
+Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim', { 'on': 'Goyo', 'for': ['markdown', 'vimwiki', 'text'] }
 Plug 'junegunn/limelight.vim', { 'for': ['markdown', 'vimwiki', 'text'] }
 Plug 'junegunn/vim-after-object' " Defines text objects to target text after the designated characters.
@@ -55,6 +56,7 @@ Plug 'kana/vim-textobj-user' | Plug 'sgur/vim-textobj-parameter'
 " Plug 'ludovicchabant/vim-gutentags' " A Vim plugin that manages your tag files
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " The ultimate undo history visualizer for VIM
 Plug 'mhinz/vim-signify' " Show a diff using Vim its sign column.
+Plug 'preservim/tagbar'
 Plug 'rhysd/clever-f.vim', { 'on': [ '<Plug>(clever-f-f)', '<Plug>(clever-f-F)', '<Plug>(clever-f-t)', '<Plug>(clever-f-T)'] } " Extended f, F, t and T key mappings for Vim
 Plug 'sk1418/Join', { 'on': 'Join' } " 比vim自带的join更强大
 Plug 'skywind3000/asyncrun.vim', { 'on': 'AsyncRun' } " 异步执行命令
@@ -125,9 +127,22 @@ endif
 " }}}
 
 " Completion: {{{2
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+if exists('g:use_coc')
+	Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+endif
+if exists('g:use_asyncomplete_vim')
+	Plug 'prabirshrestha/asyncomplete.vim'
+	Plug 'prabirshrestha/vim-lsp'
+	Plug 'prabirshrestha/asyncomplete-lsp.vim'
+	Plug 'prabirshrestha/asyncomplete-buffer.vim'
+	Plug 'prabirshrestha/asyncomplete-file.vim'
+	Plug 'wellle/tmux-complete.vim'
+	Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+	Plug 'prabirshrestha/asyncomplete-necovim.vim'
+endif
 Plug 'Shougo/echodoc.vim' " 不用preview窗口也能显示函数参数
 Plug 'fatih/vim-go', { 'for': 'go' } " golang补全
+Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets' " 代码片段
 
 
@@ -362,57 +377,187 @@ endif
 " Plugins Config: {{{2
 
 " coc.nvim: {{{3
-call coc#add_extension('coc-lua','coc-marketplace','coc-css','coc-emmet','coc-html','coc-json','coc-lists','coc-snippets','coc-yaml','coc-phpls','coc-vimlsp','coc-calc','coc-tsserver','coc-vetur')
-inoremap <silent><expr> <M-.> coc#refresh()
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" inoremap <expr> <cr> pumvisible() ? '\<C-y>' : '\<C-g>u\<CR>'
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : 
-                                           \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+if exists('g:use_coc')
+	call coc#add_extension('coc-lua','coc-marketplace','coc-css','coc-emmet','coc-html','coc-json','coc-lists','coc-snippets','coc-yaml','coc-phpls','coc-vimlsp','coc-calc','coc-tsserver','coc-vetur')
+	inoremap <silent><expr> <M-.> coc#refresh()
+	inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+	inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+	" inoremap <expr> <cr> pumvisible() ? '\<C-y>' : '\<C-g>u\<CR>'
+	inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : 
+											   \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" Use `[d` and `]d` to navigate diagnostics
-nmap <silent> [d <Plug>(coc-diagnostic-prev)
-nmap <silent> ]d <Plug>(coc-diagnostic-next)
+	" Use `[d` and `]d` to navigate diagnostics
+	nmap <silent> [d <Plug>(coc-diagnostic-prev)
+	nmap <silent> ]d <Plug>(coc-diagnostic-next)
 
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+	" Remap keys for gotos
+	nmap <silent> gd <Plug>(coc-definition)
+	nmap <silent> gy <Plug>(coc-type-definition)
+	nmap <silent> gi <Plug>(coc-implementation)
+	nmap <silent> gr <Plug>(coc-references)
 
-" Use K to show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+	" Use K to show documentation in preview window
+	nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
+	function! s:show_documentation()
+	  if (index(['vim','help'], &filetype) >= 0)
+		execute 'h '.expand('<cword>')
+	  else
+		call CocAction('doHover')
+	  endif
+	endfunction
 
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
+	" Remap for rename current word
+	nmap <leader>rn <Plug>(coc-rename)
 
-" format
-xmap <leader>f <Plug>(coc-format-selected)
-vmap <leader>f <Plug>(coc-format-selected)
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
+	" format
+	xmap <leader>f <Plug>(coc-format-selected)
+	vmap <leader>f <Plug>(coc-format-selected)
+	command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
-nmap <leader>f <ESC>:CocList files<CR>
-nmap <leader>b <ESC>:CocList buffers<CR>
-nmap <leader>h <ESC>:CocList mru<CR>
-" nmap <leader>t <ESC>:CocList tags<CR>
-nmap <leader>o <ESC>:call <SID>Outline()<CR>
-function! s:Outline()
-  if &filetype == 'go' 
-    exec ':GoDecls'
-  else
-    exec ':CocList outline'
-  endif
-endfunction
-
+	nmap <leader>f <ESC>:CocList files<CR>
+	nmap <leader>b <ESC>:CocList buffers<CR>
+	nmap <leader>h <ESC>:CocList mru<CR>
+	" nmap <leader>t <ESC>:CocList tags<CR>
+	nmap <leader>o <ESC>:call <SID>Outline()<CR>
+	function! s:Outline()
+	  if &filetype == 'go' 
+		exec ':GoDecls'
+	  else
+		exec ':CocList outline'
+	  endif
+	endfunction
+endif
 " }}}
+
+if !exists('g:use_coc')
+" fzf.vim: {{{3
+	noremap <leader>f <ESC>:GFiles<CR> 
+	noremap <leader>F <ESC>:Files<CR>
+	noremap <leader>b <ESC>:Buffers<CR>
+	noremap <leader>o <ESC>:call <SID>Outline()<CR>
+	function! s:Outline()
+		if &filetype == 'go'
+			exec ':GoDecls'
+		else
+			exec ':Tags'
+		endif
+	endfunction
+" }}}
+endif
+
+if exists('g:use_asyncomplete_vim')
+" asyncomplete.vim: {{{3
+	let g:asyncomplete_matchfuzzy=1
+	if executable('gopls')
+		au User lsp_setup call lsp#register_server({
+			\ 'name': 'gopls',
+			\ 'cmd': {server_info->['gopls']},
+			\ 'allowlist': ['go'],
+			\ })
+	endif
+
+	function! s:Definition()
+		if &filetype == 'go' 
+			exec ':GoDef'
+		else
+			exec ':LspDefinition'
+		endif
+	endfunction
+
+	function! s:References()
+		if &filetype == 'go'
+			exec ':GoCallers'
+		else
+			exec ':GoReferrers'
+		endif
+	endfunction
+
+	function! s:on_lsp_buffer_enabled() abort
+		setlocal omnifunc=lsp#complete
+		" setlocal signcolumn=yes
+		if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+		" nmap <buffer> gd <plug>(lsp-definition)
+		nmap <buffer> gd <ESC>:call <SID>Definition()<CR>
+		nmap <buffer> gr <plug>(lsp-references)
+		nmap <buffer> gi <plug>(lsp-implementation)
+		nmap <buffer> gt <plug>(lsp-type-definition)
+		nmap <buffer> <leader>rn <plug>(lsp-rename)
+		nmap <buffer> [d <Plug>(lsp-previous-diagnostic)
+		nmap <buffer> ]d <Plug>(lsp-next-diagnostic)
+		nmap <buffer> K <plug>(lsp-hover)
+		
+		" refer to doc to add more commands
+	endfunction
+
+	augroup lsp_install
+		au!
+		" call s:on_lsp_buffer_enabled only for languages that has the server registered.
+		autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+	augroup END
+
+	let g:asyncomplete_auto_popup = 1
+	inoremap	<expr><Tab>		pumvisible() ? "\<C-n>" : "\<Tab>"
+	inoremap	<expr><S-tab>	pumvisible() ? "\<C-p>" : "\<S-Tab>"
+	inoremap	<expr><cr>		pumvisible() ? "\<C-y>" : "\<cr>"
+	imap		<M-.>		<Plug>(asyncomplete_force_refresh)
+" }}}
+
+" asyncomplete-buffer.vim: {{{3
+	call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+		\ 'name': 'buffer',
+		\ 'allowlist': ['*'],
+		\ 'blocklist': ['lisp'],
+		\ 'completor': function('asyncomplete#sources#buffer#completor'),
+		\ 'config': {
+		\    'max_buffer_size': 5000000,
+		\  },
+		\ }))
+" }}}
+
+" asyncomplete-file.vim: {{{3
+	au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+		\ 'name': 'file',
+		\ 'allowlist': ['*'],
+		\ 'priority': 10,
+		\ 'completor': function('asyncomplete#sources#file#completor')
+		\ }))
+" }}}
+
+" tmux-complete.vim: {{{3
+	let g:tmuxcomplete#asyncomplete_source_options = {
+				\ 'name':      'tmuxcomplete',
+				\ 'whitelist': ['*'],
+				\ 'config': {
+				\     'splitmode':      'words',
+				\     'filter_prefix':   1,
+				\     'show_incomplete': 1,
+				\     'sort_candidates': 0,
+				\     'scrollback':      0,
+				\     'truncate':        0
+				\     }
+				\ }
+" }}}
+
+" asyncomplete-ultisnips.vim: {{{3
+	if has('python3')
+		let g:UltiSnipsExpandTrigger="<c-e>"
+		call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+			\ 'name': 'ultisnips',
+			\ 'allowlist': ['*'],
+			\ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+			\ }))
+	endif
+" }}}
+
+" asyncomplete-necovim.vim: {{{3
+	au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
+		\ 'name': 'necovim',
+		\ 'allowlist': ['vim'],
+		\ 'completor': function('asyncomplete#sources#necovim#completor'),
+		\ }))
+	" }}}
+endif
 
 " vim-go: {{{3
 let g:go_def_mode='gopls'
@@ -440,7 +585,8 @@ let g:echodoc#enable_at_startup = 1
 if has('nvim-0.3.8')
   let g:echodoc#type = 'floating'
 else
-  let g:echodoc#type = 'echo'
+  " let g:echodoc#type = 'echo'
+	let g:echodoc#type = 'popup'
 endif
 " }}}
 
