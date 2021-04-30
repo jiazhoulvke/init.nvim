@@ -116,6 +116,7 @@ Plug 'ap/vim-css-color', { 'for': ['html', 'php', 'vue'] } " css颜色高亮
 Plug 'cespare/vim-toml', { 'for': 'toml' } " toml语法插件
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 Plug 'dag/vim-fish', { 'for': 'fish' }
+Plug 'dart-lang/dart-vim-plugin', { 'for': 'dart' }
 Plug 'groenewege/vim-less', { 'for': 'less' } " less语法插件
 Plug 'jansenm/vim-cmake', { 'for': 'cmake' }
 Plug 'matze/vim-ini-fold', { 'for': ['dosini', 'ini'] }
