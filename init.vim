@@ -449,11 +449,25 @@ endif
 if exists('g:use_asyncomplete_vim')
 " asyncomplete.vim: {{{3
 	let g:asyncomplete_matchfuzzy=1
+
+	" golang
 	if executable('gopls')
 		au User lsp_setup call lsp#register_server({
 			\ 'name': 'gopls',
 			\ 'cmd': {server_info->['gopls']},
 			\ 'allowlist': ['go'],
+			\ })
+	endif
+
+	" dart
+	if executable('dart_analysis_server')
+		" dart_analysis_server是一个简单的脚本，内容大致如下:
+		" #!/usr/bin/env
+		" dart $DART_SDK_PATH/bin/snapshots/analysis_server.dart.snapshot --lsp
+		au User lsp_setup call lsp#register_server({
+			\ 'name': 'dart',
+			\ 'cmd': {server_info->['dart_analysis_server']},
+			\ 'allowlist': ['dart'],
 			\ })
 	endif
 
