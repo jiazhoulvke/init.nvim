@@ -868,6 +868,11 @@ nmap <Leader>wp <Plug>VimwikiPrevLink
 endif
 " }}}
 
+" dart: {{{3
+let dart_html_in_string=v:true
+let g:dart_format_on_save = 1
+" }}}
+
 " limelight: {{{3
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
@@ -907,9 +912,9 @@ xmap X <Plug>(Exchange)
 
 " nuake: {{{3
 let g:nuake_size = 0.35
-nnoremap <C-]> :Nuake<CR>
-inoremap <C-]> <C-\><C-n>:Nuake<CR>
-tnoremap <C-]> <C-\><C-n>:Nuake<CR>
+nnoremap <C-Bslash> :Nuake<CR>
+inoremap <C-Bslash> <C-\><C-n>:Nuake<CR>
+tnoremap <C-Bslash> <C-\><C-n>:Nuake<CR>
 " }}}
 
 " }}}
