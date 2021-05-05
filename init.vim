@@ -106,7 +106,7 @@ Plug 't9md/vim-choosewin', { 'on': 'ChooseWin' } " Land on window you chose like
 if exists('g:use_markdown')
 Plug 'SidOfc/mkdx', { 'for': 'markdown' } " A vim plugin that adds some nice extra's for working with markdown documents
 Plug 'dhruvasagar/vim-table-mode', { 'for': 'markdown' }
-Plug 'iamcco/markdown-preview.nvim', { 'for': 'markdown', 'do': 'cd app & yarn install'} " markdown preview plugin for (neo)vim
+Plug 'iamcco/markdown-preview.nvim', { 'for': 'markdown', 'do': 'cd app & npm install'} " markdown preview plugin for (neo)vim
 Plug 'mzlogin/vim-kramdown-tab', { 'for': 'markdown' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 endif
