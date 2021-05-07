@@ -608,6 +608,14 @@ nmap <silent> <C-l> <Plug>(ale_next)
 
 " nerdtree: {{{3
 nmap - <ESC>:NERDTreeToggle<CR>
+let g:NERDTreeDisableExactMatchHighlight = 1
+let g:NERDTreeDisablePatternMatchHighlight = 1
+let g:NERDTreeHighlightCursorline = 0
+let g:NERDTreeLimitedSyntax = 1
+let g:NERDTreeSyntaxDisableDefaultExactMatches = 1
+let g:NERDTreeSyntaxDisableDefaultExtensions = 1
+let g:NERDTreeSyntaxDisableDefaultPatternMatches = 1
+let g:NERDTreeSyntaxEnabledExtensions = ['c', 'h', 'c++', 'php', 'go', 'html', 'js', 'css']
 " }}}
 
 " vim-easy-align: {{{3
