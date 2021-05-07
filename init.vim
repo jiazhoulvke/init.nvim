@@ -106,7 +106,7 @@ Plug 't9md/vim-choosewin', { 'on': 'ChooseWin' } " Land on window you chose like
 if exists('g:use_markdown')
 Plug 'SidOfc/mkdx', { 'for': 'markdown' } " A vim plugin that adds some nice extra's for working with markdown documents
 Plug 'dhruvasagar/vim-table-mode', { 'for': 'markdown' }
-Plug 'iamcco/markdown-preview.nvim', { 'for': 'markdown', 'do': 'cd app & yarn install'} " markdown preview plugin for (neo)vim
+Plug 'iamcco/markdown-preview.nvim', { 'for': 'markdown', 'do': 'cd app & npm install'} " markdown preview plugin for (neo)vim
 Plug 'mzlogin/vim-kramdown-tab', { 'for': 'markdown' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 endif
@@ -116,6 +116,7 @@ Plug 'ap/vim-css-color', { 'for': ['html', 'php', 'vue'] } " css颜色高亮
 Plug 'cespare/vim-toml', { 'for': 'toml' } " toml语法插件
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 Plug 'dag/vim-fish', { 'for': 'fish' }
+Plug 'dart-lang/dart-vim-plugin', { 'for': 'dart' }
 Plug 'groenewege/vim-less', { 'for': 'less' } " less语法插件
 Plug 'jansenm/vim-cmake', { 'for': 'cmake' }
 Plug 'matze/vim-ini-fold', { 'for': ['dosini', 'ini'] }
@@ -449,11 +450,25 @@ endif
 if exists('g:use_asyncomplete_vim')
 " asyncomplete.vim: {{{3
 	let g:asyncomplete_matchfuzzy=1
+
+	" golang
 	if executable('gopls')
 		au User lsp_setup call lsp#register_server({
 			\ 'name': 'gopls',
 			\ 'cmd': {server_info->['gopls']},
 			\ 'allowlist': ['go'],
+			\ })
+	endif
+
+	" dart
+	if executable('dart_analysis_server')
+		" dart_analysis_server是一个简单的脚本，内容大致如下:
+		" #!/usr/bin/env
+		" dart $DART_SDK_PATH/bin/snapshots/analysis_server.dart.snapshot --lsp
+		au User lsp_setup call lsp#register_server({
+			\ 'name': 'dart',
+			\ 'cmd': {server_info->['dart_analysis_server']},
+			\ 'allowlist': ['dart'],
 			\ })
 	endif
 
@@ -861,6 +876,11 @@ nmap <Leader>wp <Plug>VimwikiPrevLink
 endif
 " }}}
 
+" dart: {{{3
+let dart_html_in_string=v:true
+let g:dart_format_on_save = 1
+" }}}
+
 " limelight: {{{3
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
@@ -900,9 +920,9 @@ xmap X <Plug>(Exchange)
 
 " nuake: {{{3
 let g:nuake_size = 0.35
-nnoremap <C-]> :Nuake<CR>
-inoremap <C-]> <C-\><C-n>:Nuake<CR>
-tnoremap <C-]> <C-\><C-n>:Nuake<CR>
+nnoremap <C-Bslash> :Nuake<CR>
+inoremap <C-Bslash> <C-\><C-n>:Nuake<CR>
+tnoremap <C-Bslash> <C-\><C-n>:Nuake<CR>
 " }}}
 
 " }}}
