@@ -81,6 +81,7 @@ Plug 'xolox/vim-session', { 'on': ['OpenSession', 'SaveSession'] } " Extended se
 Plug 'yianwillis/vimcdoc' " 中文帮助文档
 Plug 'zhimsel/vim-stay' " 保持最后的编辑状态
 Plug 'Lenovsky/nuake' " A Quake-style terminal panel for Neovim and Vim
+Plug 'wellle/context.vim'
 " }}}
 
 " UI: {{{2
@@ -94,7 +95,7 @@ endif
 "themes
 Plug 'iCyMind/NeoSolarized' " colorscheme
 Plug 'morhetz/gruvbox' " colorscheme
-Plug 'romainl/flattened' " colorscheme
+Plug 'rakr/vim-one'
 
 Plug 'ryanoasis/vim-devicons' " Adds file type glyphs/icons to popular Vim plugins
 Plug 'luochen1990/rainbow', { 'for':  ['python', 'javascript', 'jsx', 'html', 'css', 'go', 'vim', 'toml', 'lisp', 'scheme'], 'on': 'RainbowToggle' } " Rainbow Parentheses Improved, shorter code, no level limit, smooth and fast, powerful configuration.
@@ -164,7 +165,6 @@ set tabstop=4 " tab宽度设为4
 " set softtabstop=4
 set shiftwidth=4 " 换行宽度设为4
 autocmd FileType python setlocal expandtab shiftwidth=4
-set background=dark
 set shortmess+=c " 关掉一些烦人的信息
 "set cmdheight=2 " 命令行高度设为2，echodoc需要
 set noshowmode " 不显示当前状态
@@ -175,7 +175,11 @@ set conceallevel=2
 if exists('g:use_truecolor')
 	set termguicolors " 设置真彩色
 endif
-colorscheme gruvbox
+if exists('g:use_colorscheme')
+	exec 'colorscheme ' g:use_colorscheme
+else
+	colorscheme gruvbox
+endif
 if has("gui_running")
 	set guioptions-=m
 	set guioptions-=T
@@ -680,20 +684,25 @@ xmap S <Plug>VSurround
 " }}}
 
 " lightline.vim: {{{3
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead'
-      \ }
-  \ }
+if !exists('g:lightline')
+	let g:lightline = {}
+endif
+if !exists('g:lightline["colorscheme"]')
+	let g:lightline['colorscheme'] = 'wombat'
+endif
+let g:lightline['active'] = {
+			\ 'left': [ ['mode', 'paste' ],
+			\			[ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+			\ }
+let g:lightline['component_function'] = {
+			\ 'gitbranch': 'FugitiveHead'
+			\ }
 " }}}
 
 " vim-airline: {{{3
-let g:airline_theme='powerlineish'
+if !exists('g:airline_theme')
+	let g:airline_theme='powerlineish'
+endif
 if !exists('g:airline_symbols')
 	let g:airline_symbols = {}
 endif
