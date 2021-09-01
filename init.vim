@@ -82,6 +82,7 @@ Plug 'yianwillis/vimcdoc' " 中文帮助文档
 Plug 'zhimsel/vim-stay' " 保持最后的编辑状态
 Plug 'Lenovsky/nuake' " A Quake-style terminal panel for Neovim and Vim
 Plug 'wellle/context.vim'
+Plug 'qpkorr/vim-renamer' " 以编辑文本的方式批量修改文件名
 " }}}
 
 " UI: {{{2
