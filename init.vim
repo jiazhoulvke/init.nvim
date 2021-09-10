@@ -74,14 +74,14 @@ Plug 'vim-scripts/LargeFile' " 针对大文件优化性能
 Plug 'vim-scripts/VisIncr', { 'on': ['I', 'IA'] } " 列编辑
 Plug 'vim-voom/VOoM', { 'on': ['Voom', 'VoomToggle'] } " 文档大纲
 Plug 'voldikss/vim-translate-me', { 'on': ['Translate', 'TranslateW', 'TranslateWV', '<Plug>TranslateW', '<Plug>TranslateWV'] } " (Neo)Vim translation plugin
-Plug 'w0rp/ale', { 'for': 'c' } " 异步代码检测
+Plug 'w0rp/ale', { 'for': ['c', 'bash', 'sh'] } " 异步代码检测
 Plug 'wellle/targets.vim' " Vim plugin that provides additional text objects: ({[<t(tags)
 Plug 'xolox/vim-misc' " Miscellaneous auto-load Vim scripts
 Plug 'xolox/vim-session', { 'on': ['OpenSession', 'SaveSession'] } " Extended session management for Vim (:mksession on steroids) 
 Plug 'yianwillis/vimcdoc' " 中文帮助文档
 Plug 'zhimsel/vim-stay' " 保持最后的编辑状态
 Plug 'Lenovsky/nuake' " A Quake-style terminal panel for Neovim and Vim
-Plug 'wellle/context.vim'
+Plug 'wellle/context.vim' " shows the context of the currently visible buffer contents
 Plug 'qpkorr/vim-renamer' " 以编辑文本的方式批量修改文件名
 " }}}
 
@@ -124,6 +124,9 @@ Plug 'jansenm/vim-cmake', { 'for': 'cmake' }
 Plug 'matze/vim-ini-fold', { 'for': ['dosini', 'ini'] }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' } " 更好的缩进
 Plug 'tweekmonster/hl-goimport.vim', { 'for': 'go' } " 高亮golang包名
+if has('nvim-0.6')
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " 更好的高亮
+endif
 if exists('g:use_vimwiki')
 Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' , 'on': ['<Plug>VimwikiIndex', '<Plug>VimwikiUISelect', '<Plug>VimwikiTabIndex', '<Plug>VimwikiDiaryIndex', '<Plug>VimwikiMakeDiaryNote', '<Plug>VimwikiTabMakeDiaryNote', '<Plug>VimwikiMakeTomorrowDiaryNote' ] } " Personal Wiki for Vim
 endif
@@ -140,12 +143,10 @@ if exists('g:use_asyncomplete_vim')
 	Plug 'prabirshrestha/asyncomplete-buffer.vim'
 	Plug 'prabirshrestha/asyncomplete-file.vim'
 	Plug 'wellle/tmux-complete.vim'
-	Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 	Plug 'prabirshrestha/asyncomplete-necovim.vim'
 endif
-Plug 'Shougo/echodoc.vim' " 不用preview窗口也能显示函数参数
+" Plug 'Shougo/echodoc.vim' " 不用preview窗口也能显示函数参数
 Plug 'fatih/vim-go', { 'for': 'go' } " golang补全
-Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets' " 代码片段
 
 
@@ -167,7 +168,8 @@ set tabstop=4 " tab宽度设为4
 set shiftwidth=4 " 换行宽度设为4
 autocmd FileType python setlocal expandtab shiftwidth=4
 set shortmess+=c " 关掉一些烦人的信息
-"set cmdheight=2 " 命令行高度设为2，echodoc需要
+set laststatus=2
+set signcolumn=number
 set noshowmode " 不显示当前状态
 set display=lastline " 解决超长行显示异常的问题
 set lazyredraw " 不立即重绘
@@ -223,8 +225,9 @@ set wildmenu
 if has('mouse')
 	set mouse=a " 如果鼠标可用则启用鼠标支持
 endif
-set t_8f=^[[38;2;%lu;%lu;%lum
-set t_8b=^[[48;2;%lu;%lu;%lum
+" 这里开头的^[必须用Ctrl+v ESC输入，不能直接复制粘贴!
+set t_8f=[38;2;%lu;%lu;%lum
+set t_8b=[48;2;%lu;%lu;%lum
 set isfname-== " 不将=当成文件名的一部分
 if has('nvim')
 	set viewdir=~/.local/share/nvim/view
@@ -275,6 +278,7 @@ nmap <M-9> 9gt
 " 保存
 map <C-s> <ESC>:update<CR>
 imap <C-s> <ESC>:update<CR>
+nnoremap <leader>s <ESC>:update<CR>
 
 " CTRL-X剪切
 vmap <C-X> "+x
@@ -384,13 +388,22 @@ endif
 
 " coc.nvim: {{{3
 if exists('g:use_coc')
-	call coc#add_extension('coc-lua','coc-marketplace','coc-css','coc-emmet','coc-html','coc-json','coc-lists','coc-snippets','coc-yaml','coc-phpls','coc-vimlsp','coc-calc','coc-tsserver','coc-vetur')
-	inoremap <silent><expr> <M-.> coc#refresh()
-	inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-	inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-	" inoremap <expr> <cr> pumvisible() ? '\<C-y>' : '\<C-g>u\<CR>'
-	inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : 
-											   \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+	call coc#add_extension('coc-marketplace','coc-css','coc-emmet','coc-html','coc-json','coc-lists','coc-snippets','coc-yaml','coc-vimlsp','coc-calc')
+	" inoremap <silent><expr> <M-.> coc#refresh()
+
+	inoremap <silent><expr> <TAB>
+	      \ pumvisible() ? coc#_select_confirm() :
+	      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+	      \ <SID>check_back_space() ? "\<TAB>" :
+	      \ coc#refresh()
+
+	function! s:check_back_space() abort
+		  let col = col('.') - 1
+		    return !col || getline('.')[col - 1]  =~# '\s'
+		endfunction
+
+	let g:coc_snippet_next = '<c-j>'
+	let g:coc_snippet_prev = '<c-k>'
 
 	" Use `[d` and `]d` to navigate diagnostics
 	nmap <silent> [d <Plug>(coc-diagnostic-prev)
@@ -559,17 +572,6 @@ if exists('g:use_asyncomplete_vim')
 				\ }
 " }}}
 
-" asyncomplete-ultisnips.vim: {{{3
-	if has('python3')
-		let g:UltiSnipsExpandTrigger="<c-e>"
-		call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
-			\ 'name': 'ultisnips',
-			\ 'allowlist': ['*'],
-			\ 'completor': function('asyncomplete#sources#ultisnips#completor'),
-			\ }))
-	endif
-" }}}
-
 " asyncomplete-necovim.vim: {{{3
 	au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
 		\ 'name': 'necovim',
@@ -601,13 +603,8 @@ let g:gruvbox_contrast_dark = 'soft'
 " }}}
 
 " echodoc: {{{3
-let g:echodoc#enable_at_startup = 1
-if has('nvim-0.3.8')
-  let g:echodoc#type = 'floating'
-else
-  " let g:echodoc#type = 'echo'
-	let g:echodoc#type = 'popup'
-endif
+" let g:echodoc#enable_at_startup = 0
+" let g:echodoc#type = 'echo'
 " }}}
 
 " session: {{{3
@@ -621,6 +618,10 @@ nmap <space>s <ESC>:OpenSession<CR>
 let g:ale_open_list=0
 let g:ale_set_quickfix=0
 let g:ale_list_window_size=1
+
+let g:ale_linters = {
+		\ 'bash': ['shellcheck']
+	  \ }
 
 nmap <silent> <C-h> <Plug>(ale_previous)
 nmap <silent> <C-l> <Plug>(ale_next)
@@ -654,12 +655,12 @@ nmap <space>sf <ESC>:CtrlSF<space>
 nmap <space>ss <ESC>:CtrlSFToggle<CR>
 " }}}
 
-" clever-f: {
+" clever-f: {{{3
 nmap f <Plug>(clever-f-f)
 nmap F <Plug>(clever-f-F)
 nmap t <Plug>(clever-f-t)
 nmap T <Plug>(clever-f-T)
-" }
+" }}}
 
 " zoom: {{{3
 nmap <C-w>m <Plug>(zoom-toggle)
@@ -669,7 +670,6 @@ nmap <C-w>m <Plug>(zoom-toggle)
 map + <Plug>(expand_region_expand)
 map _ <Plug>(expand_region_shrink)
 " }}}
-"
 
 " vim-speeddating: {{{3
 nmap <C-a> <Plug>SpeedDatingUp
@@ -935,6 +935,20 @@ inoremap <C-Bslash> <C-\><C-n>:Nuake<CR>
 tnoremap <C-Bslash> <C-\><C-n>:Nuake<CR>
 " }}}
 
+" }}}
+
+" context.vim: {{{3
+" let g:context_nvim_no_redraw = 1
+" let g:context_add_autocmds = 0
+" autocmd VimEnter     * ContextActivate
+" autocmd BufAdd       * call context#update('BufAdd')
+" autocmd BufEnter     * call context#update('BufEnter')
+" autocmd CursorMoved  * call context#update('CursorMoved')
+" autocmd VimResized   * call context#update('VimResized')
+" autocmd CursorHold   * call context#update('CursorHold')
+" autocmd User GitGutter call context#update('GitGutter')
+" autocmd OptionSet number,relativenumber,numberwidth,signcolumn,tabstop,list
+"             \          call context#update('OptionSet')
 " }}}
 
 "load local config
