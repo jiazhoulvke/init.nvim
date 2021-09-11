@@ -136,14 +136,12 @@ endif
 if exists('g:use_coc')
 	Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 endif
-if exists('g:use_asyncomplete_vim')
-	Plug 'prabirshrestha/asyncomplete.vim'
-	Plug 'prabirshrestha/vim-lsp'
-	Plug 'prabirshrestha/asyncomplete-lsp.vim'
-	Plug 'prabirshrestha/asyncomplete-buffer.vim'
-	Plug 'prabirshrestha/asyncomplete-file.vim'
-	Plug 'wellle/tmux-complete.vim'
-	Plug 'prabirshrestha/asyncomplete-necovim.vim'
+if exists('g:use_nvim_cmp')
+	Plug 'hrsh7th/nvim-cmp' " Autocompletion plugin
+	Plug 'hrsh7th/cmp-nvim-lsp' " LSP source for nvim-cmp
+	Plug 'saadparwaiz1/cmp_luasnip' " Snippets source for nvim-cmp
+	Plug 'L3MON4D3/LuaSnip' " Snippets plugin
+	Plug 'neovim/nvim-lspconfig' " Collection of configurations for built-in LSP client
 endif
 " Plug 'Shougo/echodoc.vim' " 不用preview窗口也能显示函数参数
 Plug 'fatih/vim-go', { 'for': 'go' } " golang补全
@@ -581,6 +579,68 @@ if exists('g:use_asyncomplete_vim')
 	" }}}
 endif
 
+" nvim-cmp: {{{1
+if exists('g:use_nvim_cmp')
+lua << EOF
+-- Set completeopt to have a better completion experience
+vim.o.completeopt = 'menuone,noselect'
+
+-- luasnip setup
+local luasnip = require 'luasnip'
+
+-- nvim-cmp setup {{{2
+local cmp = require 'cmp'
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
+  mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<Tab>'] = function(fallback)
+      if vim.fn.pumvisible() == 1 then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
+      elseif luasnip.expand_or_jumpable() then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-expand-or-jump', true, true, true), '')
+      else
+        fallback()
+      end
+    end,
+    ['<S-Tab>'] = function(fallback)
+      if vim.fn.pumvisible() == 1 then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
+      elseif luasnip.jumpable(-1) then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-jump-prev', true, true, true), '')
+      else
+        fallback()
+      end
+    end,
+  },
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+  },
+}
+-- }}}
+
+-- lspconfig {{{2
+require('lspconfig').gopls.setup {}
+-- }}}
+
+EOF
+endif
+"" }}}
+
 " vim-go: {{{3
 let g:go_def_mode='gopls'
 let g:go_info_mode='gopls'
@@ -938,7 +998,7 @@ tnoremap <C-Bslash> <C-\><C-n>:Nuake<CR>
 " }}}
 
 " context.vim: {{{3
-" let g:context_nvim_no_redraw = 1
+let g:context_nvim_no_redraw = 1
 " let g:context_add_autocmds = 0
 " autocmd VimEnter     * ContextActivate
 " autocmd BufAdd       * call context#update('BufAdd')
