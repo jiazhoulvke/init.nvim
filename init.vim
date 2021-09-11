@@ -651,19 +651,20 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 }
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
+-- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
 local nvim_lsp = require('lspconfig')
-local servers = { 'clangd', 'gopls'}
+local servers = { 'clangd', 'gopls', 'dartls', 'sqls' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     capabilities = capabilities,
   }
 end
+
 -- }}}
 EOF
 
 endif
 "" }}}
-
 
 " vim-go: {{{3
 let g:go_def_mode='gopls'
