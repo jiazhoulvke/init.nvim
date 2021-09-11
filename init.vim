@@ -579,7 +579,7 @@ if exists('g:use_asyncomplete_vim')
 	" }}}
 endif
 
-" nvim-cmp: {{{1
+" nvim-cmp: {{{3
 if exists('g:use_nvim_cmp')
 lua << EOF
 -- Set completeopt to have a better completion experience
@@ -588,7 +588,7 @@ vim.o.completeopt = 'menuone,noselect'
 -- luasnip setup
 local luasnip = require 'luasnip'
 
--- nvim-cmp setup {{{2
+-- nvim-cmp setup {{{
 local cmp = require 'cmp'
 cmp.setup {
   snippet = {
@@ -631,27 +631,54 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
--- }}}
 
--- lspconfig {{{2
-require('lspconfig').gopls.setup {}
--- }}}
+-- Add additional capabilities supported by nvim-cmp
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.preselectSupport = true
+capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
+capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
+capabilities.textDocument.completion.completionItem.deprecatedSupport = true
+capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
+capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = {
+    'documentation',
+    'detail',
+    'additionalTextEdits',
+  },
+}
 
+-- Enable some language servers with the additional completion capabilities offered by nvim-cmp
+local nvim_lsp = require('lspconfig')
+local servers = { 'clangd', 'gopls'}
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup {
+    capabilities = capabilities,
+  }
+end
+-- }}}
 EOF
+
 endif
 "" }}}
+
 
 " vim-go: {{{3
 let g:go_def_mode='gopls'
 let g:go_info_mode='gopls'
 let g:go_auto_type_info = 0
 let g:go_updatetime = 500
+let g:go_diagnostics_level = 2
 let g:go_list_autoclose = 1
 let g:go_term_enabled = 1
 let g:go_def_mapping_enabled = 0
 let g:go_gocode_propose_builtins = 0
 let g:go_gocode_propose_source = 0
 let g:go_gocode_socket_type = 'unix'
+let g:go_doc_balloon = 1
+let g:go_doc_popup_window = 0
 let g:go_echo_go_info = 1
 let g:go_echo_command_info = 0
 let g:go_fmt_fail_silently = 0
