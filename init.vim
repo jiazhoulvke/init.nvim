@@ -59,8 +59,9 @@ Plug 'sk1418/Join', { 'on': 'Join' } " 比vim自带的join更强大
 Plug 'terryma/vim-expand-region', { 'on': ['<Plug>(expand_region_expand)', '<Plug>(expand_region_shrink)'] } " 逐步扩大选择区域
 Plug 'tommcdo/vim-exchange', { 'on': ['<Plug>(ExchangeLine)', '<Plug>(Exchange)'] } " 用cxiw交换单词、cxi'交换‘中的文字等
 Plug 'tpope/vim-commentary' " comment stuff out
-Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim', { 'on': 'GV' } " 对git的封装
+Plug 'tpope/vim-fugitive' " 对git的封装
 Plug 'christoomey/vim-conflicted', { 'on': 'Conflicted' } " Easy git merge conflict resolution in Vim
+Plug 'strboul/urlview.vim'
 Plug 'tpope/vim-repeat' " 重复执行操作
 Plug 'tpope/vim-rsi' " Readline style insertion
 Plug 'tpope/vim-speeddating', { 'on': ['<Plug>SpeedDatingUp', '<Plug>SpeedDatingDown'] } " use CTRL-A/CTRL-X to increment dates, times, and more
@@ -130,6 +131,7 @@ endif
 " Completion: {{{2
 if exists('g:use_coc')
 	Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+	Plug 'honza/vim-snippets' " 代码片段
 endif
 if exists('g:use_nvim_cmp')
 	Plug 'hrsh7th/nvim-cmp' " Autocompletion plugin
@@ -138,10 +140,7 @@ if exists('g:use_nvim_cmp')
 	Plug 'L3MON4D3/LuaSnip' " Snippets plugin
 	Plug 'neovim/nvim-lspconfig' " Collection of configurations for built-in LSP client
 endif
-" Plug 'Shougo/echodoc.vim' " 不用preview窗口也能显示函数参数
 Plug 'fatih/vim-go', { 'for': 'go' } " golang补全
-Plug 'honza/vim-snippets' " 代码片段
-
 
 "}}}
 
@@ -645,6 +644,7 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
 	buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
 	buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+	buf_set_keymap('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 	-- buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
 	-- buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
 	-- buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
@@ -719,11 +719,6 @@ let g:go_gocode_unimported_packages = 0
 
 " gruvbox: {{{3
 let g:gruvbox_contrast_dark = 'soft'
-" }}}
-
-" echodoc: {{{3
-" let g:echodoc#enable_at_startup = 0
-" let g:echodoc#type = 'echo'
 " }}}
 
 " session: {{{3
@@ -802,6 +797,10 @@ vmap _ <Plug>(expand_region_shrink)
 " vim-speeddating: {{{3
 nmap <C-a> <Plug>SpeedDatingUp
 nmap <C-x> <Plug>SpeedDatingDown
+" }}}
+
+" urlview.vim: {{{3
+nnoremap <silent> <leader>u :Urlview<CR>
 " }}}
 
 " surround: {{{3
