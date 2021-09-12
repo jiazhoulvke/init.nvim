@@ -45,21 +45,17 @@ Plug 'jiazhoulvke/vim-sleuth' " Heuristically set buffer options
 Plug 'jiazhoulvke/vim-plug-helper.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 基于文件名快速搜索文件
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/goyo.vim', { 'on': 'Goyo', 'for': ['markdown', 'vimwiki', 'text'] }
-Plug 'junegunn/limelight.vim', { 'for': ['markdown', 'vimwiki', 'text'] }
 Plug 'junegunn/vim-after-object' " Defines text objects to target text after the designated characters.
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] } " 代码对齐
 Plug 'kana/vim-textobj-function', { 'for': ['c', 'cpp', 'vim', 'java'] }
 Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-syntax'
 Plug 'kana/vim-textobj-user' | Plug 'sgur/vim-textobj-parameter'
-" Plug 'ludovicchabant/vim-gutentags' " A Vim plugin that manages your tag files
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " The ultimate undo history visualizer for VIM
 Plug 'mhinz/vim-signify' " Show a diff using Vim its sign column.
 Plug 'preservim/tagbar'
-Plug 'rhysd/clever-f.vim', { 'on': [ '<Plug>(clever-f-f)', '<Plug>(clever-f-F)', '<Plug>(clever-f-t)', '<Plug>(clever-f-T)'] } " Extended f, F, t and T key mappings for Vim
+Plug 'easymotion/vim-easymotion'
 Plug 'sk1418/Join', { 'on': 'Join' } " 比vim自带的join更强大
-Plug 'skywind3000/asyncrun.vim', { 'on': 'AsyncRun' } " 异步执行命令
 Plug 'terryma/vim-expand-region', { 'on': ['<Plug>(expand_region_expand)', '<Plug>(expand_region_shrink)'] } " 逐步扩大选择区域
 Plug 'tommcdo/vim-exchange', { 'on': ['<Plug>(ExchangeLine)', '<Plug>(Exchange)'] } " 用cxiw交换单词、cxi'交换‘中的文字等
 Plug 'tpope/vim-commentary' " comment stuff out
@@ -74,10 +70,10 @@ Plug 'vim-scripts/LargeFile' " 针对大文件优化性能
 Plug 'vim-scripts/VisIncr', { 'on': ['I', 'IA'] } " 列编辑
 Plug 'vim-voom/VOoM', { 'on': ['Voom', 'VoomToggle'] } " 文档大纲
 Plug 'voldikss/vim-translate-me', { 'on': ['Translate', 'TranslateW', 'TranslateWV', '<Plug>TranslateW', '<Plug>TranslateWV'] } " (Neo)Vim translation plugin
-Plug 'w0rp/ale', { 'for': ['c', 'bash', 'sh'] } " 异步代码检测
+Plug 'w0rp/ale', { 'for': ['bash', 'sh'] } " 异步代码检测
 Plug 'wellle/targets.vim' " Vim plugin that provides additional text objects: ({[<t(tags)
 Plug 'xolox/vim-misc' " Miscellaneous auto-load Vim scripts
-Plug 'xolox/vim-session', { 'on': ['OpenSession', 'SaveSession'] } " Extended session management for Vim (:mksession on steroids) 
+Plug 'xolox/vim-session', { 'on': ['OpenSession', 'SaveSession'] } " Extended session management for Vim (:mksession on steroids)
 Plug 'yianwillis/vimcdoc' " 中文帮助文档
 Plug 'zhimsel/vim-stay' " 保持最后的编辑状态
 Plug 'Lenovsky/nuake' " A Quake-style terminal panel for Neovim and Vim
@@ -100,7 +96,6 @@ Plug 'rakr/vim-one'
 
 Plug 'ryanoasis/vim-devicons' " Adds file type glyphs/icons to popular Vim plugins
 Plug 'luochen1990/rainbow', { 'for':  ['python', 'javascript', 'jsx', 'html', 'css', 'go', 'vim', 'toml', 'lisp', 'scheme'], 'on': 'RainbowToggle' } " Rainbow Parentheses Improved, shorter code, no level limit, smooth and fast, powerful configuration.
-Plug 't9md/vim-choosewin', { 'on': 'ChooseWin' } " Land on window you chose like tmux's 'display-pane'
 " }}}
 
 " Languages: {{{2
@@ -438,7 +433,7 @@ if exists('g:use_coc')
 	" nmap <leader>t <ESC>:CocList tags<CR>
 	nmap <leader>o <ESC>:call <SID>Outline()<CR>
 	function! s:Outline()
-	  if &filetype == 'go' 
+	  if &filetype == 'go'
 		exec ':GoDecls'
 	  else
 		exec ':CocList outline'
@@ -449,7 +444,7 @@ endif
 
 if !exists('g:use_coc')
 " fzf.vim: {{{3
-	noremap <leader>f <ESC>:GFiles<CR> 
+	noremap <leader>f <ESC>:GFiles<CR>
 	noremap <leader>F <ESC>:Files<CR>
 	noremap <leader>b <ESC>:Buffers<CR>
 	noremap <leader>o <ESC>:call <SID>Outline()<CR>
@@ -489,7 +484,7 @@ if exists('g:use_asyncomplete_vim')
 	endif
 
 	function! s:Definition()
-		if &filetype == 'go' 
+		if &filetype == 'go'
 			exec ':GoDef'
 		else
 			exec ':LspDefinition'
@@ -517,7 +512,7 @@ if exists('g:use_asyncomplete_vim')
 		nmap <buffer> [d <Plug>(lsp-previous-diagnostic)
 		nmap <buffer> ]d <Plug>(lsp-next-diagnostic)
 		nmap <buffer> K <plug>(lsp-hover)
-		
+
 		" refer to doc to add more commands
 	endfunction
 
@@ -632,6 +627,38 @@ cmp.setup {
   },
 }
 
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+	local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+	local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+	-- Enable completion triggered by <c-x><c-o>
+	buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+	-- Mappings.
+	local opts = { noremap=true, silent=true }
+
+	-- See `:help vim.lsp.*` for documentation on any of the below functions
+	buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+	buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+	buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+	buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+	buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+	-- buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+	-- buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+	-- buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+	buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+	buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+	-- buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+	buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+	buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+	buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+	buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+	-- buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+	-- buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+end
+
 -- Add additional capabilities supported by nvim-cmp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
@@ -656,7 +683,11 @@ local nvim_lsp = require('lspconfig')
 local servers = { 'clangd', 'gopls', 'dartls', 'sqls' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
+	on_attach = on_attach,
     capabilities = capabilities,
+	flags = {
+		debounce_text_changes = 150,
+	}
   }
 end
 
@@ -743,20 +774,29 @@ nmap <space>sf <ESC>:CtrlSF<space>
 nmap <space>ss <ESC>:CtrlSFToggle<CR>
 " }}}
 
-" clever-f: {{{3
-nmap f <Plug>(clever-f-f)
-nmap F <Plug>(clever-f-F)
-nmap t <Plug>(clever-f-t)
-nmap T <Plug>(clever-f-T)
+" vim-easymotion: {{{3
+nmap f <Plug>(easymotion-f)
+nmap F <Plug>(easymotion-F)
 " }}}
 
 " zoom: {{{3
 nmap <C-w>m <Plug>(zoom-toggle)
 " }}}
 
+" tagbar: {{{3
+noremap <space>t <ESC>:TagbarToggle<CR>
+" }}}
+
+" vim-interestingwords: {{{3
+let g:interestingWordsTermColors = ['154', '121', '211', '137', '214', '222', '33', '66', '99', '170']
+let g:interestingWordsGUIColors = ['#8CCBEA', '#A4E57E', '#FFDB72', '#FF7272', '#FFB3FF', '#ff6600', '#333399','#ee9933','#aa6622','#ffffff']
+" }}}
+
 " expand-region: {{{3
-map + <Plug>(expand_region_expand)
-map _ <Plug>(expand_region_shrink)
+nmap + <Plug>(expand_region_expand)
+vmap + <Plug>(expand_region_expand)
+nmap _ <Plug>(expand_region_shrink)
+vmap _ <Plug>(expand_region_shrink)
 " }}}
 
 " vim-speeddating: {{{3
@@ -777,7 +817,7 @@ if !exists('g:lightline')
 	let g:lightline = {}
 endif
 if !exists('g:lightline["colorscheme"]')
-	let g:lightline['colorscheme'] = 'wombat'
+	let g:lightline['colorscheme'] = 'one'
 endif
 let g:lightline['active'] = {
 			\ 'left': [ ['mode', 'paste' ],
@@ -843,7 +883,7 @@ let g:webdevicons_enable_airline_statusline = 1
 set viewoptions=cursor,folds,slash,unix
 " }}}
 
-" gutentags: {{{3 
+" gutentags: {{{3
 let g:gutentags_cache_dir = '~/.tags'
 " }}}
 
@@ -979,11 +1019,6 @@ let dart_html_in_string=v:true
 let g:dart_format_on_save = 1
 " }}}
 
-" limelight: {{{3
-autocmd! User GoyoEnter Limelight
-autocmd! User GoyoLeave Limelight!
-" }}}
-
 " indentLine: {{{3
 let g:indentLine_char = '┊'
 let g:indentLine_fileType = ['c', 'cpp', 'python', 'php', 'javascript', 'typescript', 'html', 'xml', 'vue']
@@ -1001,11 +1036,6 @@ let g:vtm_default_mapping = 0
 let g:vtm_default_engines = ['youdao', 'ciba', 'google']
 nmap <silent> <leader>t <Plug>TranslateW
 vmap <silent> <leader>t <Plug>TranslateWV
-" }}}
-
-" choosewin: {{{3
-nmap <leader>cw <ESC>:ChooseWin<CR>
-let g:choosewin_overlay_enable = 1
 " }}}
 
 " vim-exchange: {{{3
