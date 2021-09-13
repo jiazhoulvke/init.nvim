@@ -306,35 +306,35 @@ vnoremap <Tab> >
 vnoremap <S-Tab> <
 
 " Ctrl+方向键调整窗口大小
-nmap <C-Up> <C-w>+
-nmap <C-Down> <C-w>-
-nmap <C-Left> <C-w><
-nmap <C-Right> <C-w>>
+nnoremap <C-Up> <C-w>+
+nnoremap <C-Down> <C-w>-
+nnoremap <C-Left> <C-w><
+nnoremap <C-Right> <C-w>>
 
 " 用'切换折叠状态
-nmap ' za
+nnoremap ' za
 
 " 进入当前buffer所在目录
-nmap <leader>cd <ESC>:cd %:p:h<CR>
+nnoremap <leader>cd <ESC>:cd %:p:h<CR>
 
 " 删除^M
-"nmap <Leader>dm mmHmn:%s/<C-V><cr>//ge<cr>'nzt'm
-nmap <Leader>dm <ESC>:%s/\r$//<CR>
+"nnoremap <Leader>dm mmHmn:%s/<C-V><cr>//ge<cr>'nzt'm
+nnoremap <Leader>dm <ESC>:%s/\r$//<CR>
 
 " 删除空行
-nmap <Leader>dbl :g/^\s*$/d<CR>
+nnoremap <Leader>dbl :g/^\s*$/d<CR>
 
 " json格式化
-nmap <leader>jq <ESC>:%!jq '.'<CR>
+nnoremap <leader>jq <ESC>:%!jq '.'<CR>
 
 " 每次移动相对屏幕的一行
-nmap j gj
-nmap k gk
+nnoremap j gj
+nnoremap k gk
 
-nmap <space><space> <ESC>:nohlsearch<CR>
+nnoremap <space><space> <ESC>:nohlsearch<CR>
 
 " 终端按键绑定
-" nmap <C-t> <ESC>:terminal<CR> " 进入终端
+" nnoremap <C-t> <ESC>:terminal<CR> " 进入终端
 tmap <C-o> <C-\><C-n> " 进入默认模式
 tmap <C-^> <C-\><C-n><C-^> " 切换buffer
 tmap <A-h> <C-\><C-N><C-w>h
@@ -342,12 +342,12 @@ tmap <A-j> <C-\><C-N><C-w>j
 tmap <A-k> <C-\><C-N><C-w>k
 tmap <A-l> <C-\><C-N><C-w>l
 
-nmap <leader>ee <ESC>:e $MYVIMRC<CR>
-nmap <leader>rr <ESC>:source $MYVIMRC<CR>
-nmap <leader>el <ESC>:e $MY_VIM_PATH/init_local.vim<CR>
-nmap <leader>ep <ESC>:e $MY_VIM_PATH/plugin_local.vim<CR>
-nmap <leader>es <ESC>:e $MY_VIM_PATH/preset_local.vim<CR>
-nmap <leader>ea <ESC>:e $MY_VIM_PATH/ab.vim<CR>
+nnoremap <leader>ee <ESC>:e $MYVIMRC<CR>
+nnoremap <leader>rr <ESC>:source $MYVIMRC<CR>
+nnoremap <leader>el <ESC>:e $MY_VIM_PATH/init_local.vim<CR>
+nnoremap <leader>ep <ESC>:e $MY_VIM_PATH/plugin_local.vim<CR>
+nnoremap <leader>es <ESC>:e $MY_VIM_PATH/preset_local.vim<CR>
+nnoremap <leader>ea <ESC>:e $MY_VIM_PATH/ab.vim<CR>
 
 map <C-6> <C-^>
 
@@ -365,7 +365,7 @@ function! EditSnip()
 endfunction
 command! EditSnip call EditSnip()
 
-nmap <leader>en <ESC>:EditSnip<CR>
+nnoremap <leader>en <ESC>:EditSnip<CR>
 
 " }}}
 
@@ -398,14 +398,14 @@ if exists('g:use_coc')
 	let g:coc_snippet_prev = '<c-k>'
 
 	" Use `[d` and `]d` to navigate diagnostics
-	nmap <silent> [d <Plug>(coc-diagnostic-prev)
-	nmap <silent> ]d <Plug>(coc-diagnostic-next)
+	nnoremap <silent> [d <Plug>(coc-diagnostic-prev)
+	nnoremap <silent> ]d <Plug>(coc-diagnostic-next)
 
 	" Remap keys for gotos
-	nmap <silent> gd <Plug>(coc-definition)
-	nmap <silent> gy <Plug>(coc-type-definition)
-	nmap <silent> gi <Plug>(coc-implementation)
-	nmap <silent> gr <Plug>(coc-references)
+	nnoremap <silent> gd <Plug>(coc-definition)
+	nnoremap <silent> gy <Plug>(coc-type-definition)
+	nnoremap <silent> gi <Plug>(coc-implementation)
+	nnoremap <silent> gr <Plug>(coc-references)
 
 	" Use K to show documentation in preview window
 	nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -419,14 +419,14 @@ if exists('g:use_coc')
 	endfunction
 
 	" Remap for rename current word
-	nmap <leader>rn <Plug>(coc-rename)
+	nnoremap <leader>rn <Plug>(coc-rename)
 
 	" format
-	xmap <leader>f <Plug>(coc-format-selected)
-	vmap <leader>f <Plug>(coc-format-selected)
+	xnoremap <leader>f <Plug>(coc-format-selected)
+	vnoremap <leader>f <Plug>(coc-format-selected)
 	command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
-	nmap <leader>o <ESC>:call <SID>Outline()<CR>
+	nnoremap <leader>o <ESC>:call <SID>Outline()<CR>
 	function! s:Outline()
 	  if &filetype == 'go'
 		exec ':GoDecls'
@@ -438,12 +438,12 @@ endif
 " }}}
 
 " fzf.vim: {{{3
-noremap <leader>f <ESC>:GFiles<CR>
-noremap <leader>F <ESC>:Files<CR>
-noremap <leader>b <ESC>:Buffers<CR>
-noremap <leader>h <ESC>:History<CR>
+nnoremap <leader>f <ESC>:GFiles<CR>
+nnoremap <leader>F <ESC>:Files<CR>
+nnoremap <leader>b <ESC>:Buffers<CR>
+nnoremap <leader>h <ESC>:History<CR>
 if !exists('g:use_coc')
-noremap <leader>o <ESC>:call <SID>Outline()<CR>
+nnoremap <leader>o <ESC>:call <SID>Outline()<CR>
 function! s:Outline()
 	if &filetype == 'go'
 		exec ':GoDecls'
@@ -453,122 +453,6 @@ function! s:Outline()
 endfunction
 endif
 " }}}
-
-if exists('g:use_asyncomplete_vim')
-" asyncomplete.vim: {{{3
-	let g:asyncomplete_matchfuzzy=1
-
-	" golang
-	if executable('gopls')
-		au User lsp_setup call lsp#register_server({
-			\ 'name': 'gopls',
-			\ 'cmd': {server_info->['gopls']},
-			\ 'allowlist': ['go'],
-			\ })
-	endif
-
-	" dart
-	if executable('dart_analysis_server')
-		" dart_analysis_server是一个简单的脚本，内容大致如下:
-		" #!/usr/bin/env
-		" dart $DART_SDK_PATH/bin/snapshots/analysis_server.dart.snapshot --lsp
-		au User lsp_setup call lsp#register_server({
-			\ 'name': 'dart',
-			\ 'cmd': {server_info->['dart_analysis_server']},
-			\ 'allowlist': ['dart'],
-			\ })
-	endif
-
-	function! s:Definition()
-		if &filetype == 'go'
-			exec ':GoDef'
-		else
-			exec ':LspDefinition'
-		endif
-	endfunction
-
-	function! s:References()
-		if &filetype == 'go'
-			exec ':GoCallers'
-		else
-			exec ':GoReferrers'
-		endif
-	endfunction
-
-	function! s:on_lsp_buffer_enabled() abort
-		setlocal omnifunc=lsp#complete
-		" setlocal signcolumn=yes
-		if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-		" nmap <buffer> gd <plug>(lsp-definition)
-		nmap <buffer> gd <ESC>:call <SID>Definition()<CR>
-		nmap <buffer> gr <plug>(lsp-references)
-		nmap <buffer> gi <plug>(lsp-implementation)
-		nmap <buffer> gt <plug>(lsp-type-definition)
-		nmap <buffer> <leader>rn <plug>(lsp-rename)
-		nmap <buffer> [d <Plug>(lsp-previous-diagnostic)
-		nmap <buffer> ]d <Plug>(lsp-next-diagnostic)
-		nmap <buffer> K <plug>(lsp-hover)
-
-		" refer to doc to add more commands
-	endfunction
-
-	augroup lsp_install
-		au!
-		" call s:on_lsp_buffer_enabled only for languages that has the server registered.
-		autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-	augroup END
-
-	let g:asyncomplete_auto_popup = 1
-	inoremap	<expr><Tab>		pumvisible() ? "\<C-n>" : "\<Tab>"
-	inoremap	<expr><S-tab>	pumvisible() ? "\<C-p>" : "\<S-Tab>"
-	inoremap	<expr><cr>		pumvisible() ? "\<C-y>" : "\<cr>"
-	imap		<M-.>		<Plug>(asyncomplete_force_refresh)
-" }}}
-
-" asyncomplete-buffer.vim: {{{3
-	call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-		\ 'name': 'buffer',
-		\ 'allowlist': ['*'],
-		\ 'blocklist': ['lisp'],
-		\ 'completor': function('asyncomplete#sources#buffer#completor'),
-		\ 'config': {
-		\    'max_buffer_size': 5000000,
-		\  },
-		\ }))
-" }}}
-
-" asyncomplete-file.vim: {{{3
-	au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-		\ 'name': 'file',
-		\ 'allowlist': ['*'],
-		\ 'priority': 10,
-		\ 'completor': function('asyncomplete#sources#file#completor')
-		\ }))
-" }}}
-
-" tmux-complete.vim: {{{3
-	let g:tmuxcomplete#asyncomplete_source_options = {
-				\ 'name':      'tmuxcomplete',
-				\ 'whitelist': ['*'],
-				\ 'config': {
-				\     'splitmode':      'words',
-				\     'filter_prefix':   1,
-				\     'show_incomplete': 1,
-				\     'sort_candidates': 0,
-				\     'scrollback':      0,
-				\     'truncate':        0
-				\     }
-				\ }
-" }}}
-
-" asyncomplete-necovim.vim: {{{3
-	au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
-		\ 'name': 'necovim',
-		\ 'allowlist': ['vim'],
-		\ 'completor': function('asyncomplete#sources#necovim#completor'),
-		\ }))
-	" }}}
-endif
 
 " nvim-cmp: {{{3
 if exists('g:use_nvim_cmp')
@@ -722,7 +606,7 @@ let g:gruvbox_contrast_dark = 'soft'
 let g:session_autoload = 'no'
 let g:session_autosave = 'yes'
 let g:session_directory = '~/.local/share/nvim/sessions'
-nmap <space>s <ESC>:OpenSession<CR>
+nnoremap <space>s <ESC>:OpenSession<CR>
 " }}}
 
 " ale: {{{3
@@ -734,12 +618,12 @@ let g:ale_linters = {
 		\ 'bash': ['shellcheck']
 	  \ }
 
-nmap <silent> <C-h> <Plug>(ale_previous)
-nmap <silent> <C-l> <Plug>(ale_next)
+nnoremap <silent> <C-h> <Plug>(ale_previous)
+nnoremap <silent> <C-l> <Plug>(ale_next)
 " }}}
 
 " nerdtree: {{{3
-nmap - <ESC>:NERDTreeToggle<CR>
+nnoremap - <ESC>:NERDTreeToggle<CR>
 let g:NERDTreeDisableExactMatchHighlight = 1
 let g:NERDTreeDisablePatternMatchHighlight = 1
 let g:NERDTreeHighlightCursorline = 0
@@ -751,32 +635,28 @@ let g:NERDTreeSyntaxEnabledExtensions = ['c', 'h', 'c++', 'php', 'go', 'html', '
 " }}}
 
 " vim-easy-align: {{{3
-xmap <space>a <Plug>(EasyAlign)
-nmap <space>a <Plug>(EasyAlign)
+xnoremap <space>a <Plug>(EasyAlign)
+nnoremap <space>a <Plug>(EasyAlign)
 " }}}
 
 " vim-mark: {{{
 let g:mw_no_mappings = 1
-nmap <leader>m <Plug>MarkSet
-xmap <leader>m <Plug>MarkSet
+nnoremap <leader>m <Plug>MarkSet
+xnoremap <leader>m <Plug>MarkSet
 " }}}
 
 " ctrlsf: {{{3
-nmap <space>sf <ESC>:CtrlSF<space>
-nmap <space>ss <ESC>:CtrlSFToggle<CR>
+nnoremap <space>sf <ESC>:CtrlSF<space>
+nnoremap <space>ss <ESC>:CtrlSFToggle<CR>
 " }}}
 
 " vim-easymotion: {{{3
-nmap f <Plug>(easymotion-f)
-nmap F <Plug>(easymotion-F)
-" }}}
-
-" zoom: {{{3
-nmap <C-w>m <Plug>(zoom-toggle)
+nnoremap f <Plug>(easymotion-f)
+nnoremap F <Plug>(easymotion-F)
 " }}}
 
 " tagbar: {{{3
-noremap <space>t <ESC>:TagbarToggle<CR>
+nnoremap <space>t <ESC>:TagbarToggle<CR>
 " }}}
 
 " vim-interestingwords: {{{3
@@ -785,15 +665,15 @@ let g:interestingWordsGUIColors = ['#8CCBEA', '#A4E57E', '#FFDB72', '#FF7272', '
 " }}}
 
 " expand-region: {{{3
-nmap + <Plug>(expand_region_expand)
-vmap + <Plug>(expand_region_expand)
-nmap _ <Plug>(expand_region_shrink)
-vmap _ <Plug>(expand_region_shrink)
+nnoremap + <Plug>(expand_region_expand)
+vnoremap + <Plug>(expand_region_expand)
+nnoremap _ <Plug>(expand_region_shrink)
+vnoremap _ <Plug>(expand_region_shrink)
 " }}}
 
 " vim-speeddating: {{{3
-nmap <C-a> <Plug>SpeedDatingUp
-nmap <C-x> <Plug>SpeedDatingDown
+nnoremap <C-a> <Plug>SpeedDatingUp
+nnoremap <C-x> <Plug>SpeedDatingDown
 " }}}
 
 " urlview.vim: {{{3
@@ -801,11 +681,11 @@ nnoremap <silent> <leader>u :Urlview<CR>
 " }}}
 
 " surround: {{{3
-nmap ds <Plug>Dsurround
-nmap cs <Plug>Csurround
-nmap yss <Plug>Yssurround
-nmap ys <Plug>Ysurround
-xmap S <Plug>VSurround
+nnoremap ds <Plug>Dsurround
+nnoremap cs <Plug>Csurround
+nnoremap yss <Plug>Yssurround
+nnoremap ys <Plug>Ysurround
+xnoremap S <Plug>VSurround
 " }}}
 
 " lightline.vim: {{{3
@@ -902,7 +782,7 @@ function! s:VoomToggleExt()
 	endif
 endfunction
 
-nmap <leader>v <ESC>:call <SID>VoomToggleExt()<CR>
+nnoremap <leader>v <ESC>:call <SID>VoomToggleExt()<CR>
 " }}}
 
 " markdown: {{{3
@@ -956,8 +836,8 @@ function! s:toggleMarkdownListItemCheckbox()
 endfunction
 
 function! s:markdownSettings()
-	nmap<silent><buffer> <C-space> :call <SID>toggleMarkdownListItemCheckbox()<CR>
-	nmap<silent><buffer> <C-t> :call mkdx#ToggleCheckboxTask()<CR>
+	nnoremap<silent><buffer> <C-space> :call <SID>toggleMarkdownListItemCheckbox()<CR>
+	nnoremap<silent><buffer> <C-t> :call mkdx#ToggleCheckboxTask()<CR>
 endfunction
 
 autocmd! BufNew,BufRead *.md call s:markdownSettings()
@@ -997,16 +877,16 @@ else
 		endif
 	endfor
 endif
-nmap <Leader>ww <Plug>VimwikiIndex
-nmap <Leader>ws <Plug>VimwikiUISelect
-nmap <Leader>wt <Plug>VimwikiTabIndex
-nmap <Leader>wi <Plug>VimwikiDiaryIndex
-nmap <Leader>w<Leader>w <Plug>VimwikiMakeDiaryNote
-nmap <Leader>w<Leader>t <Plug>VimwikiTabMakeDiaryNote
-nmap <Leader>w<Leader>m <Plug>VimwikiMakeTomorrowDiaryNote
-nmap <Leader><Leader> <Plug>VimwikiFollowLink
-nmap <Leader>wn <Plug>VimwikiNextLink
-nmap <Leader>wp <Plug>VimwikiPrevLink
+nnoremap <Leader>ww <Plug>VimwikiIndex
+nnoremap <Leader>ws <Plug>VimwikiUISelect
+nnoremap <Leader>wt <Plug>VimwikiTabIndex
+nnoremap <Leader>wi <Plug>VimwikiDiaryIndex
+nnoremap <Leader>w<Leader>w <Plug>VimwikiMakeDiaryNote
+nnoremap <Leader>w<Leader>t <Plug>VimwikiTabMakeDiaryNote
+nnoremap <Leader>w<Leader>m <Plug>VimwikiMakeTomorrowDiaryNote
+nnoremap <Leader><Leader> <Plug>VimwikiFollowLink
+nnoremap <Leader>wn <Plug>VimwikiNextLink
+nnoremap <Leader>wp <Plug>VimwikiPrevLink
 endif
 " }}}
 
@@ -1034,16 +914,16 @@ let g:sleuth_automatic = 1
 " vim-translate-me: {{{3
 let g:vtm_default_mapping = 0
 let g:vtm_default_engines = ['youdao', 'ciba', 'google']
-nmap <silent> <leader>t <Plug>TranslateW
-vmap <silent> <leader>t <Plug>TranslateWV
+nnoremap <silent> <leader>t <Plug>TranslateW
+vnoremap <silent> <leader>t <Plug>TranslateWV
 " }}}
 
 " vim-exchange: {{{3
 let g:exchange_no_mappings = 1
-nmap cxx <Plug>(ExchangeLine)
-nmap cxc <Plug>(ExchangeClear)
-nmap cx <Plug>(Exchange)
-xmap X <Plug>(Exchange)
+nnoremap cxx <Plug>(ExchangeLine)
+nnoremap cxc <Plug>(ExchangeClear)
+nnoremap cx <Plug>(Exchange)
+xnoremap X <Plug>(Exchange)
 " }}}
 
 " nuake: {{{3
