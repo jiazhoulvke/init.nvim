@@ -110,7 +110,7 @@ Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 endif
 " }}}
 Plug 'aklt/plantuml-syntax', { 'for': 'plantuml' }
-Plug 'ap/vim-css-color', { 'for': ['html', 'php', 'vue'] } " css颜色高亮
+Plug 'lilydjwg/colorizer', { 'for': ['html', 'css', 'php', 'vue', 'conf'] } " css颜色高亮
 Plug 'cespare/vim-toml', { 'for': 'toml' } " toml语法插件
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 Plug 'dag/vim-fish', { 'for': 'fish' }
@@ -235,37 +235,37 @@ endif
 let g:mapleader=','
 
 " 翻页
-nmap <M-j> <C-f>zz
-nmap <M-k> <C-b>zz
-nmap <M-f> <PageDown>
-nmap <M-v> <PageUp>
-imap <M-f> <PageDown>
-imap <M-v> <PageUp>
+nnoremap <M-j> <C-f>zz
+nnoremap <M-k> <C-b>zz
+nnoremap <M-f> <PageDown>
+nnoremap <M-v> <PageUp>
+inoremap <M-f> <PageDown>
+inoremap <M-v> <PageUp>
 
 " 在改变列表中移动
-nmap <silent> g; g;zz
-nmap <silent> g, g,zz
+nnoremap <silent> g; g;zz
+nnoremap <silent> g, g,zz
 
 " 切换窗口
-nmap <silent> <space>j <C-w>j
-nmap <silent> <space>k <C-w>k
-nmap <silent> <space>h <C-w>h
-nmap <silent> <space>l <C-w>l
+nnoremap <silent> <space>j <C-w>j
+nnoremap <silent> <space>k <C-w>k
+nnoremap <silent> <space>h <C-w>h
+nnoremap <silent> <space>l <C-w>l
 
 " 关闭窗口
-map <M-c> <ESC>:close<CR>
+nnoremap <M-c> <ESC>:close<CR>
 
 
 " 切换tab
-nmap <M-1> 1gt
-nmap <M-2> 2gt
-nmap <M-3> 3gt
-nmap <M-4> 4gt
-nmap <M-5> 5gt
-nmap <M-6> 6gt
-nmap <M-7> 7gt
-nmap <M-8> 8gt
-nmap <M-9> 9gt
+nnoremap <M-1> 1gt
+nnoremap <M-2> 2gt
+nnoremap <M-3> 3gt
+nnoremap <M-4> 4gt
+nnoremap <M-5> 5gt
+nnoremap <M-6> 6gt
+nnoremap <M-7> 7gt
+nnoremap <M-8> 8gt
+nnoremap <M-9> 9gt
 
 " 保存
 map <C-s> <ESC>:update<CR>
@@ -285,7 +285,7 @@ nnoremap <C-v> <ESC>i<C-r>+<ESC>
 imap <C-v> <C-r>+
 
 " 列选择模式
-nmap vv <C-Q>
+nnoremap vv <C-Q>
 
 " 普通模式下复制文件路径
 map <Leader>cp :let @+=expand('%:p')<CR>
@@ -300,10 +300,10 @@ imap <C-d> <DEL>
 imap <M-BS> <C-w>
 
 " 用Tab缩进
-nmap <Tab> v>
-nmap <S-Tab> v<
-vmap <Tab> >
-vmap <S-Tab> <
+nnoremap <Tab> v>
+nnoremap <S-Tab> v<
+vnoremap <Tab> >
+vnoremap <S-Tab> <
 
 " Ctrl+方向键调整窗口大小
 nmap <C-Up> <C-w>+
@@ -426,10 +426,6 @@ if exists('g:use_coc')
 	vmap <leader>f <Plug>(coc-format-selected)
 	command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
-	nmap <leader>f <ESC>:CocList files<CR>
-	nmap <leader>b <ESC>:CocList buffers<CR>
-	nmap <leader>h <ESC>:CocList mru<CR>
-	" nmap <leader>t <ESC>:CocList tags<CR>
 	nmap <leader>o <ESC>:call <SID>Outline()<CR>
 	function! s:Outline()
 	  if &filetype == 'go'
@@ -441,21 +437,22 @@ if exists('g:use_coc')
 endif
 " }}}
 
-if !exists('g:use_coc')
 " fzf.vim: {{{3
-	noremap <leader>f <ESC>:GFiles<CR>
-	noremap <leader>F <ESC>:Files<CR>
-	noremap <leader>b <ESC>:Buffers<CR>
-	noremap <leader>o <ESC>:call <SID>Outline()<CR>
-	function! s:Outline()
-		if &filetype == 'go'
-			exec ':GoDecls'
-		else
-			exec ':Tags'
-		endif
-	endfunction
-" }}}
+noremap <leader>f <ESC>:GFiles<CR>
+noremap <leader>F <ESC>:Files<CR>
+noremap <leader>b <ESC>:Buffers<CR>
+noremap <leader>h <ESC>:History<CR>
+if !exists('g:use_coc')
+noremap <leader>o <ESC>:call <SID>Outline()<CR>
+function! s:Outline()
+	if &filetype == 'go'
+		exec ':GoDecls'
+	else
+		exec ':Tags'
+	endif
+endfunction
 endif
+" }}}
 
 if exists('g:use_asyncomplete_vim')
 " asyncomplete.vim: {{{3
@@ -1024,6 +1021,10 @@ let g:indentLine_fileType = ['c', 'cpp', 'python', 'php', 'javascript', 'typescr
 let g:indentLine_fileTypeExclude = ['text']
 let g:indentLine_bufTypeExclude = ['help', 'terminal']
 let g:indentLine_bufNameExclude = ['_.*', 'NERD_tree.*']
+" }}}
+
+" colorizer: {{{3
+let g:colorizer_maxlines=1000
 " }}}
 
 " vim-sleuth: {{{3
