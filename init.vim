@@ -78,7 +78,6 @@ Plug 'xolox/vim-session', { 'on': ['OpenSession', 'SaveSession'] } " Extended se
 Plug 'yianwillis/vimcdoc' " 中文帮助文档
 Plug 'zhimsel/vim-stay' " 保持最后的编辑状态
 Plug 'Lenovsky/nuake' " A Quake-style terminal panel for Neovim and Vim
-Plug 'wellle/context.vim' " shows the context of the currently visible buffer contents
 Plug 'qpkorr/vim-renamer' " 以编辑文本的方式批量修改文件名
 " }}}
 
@@ -121,7 +120,8 @@ Plug 'matze/vim-ini-fold', { 'for': ['dosini', 'ini'] }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' } " 更好的缩进
 Plug 'tweekmonster/hl-goimport.vim', { 'for': 'go' } " 高亮golang包名
 if has('nvim-0.6')
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " 更好的高亮
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " Nvim Treesitter configurations and abstraction layer
+Plug 'romgrk/nvim-treesitter-context' " Show code context
 endif
 if exists('g:use_vimwiki')
 Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' , 'on': ['<Plug>VimwikiIndex', '<Plug>VimwikiUISelect', '<Plug>VimwikiTabIndex', '<Plug>VimwikiDiaryIndex', '<Plug>VimwikiMakeDiaryNote', '<Plug>VimwikiTabMakeDiaryNote', '<Plug>VimwikiMakeTomorrowDiaryNote' ] } " Personal Wiki for Vim
@@ -136,6 +136,11 @@ endif
 if exists('g:use_nvim_cmp')
 	Plug 'hrsh7th/nvim-cmp' " Autocompletion plugin
 	Plug 'hrsh7th/cmp-nvim-lsp' " LSP source for nvim-cmp
+	Plug 'hrsh7th/cmp-nvim-lua' " nvim-cmp source for nvim lua
+	Plug 'hrsh7th/cmp-path' " nvim-cmp source for path
+	Plug 'hrsh7th/cmp-buffer' " nvim-cmp source for buffer words
+	Plug 'hrsh7th/cmp-emoji' " nvim-cmp source for emoji
+	Plug 'hrsh7th/cmp-calc' " nvim-cmp source for math calculation
 	Plug 'saadparwaiz1/cmp_luasnip' " Snippets source for nvim-cmp
 	Plug 'L3MON4D3/LuaSnip' " Snippets plugin
 	Plug 'neovim/nvim-lspconfig' " Collection of configurations for built-in LSP client
@@ -504,6 +509,17 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'emoji' },
+    { name = 'calc' },
+	{
+		name = 'buffer',
+		opts = {
+			get_bufnrs = function()
+				return vim.api.nvim_list_bufs()
+			end
+		}
+	},
+    { name = 'path' },
   },
 }
 
@@ -636,7 +652,6 @@ let g:NERDTreeSyntaxEnabledExtensions = ['c', 'h', 'c++', 'php', 'go', 'html', '
 
 " vim-easy-align: {{{3
 xnoremap <space>a <Plug>(EasyAlign)
-nnoremap <space>a <Plug>(EasyAlign)
 " }}}
 
 " vim-mark: {{{
@@ -651,8 +666,9 @@ nnoremap <space>ss <ESC>:CtrlSFToggle<CR>
 " }}}
 
 " vim-easymotion: {{{3
-nnoremap f <Plug>(easymotion-f)
-nnoremap F <Plug>(easymotion-F)
+let g:Easymotion_do_mapping=0
+nmap t <Plug>(easymotion-f)
+nmap T <Plug>(easymotion-F)
 " }}}
 
 " tagbar: {{{3
@@ -761,6 +777,8 @@ set viewoptions=cursor,folds,slash,unix
 
 " gutentags: {{{3
 let g:gutentags_cache_dir = '~/.tags'
+let g:gutentags_project_root = ['.git', '.hg', '.svn', '.bzr', '_darcs', '_darcs', '_FOSSIL_', '.fslckout', 'go.mod']
+let g:gutentags_exclude_filetypes = []
 " }}}
 
 " MatchTagAlways: {{{3
@@ -914,8 +932,8 @@ let g:sleuth_automatic = 1
 " vim-translate-me: {{{3
 let g:vtm_default_mapping = 0
 let g:vtm_default_engines = ['youdao', 'ciba', 'google']
-nnoremap <silent> <leader>t <Plug>TranslateW
-vnoremap <silent> <leader>t <Plug>TranslateWV
+nmap <silent> <leader>t <Plug>TranslateW
+vmap <silent> <leader>t <Plug>TranslateWV
 " }}}
 
 " vim-exchange: {{{3
@@ -933,20 +951,6 @@ inoremap <C-Bslash> <C-\><C-n>:Nuake<CR>
 tnoremap <C-Bslash> <C-\><C-n>:Nuake<CR>
 " }}}
 
-" }}}
-
-" context.vim: {{{3
-let g:context_nvim_no_redraw = 1
-" let g:context_add_autocmds = 0
-" autocmd VimEnter     * ContextActivate
-" autocmd BufAdd       * call context#update('BufAdd')
-" autocmd BufEnter     * call context#update('BufEnter')
-" autocmd CursorMoved  * call context#update('CursorMoved')
-" autocmd VimResized   * call context#update('VimResized')
-" autocmd CursorHold   * call context#update('CursorHold')
-" autocmd User GitGutter call context#update('GitGutter')
-" autocmd OptionSet number,relativenumber,numberwidth,signcolumn,tabstop,list
-"             \          call context#update('OptionSet')
 " }}}
 
 "load local config
