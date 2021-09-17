@@ -490,8 +490,8 @@ cmp.setup {
     ['<Tab>'] = function(fallback)
       if vim.fn.pumvisible() == 1 then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
-      elseif luasnip.expand_or_jumpable() then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-expand-or-jump', true, true, true), '')
+      -- elseif luasnip.expand_or_jumpable() then
+      --   vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-expand-or-jump', true, true, true), '')
       else
         fallback()
       end
@@ -499,8 +499,8 @@ cmp.setup {
     ['<S-Tab>'] = function(fallback)
       if vim.fn.pumvisible() == 1 then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
-      elseif luasnip.jumpable(-1) then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-jump-prev', true, true, true), '')
+      -- elseif luasnip.jumpable(-1) then
+      --   vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-jump-prev', true, true, true), '')
       else
         fallback()
       end
@@ -651,13 +651,7 @@ let g:NERDTreeSyntaxEnabledExtensions = ['c', 'h', 'c++', 'php', 'go', 'html', '
 " }}}
 
 " vim-easy-align: {{{3
-xnoremap <space>a <Plug>(EasyAlign)
-" }}}
-
-" vim-mark: {{{
-let g:mw_no_mappings = 1
-nnoremap <leader>m <Plug>MarkSet
-xnoremap <leader>m <Plug>MarkSet
+xmap <space>a <Plug>(EasyAlign)
 " }}}
 
 " ctrlsf: {{{3
@@ -681,15 +675,15 @@ let g:interestingWordsGUIColors = ['#8CCBEA', '#A4E57E', '#FFDB72', '#FF7272', '
 " }}}
 
 " expand-region: {{{3
-nnoremap + <Plug>(expand_region_expand)
-vnoremap + <Plug>(expand_region_expand)
-nnoremap _ <Plug>(expand_region_shrink)
-vnoremap _ <Plug>(expand_region_shrink)
+nmap + <Plug>(expand_region_expand)
+vmap + <Plug>(expand_region_expand)
+nmap _ <Plug>(expand_region_shrink)
+vmap _ <Plug>(expand_region_shrink)
 " }}}
 
 " vim-speeddating: {{{3
-nnoremap <C-a> <Plug>SpeedDatingUp
-nnoremap <C-x> <Plug>SpeedDatingDown
+nmap <C-a> <Plug>SpeedDatingUp
+nmap <C-x> <Plug>SpeedDatingDown
 " }}}
 
 " urlview.vim: {{{3
@@ -697,11 +691,11 @@ nnoremap <silent> <leader>u :Urlview<CR>
 " }}}
 
 " surround: {{{3
-nnoremap ds <Plug>Dsurround
-nnoremap cs <Plug>Csurround
-nnoremap yss <Plug>Yssurround
-nnoremap ys <Plug>Ysurround
-xnoremap S <Plug>VSurround
+nmap ds <Plug>Dsurround
+nmap cs <Plug>Csurround
+nmap yss <Plug>Yssurround
+nmap ys <Plug>Ysurround
+xmap S <Plug>VSurround
 " }}}
 
 " lightline.vim: {{{3
@@ -895,16 +889,16 @@ else
 		endif
 	endfor
 endif
-nnoremap <Leader>ww <Plug>VimwikiIndex
-nnoremap <Leader>ws <Plug>VimwikiUISelect
-nnoremap <Leader>wt <Plug>VimwikiTabIndex
-nnoremap <Leader>wi <Plug>VimwikiDiaryIndex
-nnoremap <Leader>w<Leader>w <Plug>VimwikiMakeDiaryNote
-nnoremap <Leader>w<Leader>t <Plug>VimwikiTabMakeDiaryNote
-nnoremap <Leader>w<Leader>m <Plug>VimwikiMakeTomorrowDiaryNote
-nnoremap <Leader><Leader> <Plug>VimwikiFollowLink
-nnoremap <Leader>wn <Plug>VimwikiNextLink
-nnoremap <Leader>wp <Plug>VimwikiPrevLink
+nmap <Leader>ww <Plug>VimwikiIndex
+nmap <Leader>ws <Plug>VimwikiUISelect
+nmap <Leader>wt <Plug>VimwikiTabIndex
+nmap <Leader>wi <Plug>VimwikiDiaryIndex
+nmap <Leader>w<Leader>w <Plug>VimwikiMakeDiaryNote
+nmap <Leader>w<Leader>t <Plug>VimwikiTabMakeDiaryNote
+nmap <Leader>w<Leader>m <Plug>VimwikiMakeTomorrowDiaryNote
+nmap <Leader><Leader> <Plug>VimwikiFollowLink
+nmap <Leader>wn <Plug>VimwikiNextLink
+nmap <Leader>wp <Plug>VimwikiPrevLink
 endif
 " }}}
 
@@ -938,10 +932,10 @@ vmap <silent> <leader>t <Plug>TranslateWV
 
 " vim-exchange: {{{3
 let g:exchange_no_mappings = 1
-nnoremap cxx <Plug>(ExchangeLine)
-nnoremap cxc <Plug>(ExchangeClear)
-nnoremap cx <Plug>(Exchange)
-xnoremap X <Plug>(Exchange)
+nmap cxx <Plug>(ExchangeLine)
+nmap cxc <Plug>(ExchangeClear)
+nmap cx <Plug>(Exchange)
+xmap X <Plug>(Exchange)
 " }}}
 
 " nuake: {{{3
