@@ -24,10 +24,10 @@ if !has('nvim')
 	Plug 'roxma/nvim-yarp'
 	Plug 'roxma/vim-hug-neovim-rpc'
 endif
+if exists('g:use_fcitx')
+	Plug 'lilydjwg/fcitx.vim' " 自动切换中英文
+endif
 if has('unix')
-	if !has('mac')
-		Plug 'lilydjwg/fcitx.vim' " 自动切换中英文
-	endif
 	Plug 'tpope/vim-eunuch' " Helpers for UNIX
 endif
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
