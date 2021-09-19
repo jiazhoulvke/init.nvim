@@ -30,12 +30,25 @@ endif
 if has('unix')
 	Plug 'tpope/vim-eunuch' " Helpers for UNIX
 endif
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+if exists('g:use_nerdtree')
+	Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+	Plug 'Xuyuanp/nerdtree-git-plugin'
+	Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+	Plug 'ryanoasis/vim-devicons' " Adds file type glyphs/icons to popular Vim plugins
+endif
+if exists('g:use_fern')
+	Plug 'lambdalisue/fern.vim'
+	Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+	Plug 'lambdalisue/glyph-palette.vim'
+	Plug 'lambdalisue/fern-git-status.vim'
+	Plug 'lambdalisue/fern-bookmark.vim'
+	Plug 'lambdalisue/fern-hijack.vim'
+	Plug 'lambdalisue/nerdfont.vim'
+	Plug 'yuki-yano/fern-preview.vim'
+endif
+Plug 'antoinemadec/FixCursorHold.nvim'
 Plug 'Valloric/MatchTagAlways', { 'for': ['html','xhtml', 'xml', 'vue'] } " tag配对显示
 Plug 'RRethy/vim-illuminate' " Vim plugin for automatically highlighting other uses of the word under the cursor
-Plug 'Yggdroot/indentLine', { 'for': ['c', 'cpp', 'python', 'php', 'javascript', 'typescript', 'html', 'xml', 'vue', 'vim'] } " Show vertical lines for indent with conceal feature
 Plug 'dhruvasagar/vim-zoom', { 'on': '<Plug>(zoom-toggle)' } " Toggle zoom in / out individual windows (splits) maps: <C-w>m
 Plug 'dyng/ctrlsf.vim', { 'on': 'CtrlSF' } " 文件内容查找
 Plug 'brooth/far.vim', { 'on': 'Far' } " Find And Replace Vim plugin
@@ -84,7 +97,8 @@ Plug 'qpkorr/vim-renamer' " 以编辑文本的方式批量修改文件名
 " UI: {{{2
 if exists('g:use_lightline')
 	Plug 'itchyny/lightline.vim'
-else
+endif
+if exists('g:use_airline')
 	Plug 'bling/vim-airline' " beautiful status line
 	Plug 'vim-airline/vim-airline-themes'
 endif
@@ -94,7 +108,6 @@ Plug 'iCyMind/NeoSolarized' " colorscheme
 Plug 'morhetz/gruvbox' " colorscheme
 Plug 'rakr/vim-one'
 
-Plug 'ryanoasis/vim-devicons' " Adds file type glyphs/icons to popular Vim plugins
 Plug 'luochen1990/rainbow', { 'for':  ['python', 'javascript', 'jsx', 'html', 'css', 'go', 'vim', 'toml', 'lisp', 'scheme'], 'on': 'RainbowToggle' } " Rainbow Parentheses Improved, shorter code, no level limit, smooth and fast, powerful configuration.
 " }}}
 
@@ -639,7 +652,8 @@ nnoremap <silent> <C-l> <Plug>(ale_next)
 " }}}
 
 " nerdtree: {{{3
-nnoremap - <ESC>:NERDTreeToggle<CR>
+nnoremap \ <ESC>:NERDTreeToggle<CR>
+let NERDTreeIgnore=['\~$','node_modules[[dir]]']
 let g:NERDTreeDisableExactMatchHighlight = 1
 let g:NERDTreeDisablePatternMatchHighlight = 1
 let g:NERDTreeHighlightCursorline = 0
@@ -648,6 +662,53 @@ let g:NERDTreeSyntaxDisableDefaultExactMatches = 1
 let g:NERDTreeSyntaxDisableDefaultExtensions = 1
 let g:NERDTreeSyntaxDisableDefaultPatternMatches = 1
 let g:NERDTreeSyntaxEnabledExtensions = ['c', 'h', 'c++', 'php', 'go', 'html', 'js', 'css']
+" }}}
+
+" lambdalisue/fern.vim: {{{3
+nmap \ <ESC>:Fern . -drawer -toggle<CR>
+let g:fern#default_exclude = '^node_modules$'
+
+" lambdalisue/fern-renderer-nerdfont.vim: {{{4
+let g:fern#renderer = "nerdfont"
+" }}}
+
+" lambdalisue/glyph-palette.vim: {{{4
+augroup my-glyph-palette
+	autocmd! *
+	autocmd FileType fern call glyph_palette#apply()
+	autocmd FileType nerdtree,startify call glyph_palette#apply()
+augroup END
+" }}}
+
+" yuki-yano/fern-preview.vim: {{{4
+function! s:fern_settings() abort
+  nmap <silent> <buffer> p     <Plug>(fern-action-preview:toggle)
+  nmap <silent> <buffer> <C-p> <Plug>(fern-action-preview:auto:toggle)
+  nmap <silent> <buffer> <C-d> <Plug>(fern-action-preview:scroll:down:half)
+  nmap <silent> <buffer> <C-u> <Plug>(fern-action-preview:scroll:up:half)
+endfunction
+
+augroup fern-settings
+  autocmd!
+  autocmd FileType fern call s:fern_settings()
+augroup END
+function! s:fern_preview_window_width() abort
+	let width = float2nr(&columns * 0.6)
+	return width
+endfunction
+
+let g:fern_preview_window_calculator = {}
+let g:fern_preview_window_calculator.width = function('s:fern_preview_window_width')
+
+" }}}
+
+" fern-bookmark.vim: {{{4
+let g:fern#mapping#bookmark#disable_default_mappings = 0
+" }}}
+" }}}
+
+" antoinemadec/FixCursorHold.nvim: {{{3
+let g:cursorhold_updatetime = 100
 " }}}
 
 " vim-easy-align: {{{3
@@ -905,14 +966,6 @@ endif
 " dart: {{{3
 let dart_html_in_string=v:true
 let g:dart_format_on_save = 1
-" }}}
-
-" indentLine: {{{3
-let g:indentLine_char = '┊'
-let g:indentLine_fileType = ['c', 'cpp', 'python', 'php', 'javascript', 'typescript', 'html', 'xml', 'vue']
-let g:indentLine_fileTypeExclude = ['text']
-let g:indentLine_bufTypeExclude = ['help', 'terminal']
-let g:indentLine_bufNameExclude = ['_.*', 'NERD_tree.*']
 " }}}
 
 " colorizer: {{{3
