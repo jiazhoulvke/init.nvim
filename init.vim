@@ -185,6 +185,12 @@ set display=lastline " 解决超长行显示异常的问题
 set lazyredraw " 不立即重绘
 set nocursorline " 不高亮当前行
 set conceallevel=2
+" vim hardcodes background color erase even if the terminfo file does
+" not contain bce (not to mention that libvte based terminals
+" incorrectly contain bce in their terminfo files). This causes
+" incorrect background rendering when using a color theme with a
+" background color.
+let &t_ut=''
 if exists('g:use_truecolor')
 	set termguicolors " 设置真彩色
 endif
@@ -663,8 +669,8 @@ let g:NERDTreeSyntaxDisableDefaultExtensions = 1
 let g:NERDTreeSyntaxDisableDefaultPatternMatches = 1
 let g:NERDTreeSyntaxEnabledExtensions = ['c', 'h', 'c++', 'php', 'go', 'html', 'js', 'css']
 " }}}
-
 " lambdalisue/fern.vim: {{{3
+if exists('g:use_fern')
 nmap \ <ESC>:Fern . -drawer -toggle<CR>
 let g:fern#default_exclude = '^node_modules$'
 
@@ -705,6 +711,8 @@ let g:fern_preview_window_calculator.width = function('s:fern_preview_window_wid
 " fern-bookmark.vim: {{{4
 let g:fern#mapping#bookmark#disable_default_mappings = 0
 " }}}
+
+endif
 " }}}
 
 " antoinemadec/FixCursorHold.nvim: {{{3
