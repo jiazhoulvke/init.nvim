@@ -619,8 +619,23 @@ else
   print("Unsupported system for sumneko")
 end
 
-local sumneko_root_path = vim.fn.stdpath('data')..'/lsp_servers/sumneko_lua/extension/server'
-local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
+local sumneko_root_path
+local sumneko_binary
+
+local isset_sumneko_root_path = vim.fn.exists('g:sumneko_root_path')
+local isset_sumneko_binary = vim.fn.exists('g:sumneko_binary')
+
+if isset_sumneko_root_path == 1 then
+	sumneko_root_path = vim.api.nvim_get_var('sumneko_root_path')
+else
+	sumneko_root_path = vim.fn.stdpath('data')..'/lsp_servers/sumneko_lua/extension/server'
+end
+
+if isset_sumneko_binary == 1 then
+	sumneko_binary = vim.api.nvim_get_var('sumneko_binary')
+else
+	sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
+end
 
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
