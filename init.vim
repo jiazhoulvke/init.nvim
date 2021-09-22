@@ -731,7 +731,19 @@ let g:NERDTreeSyntaxEnabledExtensions = ['c', 'h', 'c++', 'php', 'go', 'html', '
 " }}}
 " lambdalisue/fern.vim: {{{3
 if exists('g:use_fern')
+
 nmap \ <ESC>:Fern . -drawer -toggle<CR>
+
+function! s:init_fern() abort
+  nmap <silent> <buffer> <2-LeftMouse> <Plug>(fern-action-open-or-expand)
+  nmap <silent> <buffer> <RightMouse> <Plug>(fern-action-collapse)
+endfunction
+
+augroup fern-custom
+  autocmd! *
+  autocmd FileType fern call s:init_fern()
+augroup END
+
 let g:fern#default_exclude = '^node_modules$'
 
 " lambdalisue/fern-renderer-nerdfont.vim: {{{4
