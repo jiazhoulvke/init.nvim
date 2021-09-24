@@ -150,12 +150,11 @@ if exists('g:use_nvim_cmp')
 	Plug 'hrsh7th/nvim-cmp' " Autocompletion plugin
 	Plug 'hrsh7th/cmp-nvim-lsp' " LSP source for nvim-cmp
 	Plug 'hrsh7th/cmp-nvim-lua' " nvim-cmp source for nvim lua
-	Plug 'hrsh7th/cmp-path' " nvim-cmp source for path
 	Plug 'hrsh7th/cmp-buffer' " nvim-cmp source for buffer words
 	Plug 'hrsh7th/cmp-emoji' " nvim-cmp source for emoji
 	Plug 'hrsh7th/cmp-calc' " nvim-cmp source for math calculation
-	Plug 'saadparwaiz1/cmp_luasnip' " Snippets source for nvim-cmp
-	Plug 'L3MON4D3/LuaSnip' " Snippets plugin
+	Plug 'sirVer/ultisnips'
+	Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 	Plug 'neovim/nvim-lspconfig' " Collection of configurations for built-in LSP client
 	Plug 'williamboman/nvim-lsp-installer'
 endif
@@ -485,17 +484,14 @@ lua << EOF
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
--- luasnip setup
-local luasnip = require 'luasnip'
-
 -- nvim-cmp setup {{{
 local cmp = require 'cmp'
 cmp.setup {
-  snippet = {
-    expand = function(args)
-      require('luasnip').lsp_expand(args.body)
-    end,
-  },
+   snippet = {
+     expand = function(args)
+	   vim.fn["UltiSnips#Anon"](args.body)
+     end,
+   },
   mapping = {
     ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -510,8 +506,6 @@ cmp.setup {
     ['<Tab>'] = function(fallback)
       if vim.fn.pumvisible() == 1 then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
-      -- elseif luasnip.expand_or_jumpable() then
-      --   vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-expand-or-jump', true, true, true), '')
       else
         fallback()
       end
@@ -519,8 +513,6 @@ cmp.setup {
     ['<S-Tab>'] = function(fallback)
       if vim.fn.pumvisible() == 1 then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
-      -- elseif luasnip.jumpable(-1) then
-      --   vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-jump-prev', true, true, true), '')
       else
         fallback()
       end
@@ -528,18 +520,21 @@ cmp.setup {
   },
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'luasnip' },
+	{ name = 'ultisnips' },
     { name = 'emoji' },
     { name = 'calc' },
 	{
 		name = 'buffer',
 		opts = {
 			get_bufnrs = function()
-				return vim.api.nvim_list_bufs()
+				local bufs = {}
+				for _, win in ipairs(vim.api.nvim_list_wins()) do
+					bufs[vim.api.nvim_win_get_buf(win)] = true
+				end
+				return vim.tbl_keys(bufs)
 			end
 		}
 	},
-    { name = 'path' },
   },
 }
 
