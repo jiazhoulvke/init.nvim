@@ -144,7 +144,6 @@ endif
 " Completion: {{{2
 if exists('g:use_coc')
 	Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-	Plug 'honza/vim-snippets' " 代码片段
 endif
 if exists('g:use_nvim_cmp')
 	Plug 'hrsh7th/nvim-cmp' " Autocompletion plugin
@@ -158,6 +157,7 @@ if exists('g:use_nvim_cmp')
 	Plug 'neovim/nvim-lspconfig' " Collection of configurations for built-in LSP client
 	Plug 'williamboman/nvim-lsp-installer'
 endif
+Plug 'honza/vim-snippets' " 代码片段
 Plug 'fatih/vim-go', { 'for': 'go' } " golang补全
 
 "}}}
@@ -568,7 +568,7 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
 	buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
 	-- buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-	-- buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+	buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
 -- Add additional capabilities supported by nvim-cmp
@@ -592,7 +592,7 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
 local nvim_lsp = require('lspconfig')
-local servers = { 'clangd', 'gopls', 'dartls', 'sqls', 'pylsp', 'sumneko_lua' }
+local servers = { 'clangd', 'gopls', 'dartls', 'sqls', 'intelephense', 'pylsp', 'sumneko_lua' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
 	on_attach = on_attach,
@@ -713,6 +713,7 @@ nnoremap <silent> <C-l> <Plug>(ale_next)
 " }}}
 
 " nerdtree: {{{3
+if exists('g:use_nerdtree')
 nnoremap \ <ESC>:NERDTreeToggle<CR>
 let NERDTreeIgnore=['\~$','node_modules[[dir]]']
 let g:NERDTreeDisableExactMatchHighlight = 1
@@ -723,7 +724,9 @@ let g:NERDTreeSyntaxDisableDefaultExactMatches = 1
 let g:NERDTreeSyntaxDisableDefaultExtensions = 1
 let g:NERDTreeSyntaxDisableDefaultPatternMatches = 1
 let g:NERDTreeSyntaxEnabledExtensions = ['c', 'h', 'c++', 'php', 'go', 'html', 'js', 'css']
+endif
 " }}}
+
 " lambdalisue/fern.vim: {{{3
 if exists('g:use_fern')
 
