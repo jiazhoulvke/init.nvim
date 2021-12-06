@@ -27,6 +27,9 @@ endif
 if exists('g:use_fcitx')
 	Plug 'lilydjwg/fcitx.vim' " 自动切换中英文
 endif
+if exists('g:use_ibus')
+	Plug 'jiazhoulvke/ibus-autoswitch.vim'
+endif
 if has('unix')
 	Plug 'tpope/vim-eunuch' " Helpers for UNIX
 endif
@@ -525,7 +528,7 @@ cmp.setup {
     { name = 'calc' },
 	{
 		name = 'buffer',
-		opts = {
+		option = {
 			get_bufnrs = function()
 				local bufs = {}
 				for _, win in ipairs(vim.api.nvim_list_wins()) do
