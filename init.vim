@@ -150,14 +150,14 @@ if exists('g:use_coc')
 endif
 if exists('g:use_nvim_cmp')
 	Plug 'hrsh7th/nvim-cmp' " Autocompletion plugin
+	Plug 'hrsh7th/cmp-buffer' " nvim-cmp source for buffer words
+	Plug 'hrsh7th/cmp-cmdline'
 	Plug 'hrsh7th/cmp-nvim-lsp' " LSP source for nvim-cmp
 	Plug 'hrsh7th/cmp-nvim-lua' " nvim-cmp source for nvim lua
-	Plug 'hrsh7th/cmp-buffer' " nvim-cmp source for buffer words
-	Plug 'hrsh7th/cmp-emoji' " nvim-cmp source for emoji
-	Plug 'hrsh7th/cmp-calc' " nvim-cmp source for math calculation
-	Plug 'sirVer/ultisnips'
-	Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+	Plug 'hrsh7th/cmp-path'
 	Plug 'neovim/nvim-lspconfig' " Collection of configurations for built-in LSP client
+	Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+	Plug 'sirVer/ultisnips'
 	Plug 'williamboman/nvim-lsp-installer'
 endif
 Plug 'honza/vim-snippets' " 代码片段
@@ -264,10 +264,8 @@ let g:mapleader=','
 " 翻页
 nnoremap <M-j> <C-f>zz
 nnoremap <M-k> <C-b>zz
-nnoremap <M-f> <PageDown>
-nnoremap <M-v> <PageUp>
-inoremap <M-f> <PageDown>
-inoremap <M-v> <PageUp>
+nnoremap <M-n> <PageDown>
+nnoremap <M-p> <PageUp>
 
 " 在改变列表中移动
 nnoremap <silent> g; g;zz
@@ -282,17 +280,22 @@ nnoremap <silent> <space>l <C-w>l
 " 关闭窗口
 nnoremap <M-c> <ESC>:close<CR>
 
+" 创建标签
+nnoremap <leader>n :tabnew<CR>
+
+" 删除标签
+nnoremap <leader>dt :tabclose<CR>
 
 " 切换tab
-nnoremap <M-1> 1gt
-nnoremap <M-2> 2gt
-nnoremap <M-3> 3gt
-nnoremap <M-4> 4gt
-nnoremap <M-5> 5gt
-nnoremap <M-6> 6gt
-nnoremap <M-7> 7gt
-nnoremap <M-8> 8gt
-nnoremap <M-9> 9gt
+nnoremap <leader>1 1gt
+nnoremap <leader>2 2gt
+nnoremap <leader>3 3gt
+nnoremap <leader>4 4gt
+nnoremap <leader>5 5gt
+nnoremap <leader>6 6gt
+nnoremap <leader>7 7gt
+nnoremap <leader>8 8gt
+nnoremap <leader>9 9gt
 
 " 保存
 map <C-s> <ESC>:update<CR>
@@ -305,11 +308,18 @@ vmap <C-X> "+x
 " Ctrl+C复制
 vmap <C-C> "+y
 
+function! MyPaste() abort
+	set paste
+    exe "normal \"+gP"
+	set nopaste
+endfunction
+
 " CTRL-V粘贴
 vmap <C-V> "+gp
-cmap <C-V> <S-Insert>
-nnoremap <C-v> <ESC>i<C-r>+<ESC>
-imap <C-v> <C-r>+
+imap <M-v> <C-r>+
+cmap <C-v> <C-r>+
+" nnoremap <C-v> <ESC>:call MyPaste()<CR>
+nnoremap <C-v> "+gp
 
 " 列选择模式
 nnoremap vv <C-Q>
@@ -485,7 +495,7 @@ endif
 if exists('g:use_nvim_cmp')
 lua << EOF
 -- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect'
+vim.o.completeopt = 'menu,menuone,noselect'
 
 -- nvim-cmp setup {{{
 local cmp = require 'cmp'
@@ -496,50 +506,69 @@ cmp.setup {
      end,
    },
   mapping = {
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
+    ['<M-p>'] = cmp.mapping.select_prev_item(),
+    ['<M-n>'] = cmp.mapping.select_next_item(),
+    ['<M-k>'] = cmp.mapping.scroll_docs(-4),
+    ['<M-j>'] = cmp.mapping.scroll_docs(4),
+    ['<M-.>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+	['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+    ['<C-e>'] = cmp.mapping({
+		i = cmp.mapping.close(),
+		c = cmp.mapping.close(),
+	}),
     ['<CR>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
-    ['<Tab>'] = function(fallback)
-      if vim.fn.pumvisible() == 1 then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
-      else
-        fallback()
-      end
-    end,
-    ['<S-Tab>'] = function(fallback)
-      if vim.fn.pumvisible() == 1 then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
-      else
-        fallback()
-      end
-    end,
+	['<Tab>'] = function(fallback)
+		if cmp.visible() then
+			cmp.select_next_item()
+		else
+			fallback()
+		end
+	end,
+	['<S-Tab>'] = function(fallback)
+		if cmp.visible() then
+			cmp.select_prev_item()
+		else
+			fallback()
+		end
+	end,
   },
   sources = {
     { name = 'nvim_lsp' },
 	{ name = 'ultisnips' },
-    { name = 'emoji' },
-    { name = 'calc' },
 	{
 		name = 'buffer',
 		option = {
 			get_bufnrs = function()
-				local bufs = {}
-				for _, win in ipairs(vim.api.nvim_list_wins()) do
-					bufs[vim.api.nvim_win_get_buf(win)] = true
-				end
-				return vim.tbl_keys(bufs)
+				return vim.api.nvim_list_bufs()
+				-- local bufs = {}
+				-- for _, win in ipairs(vim.api.nvim_list_wins()) do
+				-- 	bufs[vim.api.nvim_win_get_buf(win)] = true
+				-- end
+				-- return vim.tbl_keys(bufs)
 			end
 		}
 	},
   },
 }
+
+-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline('/', {
+	sources = {
+		{ name = 'buffer' }
+		}
+	})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+	sources = cmp.config.sources({
+	{ name = 'path' }
+	}, {
+	{ name = 'cmdline' }
+	})
+})
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -565,7 +594,7 @@ local on_attach = function(client, bufnr)
 	-- buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
 	buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
 	buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-	-- buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+	buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 	buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
 	buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
 	buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
@@ -574,26 +603,7 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
--- Add additional capabilities supported by nvim-cmp
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.preselectSupport = true
-capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = {
-    'documentation',
-    'detail',
-    'additionalTextEdits',
-  },
-}
-
--- Enable some language servers with the additional completion capabilities offered by nvim-cmp
--- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 local nvim_lsp = require('lspconfig')
 local servers = { 'clangd', 'gopls', 'dartls', 'sqls', 'intelephense', 'pylsp', 'sumneko_lua' }
 for _, lsp in ipairs(servers) do
