@@ -479,15 +479,22 @@ nnoremap <leader>f <ESC>:GFiles<CR>
 nnoremap <leader>F <ESC>:Files<CR>
 nnoremap <leader>b <ESC>:Buffers<CR>
 nnoremap <leader>h <ESC>:History<CR>
-if !exists('g:use_coc')
-nnoremap <leader>o <ESC>:call <SID>Outline()<CR>
-function! s:Outline()
-	if &filetype == 'go'
-		exec ':GoDecls'
-	else
-		exec ':Tags'
-	endif
-endfunction
+" Path completion with custom source command
+if executable('rg')
+	inoremap <expr> <c-x><c-f> fzf#vim#complete#path('rg --files')
+elseif executable('fd')
+	inoremap <expr> <c-x><c-f> fzf#vim#complete#path('fd')
+endif
+" tags
+if !exists('g:use_coc') && !exists('g:use_nvim_cmp')
+	nnoremap <leader>o <ESC>:call <SID>Outline()<CR>
+	function! s:Outline()
+		if &filetype == 'go'
+			exec ':GoDecls'
+		else
+			exec ':Tags'
+		endif
+	endfunction
 endif
 " }}}
 
