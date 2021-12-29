@@ -33,12 +33,6 @@ endif
 if has('unix')
 	Plug 'tpope/vim-eunuch' " Helpers for UNIX
 endif
-if exists('g:use_nerdtree')
-	Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-	Plug 'Xuyuanp/nerdtree-git-plugin'
-	Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-	Plug 'ryanoasis/vim-devicons' " Adds file type glyphs/icons to popular Vim plugins
-endif
 if exists('g:use_fern')
 	Plug 'lambdalisue/fern.vim'
 	Plug 'lambdalisue/fern-renderer-nerdfont.vim'
@@ -188,6 +182,7 @@ set display=lastline " 解决超长行显示异常的问题
 set lazyredraw " 不立即重绘
 set nocursorline " 不高亮当前行
 set conceallevel=2
+set fdm=syntax
 " vim hardcodes background color erase even if the terminfo file does
 " not contain bce (not to mention that libvte based terminals
 " incorrectly contain bce in their terminfo files). This causes
@@ -486,7 +481,7 @@ elseif executable('fd')
 	inoremap <expr> <c-x><c-f> fzf#vim#complete#path('fd')
 endif
 " tags
-if !exists('g:use_coc') && !exists('g:use_nvim_cmp')
+if !exists('g:use_coc')
 	nnoremap <leader>o <ESC>:call <SID>Outline()<CR>
 	function! s:Outline()
 		if &filetype == 'go'
@@ -732,21 +727,6 @@ nnoremap <silent> <C-h> <Plug>(ale_previous)
 nnoremap <silent> <C-l> <Plug>(ale_next)
 " }}}
 
-" nerdtree: {{{3
-if exists('g:use_nerdtree')
-nnoremap \ <ESC>:NERDTreeToggle<CR>
-let NERDTreeIgnore=['\~$','node_modules[[dir]]']
-let g:NERDTreeDisableExactMatchHighlight = 1
-let g:NERDTreeDisablePatternMatchHighlight = 1
-let g:NERDTreeHighlightCursorline = 0
-let g:NERDTreeLimitedSyntax = 1
-let g:NERDTreeSyntaxDisableDefaultExactMatches = 1
-let g:NERDTreeSyntaxDisableDefaultExtensions = 1
-let g:NERDTreeSyntaxDisableDefaultPatternMatches = 1
-let g:NERDTreeSyntaxEnabledExtensions = ['c', 'h', 'c++', 'php', 'go', 'html', 'js', 'css']
-endif
-" }}}
-
 " lambdalisue/fern.vim: {{{3
 if exists('g:use_fern')
 
@@ -772,7 +752,7 @@ let g:fern#renderer = "nerdfont"
 augroup my-glyph-palette
 	autocmd! *
 	autocmd FileType fern call glyph_palette#apply()
-	autocmd FileType nerdtree,startify call glyph_palette#apply()
+	autocmd FileType startify call glyph_palette#apply()
 augroup END
 " }}}
 
@@ -917,13 +897,6 @@ let airline#extensions#ale#close_lnum_symbol = ')'
 let g:airline#extensions#languageclient#enabled = 1
 " }}}
 
-" }}}
-
-" vim-devicons: {{{3
-let g:airline_powerline_fonts = 1
-let g:webdevicons_enable_airline_tabline = 1
-let g:webdevicons_enable_airline_statusline = 1
-" let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
 " }}}
 
 " vim-stay: {{{3
