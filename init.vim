@@ -16,6 +16,8 @@ if filereadable($MY_VIM_PATH.'/preset_local.vim')
 	source $MY_VIM_PATH/preset_local.vim
 endif
 
+let g:mapleader=' '
+
 " Plugins: {{{1
 call plug#begin('~/.local/share/nvim/plugged')
 
@@ -34,16 +36,16 @@ if has('unix')
 	Plug 'tpope/vim-eunuch' " Helpers for UNIX
 endif
 if exists('g:use_fern')
-	Plug 'lambdalisue/fern.vim'
-	Plug 'lambdalisue/fern-renderer-nerdfont.vim'
-	Plug 'lambdalisue/glyph-palette.vim'
-	Plug 'lambdalisue/fern-git-status.vim'
-	Plug 'lambdalisue/fern-bookmark.vim'
-	Plug 'lambdalisue/fern-hijack.vim'
-	Plug 'lambdalisue/nerdfont.vim'
-	Plug 'yuki-yano/fern-preview.vim'
+	Plug 'lambdalisue/fern.vim' " General purpose asynchronous tree viewer written in Pure Vim script
+	Plug 'lambdalisue/fern-renderer-nerdfont.vim' " fern.vim plugin which add file type icon through nerdfont.vim
+	Plug 'lambdalisue/glyph-palette.vim' " An universal palette for Nerd Fonts
+	Plug 'lambdalisue/fern-git-status.vim' " Add Git status badge integration on file:// scheme on fern.vim
+	Plug 'lambdalisue/fern-bookmark.vim' " fern.vim plugin which add bookmark scheme
+	Plug 'lambdalisue/fern-hijack.vim' " Make fern.vim as a default file explorer instead of Netrw
+	Plug 'lambdalisue/nerdfont.vim' " Fundemental plugin to handle Nerd Fonts in Vim
+	Plug 'yuki-yano/fern-preview.vim' " Add a file preview window to fern.vim.
 endif
-Plug 'antoinemadec/FixCursorHold.nvim'
+Plug 'antoinemadec/FixCursorHold.nvim' " Fix CursorHold Performance.
 Plug 'Valloric/MatchTagAlways', { 'for': ['html','xhtml', 'xml', 'vue'] } " tag配对显示
 Plug 'RRethy/vim-illuminate' " Vim plugin for automatically highlighting other uses of the word under the cursor
 Plug 'dhruvasagar/vim-zoom', { 'on': '<Plug>(zoom-toggle)' } " Toggle zoom in / out individual windows (splits) maps: <C-w>m
@@ -81,7 +83,7 @@ Plug 'vim-scripts/LargeFile' " 针对大文件优化性能
 Plug 'vim-scripts/VisIncr', { 'on': ['I', 'IA'] } " 列编辑
 Plug 'vim-voom/VOoM', { 'on': ['Voom', 'VoomToggle'] } " 文档大纲
 Plug 'voldikss/vim-translate-me', { 'on': ['Translate', 'TranslateW', 'TranslateWV', '<Plug>TranslateW', '<Plug>TranslateWV'] } " (Neo)Vim translation plugin
-Plug 'w0rp/ale', { 'for': ['bash', 'sh'] } " 异步代码检测
+Plug 'w0rp/ale' " 异步代码检测
 Plug 'wellle/targets.vim' " Vim plugin that provides additional text objects: ({[<t(tags)
 Plug 'xolox/vim-misc' " Miscellaneous auto-load Vim scripts
 Plug 'xolox/vim-session', { 'on': ['OpenSession', 'SaveSession'] } " Extended session management for Vim (:mksession on steroids)
@@ -89,6 +91,9 @@ Plug 'yianwillis/vimcdoc' " 中文帮助文档
 Plug 'zhimsel/vim-stay' " 保持最后的编辑状态
 Plug 'Lenovsky/nuake' " A Quake-style terminal panel for Neovim and Vim
 Plug 'qpkorr/vim-renamer' " 以编辑文本的方式批量修改文件名
+Plug 'liuchengxu/vim-which-key' " Vim plugin that shows keybindings in popup
+Plug 'skywind3000/asynctasks.vim' " Modern Task System for Project Building, Testing and Deploying
+Plug 'skywind3000/asyncrun.vim' " Run Async Shell Commands in Vim 8.0 / NeoVim and Output to the Quickfix Window
 " }}}
 
 " UI: {{{2
@@ -132,9 +137,6 @@ Plug 'tweekmonster/hl-goimport.vim', { 'for': 'go' } " 高亮golang包名
 if has('nvim-0.6')
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " Nvim Treesitter configurations and abstraction layer
 Plug 'romgrk/nvim-treesitter-context' " Show code context
-endif
-if exists('g:use_vimwiki')
-Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' , 'on': ['<Plug>VimwikiIndex', '<Plug>VimwikiUISelect', '<Plug>VimwikiTabIndex', '<Plug>VimwikiDiaryIndex', '<Plug>VimwikiMakeDiaryNote', '<Plug>VimwikiTabMakeDiaryNote', '<Plug>VimwikiMakeTomorrowDiaryNote' ] } " Personal Wiki for Vim
 endif
 " }}}
 
@@ -183,6 +185,8 @@ set lazyredraw " 不立即重绘
 set nocursorline " 不高亮当前行
 set conceallevel=2
 set fdm=syntax
+set listchars=tab:\|\ ,trail:.,extends:>,precedes:<
+set formatoptions+=m
 " vim hardcodes background color erase even if the terminfo file does
 " not contain bce (not to mention that libvte based terminals
 " incorrectly contain bce in their terminfo files). This causes
@@ -203,6 +207,27 @@ if has("gui_running")
 	set guioptions-=L
 	set guioptions-=r
 endif
+
+" 让背景在透明和不透明间切换 {{{
+if !exists('g:background_is_transparent')
+    let g:background_is_transparent = 0
+endif
+let g:background_guibg = ''
+let g:background_ctermbg = ''
+function! ToggleBackground()
+    if g:background_is_transparent == 0
+        let g:background_guibg = synIDattr(synIDtrans(hlID('Normal')), 'bg', 'gui')
+        let g:background_ctermbg = synIDattr(synIDtrans(hlID('Normal')), 'bg', 'cterm')
+        hi Normal guibg=NONE ctermbg=NONE
+        let g:background_is_transparent = 1
+    else
+        exe 'hi Normal guibg=' . g:background_guibg . ' ctermbg=' . g:background_ctermbg
+        let g:background_is_transparent = 0
+    endif
+endfunction
+nnoremap <silent> <leader>tt <ESC>:call ToggleBackground()<CR>
+" }}}
+
 " }}}
 
 " Misc: {{{2
@@ -223,8 +248,9 @@ endif
 " set completeopt-=preview " 去掉补全时烦人的预览窗口
 " set completeopt+=noselect,noinsert
 set smartindent " 智能缩进
-set autoindent
+set autoindent " 自动缩进
 set ignorecase " 忽略大小写
+set smartcase " 默认忽略大小写，除非包含大写字母
 set smarttab " 智能tab
 set hidden " 在当前buffer没有保存时可以切换到其他buffer
 set undofile " 启用持久性撤销
@@ -254,32 +280,44 @@ endif
 
 " Bind: {{{2
 
-let g:mapleader=','
 
 " 翻页
-nnoremap <M-j> <C-f>zz
-nnoremap <M-k> <C-b>zz
-nnoremap <M-n> <PageDown>
-nnoremap <M-p> <PageUp>
+nnoremap <M-d> <C-f>zz
+nnoremap <M-e> <C-b>zz
+nnoremap <M-n> <C-f>zz
+nnoremap <M-p> <C-b>zz
 
 " 在改变列表中移动
 nnoremap <silent> g; g;zz
 nnoremap <silent> g, g,zz
 
 " 切换窗口
-nnoremap <silent> <space>j <C-w>j
-nnoremap <silent> <space>k <C-w>k
-nnoremap <silent> <space>h <C-w>h
-nnoremap <silent> <space>l <C-w>l
+nnoremap <silent> <leader>j <C-w>j
+nnoremap <silent> <leader>k <C-w>k
+nnoremap <silent> <leader>h <C-w>h
+nnoremap <silent> <leader>l <C-w>l
+nnoremap <silent> <M-h> <C-w>h
+nnoremap <silent> <M-j> <C-w>j
+nnoremap <silent> <M-k> <C-w>k
+nnoremap <silent> <M-l> <C-w>l
+inoremap <silent> <M-h> <Esc><C-w>h
+inoremap <silent> <M-j> <Esc><C-w>j
+inoremap <silent> <M-k> <Esc><C-w>k
+inoremap <silent> <M-l> <Esc><C-w>l
+tnoremap <silent> <M-h> <C-\><C-n><C-w>h
+tnoremap <silent> <M-j> <C-\><C-n><C-w>j
+tnoremap <silent> <M-k> <C-\><C-n><C-w>k
+tnoremap <silent> <M-l> <C-\><C-n><C-w>l
 
 " 关闭窗口
 nnoremap <M-c> <ESC>:close<CR>
+inoremap <M-c> <ESC>:close<CR>
 
 " 创建标签
-nnoremap <leader>n :tabnew<CR>
+nnoremap <leader>tn :tabnew<CR>
 
 " 删除标签
-nnoremap <leader>dt :tabclose<CR>
+nnoremap <leader>td :tabclose<CR>
 
 " 切换tab
 nnoremap <leader>1 1gt
@@ -293,9 +331,8 @@ nnoremap <leader>8 8gt
 nnoremap <leader>9 9gt
 
 " 保存
-map <C-s> <ESC>:update<CR>
-imap <C-s> <ESC>:update<CR>
-nnoremap <leader>s <ESC>:update<CR>
+nnoremap <M-s> <ESC>:update<CR>
+inoremap <M-s> <ESC>:update<CR>
 
 " CTRL-X剪切
 vmap <C-X> "+x
@@ -313,23 +350,22 @@ endfunction
 vmap <C-V> "+gp
 imap <M-v> <C-r>+
 cmap <C-v> <C-r>+
-" nnoremap <C-v> <ESC>:call MyPaste()<CR>
-nnoremap <C-v> "+gp
+nnoremap <C-v> <ESC>:call MyPaste()<CR>
 
 " 列选择模式
 nnoremap vv <C-Q>
 
 " 普通模式下复制文件路径
-map <Leader>cp :let @+=expand('%:p')<CR>
+nnoremap <C-c> :let @+=expand('%:p')<CR>
 
 " 插入模式下上开一行
-imap <C-CR> <ESC>O
+inoremap <M-cr> <Esc>O
 
 " 删除后面的字符
-imap <C-d> <DEL>
+inoremap <C-d> <DEL>
 
 " 删除一个词
-imap <M-BS> <C-w>
+inoremap <M-BS> <C-w>
 
 " 用Tab缩进
 nnoremap <Tab> v>
@@ -350,8 +386,7 @@ nnoremap ' za
 nnoremap <leader>cd <ESC>:cd %:p:h<CR>
 
 " 删除^M
-"nnoremap <Leader>dm mmHmn:%s/<C-V><cr>//ge<cr>'nzt'm
-nnoremap <Leader>dm <ESC>:%s/\r$//<CR>
+nnoremap <leader>dm <ESC>:%s/\r$//<CR>
 
 " 删除空行
 nnoremap <Leader>dbl :g/^\s*$/d<CR>
@@ -363,42 +398,28 @@ nnoremap <leader>jq <ESC>:%!jq '.'<CR>
 nnoremap j gj
 nnoremap k gk
 
-nnoremap <space><space> <ESC>:nohlsearch<CR>
+nnoremap <leader><leader> <ESC>:nohlsearch<CR>
 
 " 终端按键绑定
-" nnoremap <C-t> <ESC>:terminal<CR> " 进入终端
-tmap <C-o> <C-\><C-n> " 进入默认模式
-tmap <C-^> <C-\><C-n><C-^> " 切换buffer
-tmap <A-h> <C-\><C-N><C-w>h
-tmap <A-j> <C-\><C-N><C-w>j
-tmap <A-k> <C-\><C-N><C-w>k
-tmap <A-l> <C-\><C-N><C-w>l
-
-nnoremap <leader>ee <ESC>:e $MYVIMRC<CR>
-nnoremap <leader>rr <ESC>:source $MYVIMRC<CR>
-nnoremap <leader>el <ESC>:e $MY_VIM_PATH/init_local.vim<CR>
-nnoremap <leader>ep <ESC>:e $MY_VIM_PATH/plugin_local.vim<CR>
-nnoremap <leader>es <ESC>:e $MY_VIM_PATH/preset_local.vim<CR>
-nnoremap <leader>ea <ESC>:e $MY_VIM_PATH/ab.vim<CR>
-
+tnoremap <C-^> <C-\><C-n><C-^> " 切换buffer
 map <C-6> <C-^>
 
-function! EditSnip()
-	let ftype = &filetype
-	if ftype == ''
-		let ftype = 'all'
-	endif
-	let snip_dir = $MY_VIM_PATH.'/UltiSnips/'
-	if !isdirectory(snip_dir)
-		call mkdir(snip_dir)
-	endif
-	let snip_file = snip_dir . ftype .'.snippets'
-	exec 'edit ' snip_file
+nnoremap <leader>ce <ESC>:e $MYVIMRC<CR>
+nnoremap <leader>cr <ESC>:source $MYVIMRC<CR>
+nnoremap <leader>cl <ESC>:e $MY_VIM_PATH/init_local.vim<CR>
+nnoremap <leader>cp <ESC>:e $MY_VIM_PATH/plugin_local.vim<CR>
+nnoremap <leader>cs <ESC>:e $MY_VIM_PATH/preset_local.vim<CR>
+nnoremap <leader>ca <ESC>:e $MY_VIM_PATH/ab.vim<CR>
+
+autocmd! FileType qf nmap <buffer> q <ESC>:cclose<CR>
+function! ToggleQuickFix()
+    if empty(filter(getwininfo(), 'v:val.quickfix'))
+        copen
+    else
+        cclose
+    endif
 endfunction
-command! EditSnip call EditSnip()
-
-nnoremap <leader>en <ESC>:EditSnip<CR>
-
+nnoremap <silent> \q <ESC>:call ToggleQuickFix()<CR>
 " }}}
 
 " AB: {{{2
@@ -412,9 +433,6 @@ endif
 
 " coc.nvim: {{{3
 if exists('g:use_coc')
-	call coc#add_extension('coc-marketplace','coc-css','coc-emmet','coc-html','coc-json','coc-lists','coc-snippets','coc-yaml','coc-vimlsp','coc-calc')
-	" inoremap <silent><expr> <M-.> coc#refresh()
-
 	inoremap <silent><expr> <TAB>
 	      \ pumvisible() ? coc#_select_confirm() :
 	      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
@@ -426,8 +444,8 @@ if exists('g:use_coc')
 		    return !col || getline('.')[col - 1]  =~# '\s'
 		endfunction
 
-	let g:coc_snippet_next = '<c-j>'
-	let g:coc_snippet_prev = '<c-k>'
+	let g:coc_snippet_next = '<M-j>'
+	let g:coc_snippet_prev = '<M-k>'
 
 	" Use `[d` and `]d` to navigate diagnostics
 	nnoremap <silent> [d <Plug>(coc-diagnostic-prev)
@@ -591,18 +609,18 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
 	buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 	buf_set_keymap('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-	-- buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-	-- buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-	-- buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-	buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-	buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-	buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+	-- buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+	-- buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+	-- buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+	buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+	buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+	buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 	buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-	buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+	buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
 	buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
 	buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-	-- buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-	buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+	-- buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+	buf_set_keymap('n', '<leader>fm', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -711,7 +729,7 @@ let g:gruvbox_contrast_dark = 'soft'
 let g:session_autoload = 'no'
 let g:session_autosave = 'yes'
 let g:session_directory = '~/.local/share/nvim/sessions'
-nnoremap <space>s <ESC>:OpenSession<CR>
+nnoremap <leader>so <ESC>:OpenSession<CR>
 " }}}
 
 " ale: {{{3
@@ -723,14 +741,14 @@ let g:ale_linters = {
 		\ 'bash': ['shellcheck']
 	  \ }
 
-nnoremap <silent> <C-h> <Plug>(ale_previous)
-nnoremap <silent> <C-l> <Plug>(ale_next)
+nnoremap <silent> <C-h> <ESC>:ALEPrevious<CR>
+nnoremap <silent> <C-l> <ESC>:ALENext<CR>
 " }}}
 
 " lambdalisue/fern.vim: {{{3
 if exists('g:use_fern')
 
-nmap \ <ESC>:Fern . -drawer -toggle<CR>
+nmap \\ <ESC>:Fern . -drawer -toggle<CR>
 
 function! s:init_fern() abort
   nmap <silent> <buffer> <2-LeftMouse> <Plug>(fern-action-open-or-expand)
@@ -792,22 +810,22 @@ let g:cursorhold_updatetime = 100
 " }}}
 
 " vim-easy-align: {{{3
-xmap <space>a <Plug>(EasyAlign)
+xmap <leader>a <Plug>(EasyAlign)
 " }}}
 
 " ctrlsf: {{{3
-nnoremap <space>sf <ESC>:CtrlSF<space>
-nnoremap <space>ss <ESC>:CtrlSFToggle<CR>
+nnoremap <leader>sf <ESC>:CtrlSF<space>
+nnoremap <leader>st <ESC>:CtrlSFToggle<CR>
 " }}}
 
 " vim-easymotion: {{{3
-let g:Easymotion_do_mapping=0
+let g:EasyMotion_do_mapping=0
 nmap t <Plug>(easymotion-f)
 nmap T <Plug>(easymotion-F)
 " }}}
 
 " tagbar: {{{3
-nnoremap <space>t <ESC>:TagbarToggle<CR>
+nnoremap <leader>tb <ESC>:TagbarToggle<CR>
 " }}}
 
 " vim-interestingwords: {{{3
@@ -904,7 +922,7 @@ set viewoptions=cursor,folds,slash,unix
 " }}}
 
 " gutentags: {{{3
-let g:gutentags_cache_dir = '~/.tags'
+let g:gutentags_cache_dir = '~/.cache/tags'
 let g:gutentags_project_root = ['.git', '.hg', '.svn', '.bzr', '_darcs', '_darcs', '_FOSSIL_', '.fslckout', 'go.mod']
 let g:gutentags_exclude_filetypes = []
 " }}}
@@ -920,7 +938,7 @@ let g:mta_filetypes = {
 
 " Voom: {{{3
 function! s:VoomToggleExt()
-	let l:filetypes = ['markdown', 'vimwiki', 'html', 'python']
+	let l:filetypes = ['markdown', 'html', 'python']
 	if index(l:filetypes, &filetype)>=0
 		exec 'VoomToggle '.&filetype
 	else
@@ -994,48 +1012,6 @@ let g:mkdp_auto_start = 0
 let g:mkdp_auto_close = 0
 " }}}
 
-" vimwiki: {{{3
-if exists('g:use_vimwiki')
-" 通过使用:profile进行分析，发现添加太多语言的高亮会严重拖慢
-" 打开wiki文件的速度，所以只定义一些自己经常会用的语言比较好
-let nested_syntaxes = {
-	  \ 'c':          'c',
-	  \ 'go':         'go',
-	  \ 'ini':        'dosini',
-	  \ 'js':         'javascript',
-	  \ 'lua':        'lua',
-	  \ 'mysql':      'mysql',
-	  \ 'php':        'php',
-	  \ 'python':     'python',
-	  \ 'sh':         'sh',
-	  \ 'vim':        'vim',
-	\ }
-let g:vimwiki_valid_html_tags = 'b,i,s,u,sub,sup,kbd,br,hr,pre,script'
-if has('unix')
-	let g:vimwiki_list = [ { 'path': '~/Dropbox/VimWiki/', 'path_html': '~/Dropbox/VimWiki_html/', 'template_path': '~/Dropbox/VimWiki/templates', 'template_default': 'default', 'template_ext': '.html', 'auto_toc': 1, 'nested_syntaxes' : nested_syntaxes }, { 'path': '~/Documents/VimWiki/', 'path_html': '~/Documents/VimWiki_html/', 'template_path': '~/Dropbox/VimWiki/templates', 'template_default': 'default', 'template_ext': '.html', 'auto_toc': 1, 'nested_syntaxes': nested_syntaxes } ]
-else
-	let drive_list = ['D', 'E', 'F', 'G']
-	for drive in drive_list
-		let dropbox_path = drive . ':\Dropbox'
-		if isdirectory(dropbox_path)
-			let g:vimwiki_list = [ { 'path': dropbox_path.'\VimWiki\', 'path_html': dropbox_path.'\VimWiki_html\', 'template_path': dropbox_path.'\VimWiki\templates', 'template_default': 'default', 'template_ext': '.html', 'auto_toc': 1, 'nested_syntaxes': nested_syntaxes }, { 'path': '~/Documents/VimWiki/', 'path_html': '~/Documents/VimWiki_html/', 'auto_toc': 1, 'nested_syntaxes': nested_syntaxes } ]
-			break
-		endif
-	endfor
-endif
-nmap <Leader>ww <Plug>VimwikiIndex
-nmap <Leader>ws <Plug>VimwikiUISelect
-nmap <Leader>wt <Plug>VimwikiTabIndex
-nmap <Leader>wi <Plug>VimwikiDiaryIndex
-nmap <Leader>w<Leader>w <Plug>VimwikiMakeDiaryNote
-nmap <Leader>w<Leader>t <Plug>VimwikiTabMakeDiaryNote
-nmap <Leader>w<Leader>m <Plug>VimwikiMakeTomorrowDiaryNote
-nmap <Leader><Leader> <Plug>VimwikiFollowLink
-nmap <Leader>wn <Plug>VimwikiNextLink
-nmap <Leader>wp <Plug>VimwikiPrevLink
-endif
-" }}}
-
 " dart: {{{3
 let dart_html_in_string=v:true
 let g:dart_format_on_save = 1
@@ -1066,9 +1042,53 @@ xmap X <Plug>(Exchange)
 
 " nuake: {{{3
 let g:nuake_size = 0.35
-nnoremap <C-Bslash> :Nuake<CR>
-inoremap <C-Bslash> <C-\><C-n>:Nuake<CR>
-tnoremap <C-Bslash> <C-\><C-n>:Nuake<CR>
+nnoremap <C-Bslash><C-Bslash> :Nuake<CR>
+inoremap <C-Bslash><C-Bslash> <C-\><C-n>:Nuake<CR>
+tnoremap <C-Bslash><C-Bslash> <C-\><C-n>:Nuake<CR>
+" }}}
+"
+" skywind3000/asyncrun.vim: {{{
+let g:asyncrun_open = 6
+let g:asyncrun_rootmarks = ['.root.vim', 'go.mod', '.git', '.svn', '.hg']
+" }}}
+
+" skywind3000/asynctasks.vim: {{{
+function! QfCloseIfEmpty(timer) abort
+    if empty(filter(getwininfo(), 'v:val.quickfix'))
+        return
+    endif
+    let is_valid = 0
+    for i in getqflist()
+        if i.valid == 1
+            let is_valid = 1
+            break
+        endif
+    endfor
+    if is_valid == 0
+        cclose
+    endif
+endfunction
+
+function! QfAutoClose() abort
+    let timer=timer_start(3000, 'QfCloseIfEmpty', {'repeat': 2})
+endfunction
+
+function! AsyncTaskDo(t) abort
+    call QfAutoClose()
+    exec 'AsyncTask ' . a:t
+endfunction
+let g:asynctasks_config_name = '.tasks.ini'
+let g:asynctasks_term_pos = 'bottom'
+let g:asynctasks_term_rows = 10
+nnoremap <silent> <Space>rr <ESC>:silent AsyncTask file-run<CR>
+nnoremap <silent> <Space>rp <ESC>:silent AsyncTask project-run<CR>
+nnoremap <silent> <Space>bb <ESC>:silent call AsyncTaskDo('file-build')<CR>
+nnoremap <silent> <Space>bp <ESC>:silent call AsyncTaskDo('project-build')<CR>
+nnoremap <silent> <Space>ss <ESC>:silent call AsyncTaskDo('search')<CR>
+" }}}
+
+" liuchengxu/vim-which-key: {{{
+nnoremap <silent> <Space> :WhichKey '<Space>'<CR>
 " }}}
 
 " }}}
