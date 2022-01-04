@@ -51,7 +51,7 @@ if exists('g:use_fern')
 endif
 Plug 'antoinemadec/FixCursorHold.nvim'
 Plug 'Valloric/MatchTagAlways', { 'for': ['html','xhtml', 'xml', 'vue'] } " tag配对显示
-Plug 'RRethy/vim-illuminate' " Vim plugin for automatically highlighting other uses of the word under the cursor
+Plug 'itchyny/vim-cursorword' " Underlines the word under the cursor
 Plug 'dhruvasagar/vim-zoom', { 'on': '<Plug>(zoom-toggle)' } " Toggle zoom in / out individual windows (splits) maps: <C-w>m
 Plug 'dyng/ctrlsf.vim', { 'on': 'CtrlSF' } " 文件内容查找
 Plug 'brooth/far.vim', { 'on': 'Far' } " Find And Replace Vim plugin
@@ -63,16 +63,22 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " 基于文件
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-after-object' " Defines text objects to target text after the designated characters.
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] } " 代码对齐
-Plug 'kana/vim-textobj-function', { 'for': ['c', 'cpp', 'vim', 'java'] }
+Plug 'kana/vim-textobj-entire'
+Plug 'kana/vim-textobj-fold'
+Plug 'kana/vim-textobj-function', { 'for': ['c', 'cpp', 'vim', 'java', 'go'] }
 Plug 'kana/vim-textobj-indent'
+Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-syntax'
+Plug 'kana/vim-textobj-datetime'
 Plug 'kana/vim-textobj-user' | Plug 'sgur/vim-textobj-parameter'
+Plug 'glts/vim-textobj-comment'
+Plug 'wellle/targets.vim' " Vim plugin that provides additional text objects: ({[<t(tags)
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " The ultimate undo history visualizer for VIM
 Plug 'mhinz/vim-signify' " Show a diff using Vim its sign column.
 Plug 'preservim/tagbar'
 Plug 'easymotion/vim-easymotion'
 Plug 'sk1418/Join', { 'on': 'Join' } " 比vim自带的join更强大
-Plug 'terryma/vim-expand-region', { 'on': ['<Plug>(expand_region_expand)', '<Plug>(expand_region_shrink)'] } " 逐步扩大选择区域
+Plug 'terryma/vim-expand-region' " 逐步扩大选择区域
 Plug 'tommcdo/vim-exchange', { 'on': ['<Plug>(ExchangeLine)', '<Plug>(Exchange)'] } " 用cxiw交换单词、cxi'交换‘中的文字等
 Plug 'tpope/vim-commentary' " comment stuff out
 Plug 'tpope/vim-fugitive' " 对git的封装
@@ -88,7 +94,6 @@ Plug 'vim-scripts/VisIncr', { 'on': ['I', 'IA'] } " 列编辑
 Plug 'vim-voom/VOoM', { 'on': ['Voom', 'VoomToggle'] } " 文档大纲
 Plug 'voldikss/vim-translate-me', { 'on': ['Translate', 'TranslateW', 'TranslateWV', '<Plug>TranslateW', '<Plug>TranslateWV'] } " (Neo)Vim translation plugin
 Plug 'w0rp/ale', { 'for': ['bash', 'sh'] } " 异步代码检测
-Plug 'wellle/targets.vim' " Vim plugin that provides additional text objects: ({[<t(tags)
 Plug 'xolox/vim-misc' " Miscellaneous auto-load Vim scripts
 Plug 'xolox/vim-session', { 'on': ['OpenSession', 'SaveSession'] } " Extended session management for Vim (:mksession on steroids)
 Plug 'yianwillis/vimcdoc' " 中文帮助文档
@@ -125,7 +130,7 @@ Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 endif
 " }}}
 Plug 'aklt/plantuml-syntax', { 'for': 'plantuml' }
-Plug 'lilydjwg/colorizer', { 'for': ['html', 'css', 'php', 'vue', 'conf'] } " css颜色高亮
+Plug 'lilydjwg/colorizer', { 'for': ['html', 'css', 'php', 'vue', 'conf', 'vim'] } " css颜色高亮
 Plug 'cespare/vim-toml', { 'for': 'toml' } " toml语法插件
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 Plug 'dag/vim-fish', { 'for': 'fish' }
@@ -138,6 +143,7 @@ Plug 'tweekmonster/hl-goimport.vim', { 'for': 'go' } " 高亮golang包名
 if has('nvim-0.6')
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " Nvim Treesitter configurations and abstraction layer
 Plug 'romgrk/nvim-treesitter-context' " Show code context
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 endif
 if exists('g:use_vimwiki')
 Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' , 'on': ['<Plug>VimwikiIndex', '<Plug>VimwikiUISelect', '<Plug>VimwikiTabIndex', '<Plug>VimwikiDiaryIndex', '<Plug>VimwikiMakeDiaryNote', '<Plug>VimwikiTabMakeDiaryNote', '<Plug>VimwikiMakeTomorrowDiaryNote' ] } " Personal Wiki for Vim
@@ -158,7 +164,7 @@ if exists('g:use_nvim_cmp')
 	Plug 'neovim/nvim-lspconfig' " Collection of configurations for built-in LSP client
 	Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 	Plug 'sirVer/ultisnips'
-	Plug 'williamboman/nvim-lsp-installer'
+	" Plug 'williamboman/nvim-lsp-installer'
 endif
 Plug 'honza/vim-snippets' " 代码片段
 Plug 'fatih/vim-go', { 'for': 'go' } " golang补全
@@ -245,6 +251,7 @@ if has('mouse')
 	set mouse=a " 如果鼠标可用则启用鼠标支持
 endif
 " 这里开头的^[必须用Ctrl+v ESC输入，不能直接复制粘贴!
+" 另外Ctrl+Q可以替代Ctrl+v
 set t_8f=[38;2;%lu;%lu;%lum
 set t_8b=[48;2;%lu;%lu;%lum
 set isfname-== " 不将=当成文件名的一部分
@@ -316,10 +323,10 @@ endfunction
 
 " CTRL-V粘贴
 vmap <C-V> "+gp
-imap <M-v> <C-r>+
+imap <C-v> <C-r>+
 cmap <C-v> <C-r>+
-" nnoremap <C-v> <ESC>:call MyPaste()<CR>
-nnoremap <C-v> "+gp
+nnoremap <C-v> <ESC>:call MyPaste()<CR>
+" nnoremap <C-v> "+gp
 
 " 列选择模式
 nnoremap vv <C-Q>
@@ -500,6 +507,8 @@ endif
 
 " nvim-cmp: {{{3
 if exists('g:use_nvim_cmp')
+autocmd! FileType go nmap <buffer> <leader>o <ESC>:GoDecls<CR>
+autocmd! FileType go nmap <buffer> gd <ESC>:GoDef<CR>
 lua << EOF
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menu,menuone,noselect'
@@ -550,11 +559,6 @@ cmp.setup {
 		option = {
 			get_bufnrs = function()
 				return vim.api.nvim_list_bufs()
-				-- local bufs = {}
-				-- for _, win in ipairs(vim.api.nvim_list_wins()) do
-				-- 	bufs[vim.api.nvim_win_get_buf(win)] = true
-				-- end
-				-- return vim.tbl_keys(bufs)
 			end
 		}
 	},
@@ -612,7 +616,7 @@ end
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 local nvim_lsp = require('lspconfig')
-local servers = { 'clangd', 'gopls', 'dartls', 'sqls', 'intelephense', 'pylsp', 'sumneko_lua' }
+local servers = { 'clangd', 'gopls', 'dartls', 'sqls', 'intelephense', 'pylsp', 'sumneko_lua', 'vimls' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
 	on_attach = on_attach,
@@ -680,6 +684,10 @@ nvim_lsp['sumneko_lua'].setup {
       },
     },
   },
+}
+
+nvim_lsp['dartls'].setup {
+  cmd = {"dart", vim.api.nvim_get_var('dartls_path'), "--lsp"}
 }
 
 -- }}}
@@ -836,6 +844,34 @@ let g:interestingWordsGUIColors = ['#8CCBEA', '#A4E57E', '#FFDB72', '#FF7272', '
 " }}}
 
 " expand-region: {{{3
+let g:expand_region_text_objects = {
+			\ 'iw': 0,
+			\ "i'": 0,
+			\ "a'": 0,
+			\ "i`": 0,
+			\ "a`": 0,
+			\ 'i"': 0,
+			\ 'a"': 0,
+			\ "i[": 0,
+			\ "a[": 0,
+			\ "i<": 0,
+			\ "a<": 0,
+			\ "it": 0,
+			\ "at": 0,
+			\ 'i(': 0,
+			\ 'a(': 0,
+			\ "il": 0,
+			\ "i}": 0,
+			\ "a}": 0,
+	\ }
+call expand_region#custom_text_objects('go', {
+			\ 'i,': 0,
+			\ 'a,': 0,
+			\ 'if': 0,
+			\ 'af': 0,
+			\ 'ic': 0,
+			\ 'ac': 0,
+      \ })
 nmap + <Plug>(expand_region_expand)
 vmap + <Plug>(expand_region_expand)
 nmap _ <Plug>(expand_region_shrink)
@@ -1078,7 +1114,7 @@ let g:sleuth_automatic = 1
 
 " vim-translate-me: {{{3
 let g:vtm_default_mapping = 0
-let g:vtm_default_engines = ['youdao', 'ciba', 'google']
+let g:vtm_default_engines = ['youdao', 'ciba']
 nmap <silent> <leader>t <Plug>TranslateW
 vmap <silent> <leader>t <Plug>TranslateWV
 " }}}
