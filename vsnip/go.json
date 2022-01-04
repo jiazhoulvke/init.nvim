@@ -1,0 +1,7 @@
+{
+  "err": {
+    "prefix": "errp",
+    "body": "if err != nil {\n\t${1:panic(err)}\n}",
+    "description": "if err panic"
+  }
+}
