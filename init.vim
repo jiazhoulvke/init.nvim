@@ -413,8 +413,8 @@ nnoremap <Leader>dbl :g/^\s*$/d<CR>
 nnoremap <leader>jq <ESC>:%!jq '.'<CR>
 
 " 每次移动相对屏幕的一行
-nnoremap j gj
-nnoremap k gk
+" nnoremap j gj
+" nnoremap k gk
 
 nnoremap <leader><leader> <ESC>:nohlsearch<CR>
 
@@ -769,9 +769,11 @@ nvim_lsp['sumneko_lua'].setup {
   },
 }
 
+if vim.fn.exists('g:use_dart')==1 then
 nvim_lsp['dartls'].setup {
   cmd = {"dart", vim.api.nvim_get_var('dartls_path'), "--lsp"}
 }
+end
 
 -- }}}
 EOF
@@ -1227,7 +1229,7 @@ nnoremap <silent> <Space> :WhichKey '<Space>'<CR>
 " }}}
 
 " APZelos/blamer.nvim: {{{
-let g:blamer_enabled = 1
+let g:blamer_enabled = 0
 let g:blamer_delay = 500
 let g:blamer_show_in_visual_modes = 0
 let g:blamer_show_in_insert_modes = 1
