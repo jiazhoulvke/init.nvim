@@ -413,8 +413,8 @@ nnoremap <Leader>dbl :g/^\s*$/d<CR>
 nnoremap <leader>jq <ESC>:%!jq '.'<CR>
 
 " 每次移动相对屏幕的一行
-nnoremap j gj
-nnoremap k gk
+" nnoremap j gj
+" nnoremap k gk
 
 nnoremap <leader><leader> <ESC>:nohlsearch<CR>
 
@@ -1226,7 +1226,7 @@ nnoremap <silent> <Space> :WhichKey '<Space>'<CR>
 " }}}
 
 " APZelos/blamer.nvim: {{{
-let g:blamer_enabled = 1
+let g:blamer_enabled = 0
 let g:blamer_delay = 500
 let g:blamer_show_in_visual_modes = 0
 let g:blamer_show_in_insert_modes = 1
