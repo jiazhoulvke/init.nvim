@@ -596,7 +596,6 @@ lua << EOF
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menu,menuone,noselect'
 
--- nvim-cmp setup {{{
 local cmp = require 'cmp'
 cmp.setup {
    snippet = {
@@ -776,9 +775,7 @@ nvim_lsp['dartls'].setup {
 }
 end
 
--- }}}
 EOF
-
 endif
 "" }}}
 
@@ -954,7 +951,7 @@ nmap <C-x> <Plug>SpeedDatingDown
 " }}}
 
 " urlview.vim: {{{3
-nnoremap <silent> <leader>u :Urlview<CR>
+nnoremap <silent> <leader>ou :Urlview<CR>
 " }}}
 
 " surround: {{{3
