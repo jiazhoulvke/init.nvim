@@ -18,7 +18,7 @@ endif
 
 let g:mapleader=' '
 
-if exists('nvim-0.6')
+if has('nvim-0.6')
 	set foldmethod=expr
 else
 	set foldmethod=syntax
@@ -112,6 +112,7 @@ Plug 'qpkorr/vim-renamer' " 以编辑文本的方式批量修改文件名
 Plug 'liuchengxu/vim-which-key' " Vim plugin that shows keybindings in popup
 Plug 'skywind3000/asynctasks.vim' " Modern Task System for Project Building, Testing and Deploying
 Plug 'skywind3000/asyncrun.vim' " Run Async Shell Commands in Vim 8.0 / NeoVim and Output to the Quickfix Window
+Plug 'mattn/emmet-vim' " emmet-vim is a vim plug-in which provides support for expanding abbreviations similar to emmet.
 " }}}
 
 " UI: {{{2
@@ -410,7 +411,7 @@ nnoremap <leader>dm <ESC>:%s/\r$//<CR>
 nnoremap <Leader>dbl :g/^\s*$/d<CR>
 
 " json格式化
-nnoremap <leader>jq <ESC>:%!jq '.'<CR>
+nnoremap <leader>fmjq <ESC>:%!jq '.'<CR>
 
 " 每次移动相对屏幕的一行
 " nnoremap j gj
@@ -553,7 +554,7 @@ endif
 
 " nvim-treesitter: {{{
 " if exists('g:loaded_nvim_treesitter')
-if exists('nvim-0.6')
+if has('nvim-0.6')
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
 	highlight = { 
@@ -813,8 +814,8 @@ nnoremap <leader>so <ESC>:OpenSession<CR>
 " }}}
 
 " ale: {{{3
-let g:ale_open_list=0
-let g:ale_set_quickfix=0
+let g:ale_open_list=1
+let g:ale_set_quickfix=1
 let g:ale_list_window_size=1
 
 let g:ale_linters = {
@@ -900,8 +901,7 @@ nnoremap <leader>st <ESC>:CtrlSFToggle<CR>
 
 " vim-easymotion: {{{3
 let g:EasyMotion_do_mapping=0
-nmap t <Plug>(easymotion-f)
-nmap T <Plug>(easymotion-F)
+nmap <Leader>j <Plug>(easymotion-overwin-f)
 " }}}
 
 " tagbar: {{{3
@@ -1132,6 +1132,16 @@ require('orgmode').setup({
   -- org_default_notes_file = '~/Dropbox/Notes/inbox.org',
   org_todo_keywords = {'TODO', 'DOING', '|', 'DONE'},
   org_blank_before_new_entry = { heading = false, plain_list_item = false },
+})
+EOF
+endif
+" }}}
+
+" org-bullets.nvim: {{{
+if has('g:use_org')
+lua << EOF
+require('org-bullets').setup({
+	symbols = {"◉", "○", "●", "◆", "✸", "•"}
 })
 EOF
 endif
