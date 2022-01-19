@@ -675,8 +675,8 @@ cmp.setup {
 	},
 	snippet = {
 		expand = function(args)
-		vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-	end,
+			vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+		end,
 	},
 	mapping = {
 		['<C-k>'] = cmp.mapping.select_prev_item(),
