@@ -198,9 +198,8 @@ call plug#end()
 " UI: {{{2
 set number " 启用行号
 set tabstop=4 " tab宽度设为4
-" set softtabstop=4
 set shiftwidth=4 " 换行宽度设为4
-autocmd FileType python setlocal expandtab shiftwidth=4
+set noexpandtab
 set shortmess+=c " 关掉一些烦人的信息
 set laststatus=2
 set signcolumn=number
@@ -592,60 +591,139 @@ endif
 if exists('g:use_nvim_cmp')
 autocmd! FileType go nmap <buffer> <leader>o <ESC>:GoDecls<CR>
 autocmd! FileType go nmap <buffer> gd <ESC>:GoDef<CR>
+
+" 补全菜单高亮
+" gray
+highlight! CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#808080
+" blue
+highlight! CmpItemAbbrMatch guibg=NONE guifg=#569CD6
+highlight! CmpItemAbbrMatchFuzzy guibg=NONE guifg=#569CD6
+" light blue
+highlight! CmpItemKindVariable guibg=NONE guifg=#9CDCFE
+highlight! CmpItemKindInterface guibg=NONE guifg=#9CDCFE
+highlight! CmpItemKindText guibg=NONE guifg=#9CDCFE
+" pink
+highlight! CmpItemKindFunction guibg=NONE guifg=#C586C0
+highlight! CmpItemKindMethod guibg=NONE guifg=#C586C0
+" front
+highlight! CmpItemKindKeyword guibg=NONE guifg=#D4D4D4
+highlight! CmpItemKindProperty guibg=NONE guifg=#D4D4D4
+highlight! CmpItemKindUnit guibg=NONE guifg=#D4D4D4
+
 lua << EOF
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menu,menuone,noselect'
 
+local kind_icons = {
+  Text = "",
+  Method = "",
+  Function = "",
+  Constructor = "",
+  Field = "",
+  Variable = "",
+  Class = "ﴯ",
+  Interface = "",
+  Module = "",
+  Property = "ﰠ",
+  Unit = "",
+  Value = "",
+  Enum = "",
+  Keyword = "",
+  Snippet = "",
+  Color = "",
+  File = "",
+  Reference = "",
+  Folder = "",
+  EnumMember = "",
+  Constant = "",
+  Struct = "",
+  Event = "",
+  Operator = "",
+  TypeParameter = ""
+}
+
+local has_words_before = function()
+	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
+local feedkey = function(key, mode)
+	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+end
+
 local cmp = require 'cmp'
 cmp.setup {
-   snippet = {
-     expand = function(args)
-	 vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-     end,
-   },
-  mapping = {
-    ['<C-k>'] = cmp.mapping.select_prev_item(),
-    ['<C-j>'] = cmp.mapping.select_next_item(),
-    ['<M-p>'] = cmp.mapping.scroll_docs(-4),
-    ['<M-n>'] = cmp.mapping.scroll_docs(4),
-    ['<M-.>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-	['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-    ['<C-e>'] = cmp.mapping({
-		i = cmp.mapping.close(),
-		c = cmp.mapping.close(),
-	}),
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
-	['<Tab>'] = function(fallback)
-		if cmp.visible() then
-			cmp.select_next_item()
-		else
-			fallback()
-		end
-	end,
-	['<S-Tab>'] = function(fallback)
-		if cmp.visible() then
-			cmp.select_prev_item()
-		else
-			fallback()
-		end
-	end,
-  },
-  sources = {
-    { name = 'orgmode' },
-    { name = 'nvim_lsp' },
-	{ name = 'vsnip' },
-	{
-		name = 'buffer',
-		option = {
-			get_bufnrs = function()
-				return vim.api.nvim_list_bufs()
+	formatting = {
+		format = function(entry, vim_item)
+			local prsnt, lspkind = pcall(require, "lspkind")
+			if not prsnt then
+				-- Kind icons
+				vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
+				-- Source
+				vim_item.menu = ({
+					buffer = "[Buffer]",
+					nvim_lsp = "[LSP]",
+					luasnip = "[LuaSnip]",
+					nvim_lua = "[Lua]",
+					latex_symbols = "[LaTeX]",
+				})[entry.source.name]
+				return vim_item
+			else
+				return lspkind.cmp_format()
 			end
-		}
+		end
 	},
-  },
+	snippet = {
+		expand = function(args)
+		vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+	end,
+	},
+	mapping = {
+		['<C-k>'] = cmp.mapping.select_prev_item(),
+		['<C-j>'] = cmp.mapping.select_next_item(),
+		['<M-p>'] = cmp.mapping.scroll_docs(-4),
+		['<M-n>'] = cmp.mapping.scroll_docs(4),
+		['<M-.>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+		['<C-e>'] = cmp.mapping({
+			i = cmp.mapping.close(),
+			c = cmp.mapping.close(),
+		}),
+		['<CR>'] = cmp.mapping.confirm {
+			behavior = cmp.ConfirmBehavior.Replace,
+			select = true,
+		},
+		['<Tab>'] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_next_item()
+			elseif vim.fn["vsnip#available"](1) == 1 then
+				feedkey("<Plug>(vsnip-expand-or-jump)", "")
+			elseif has_words_before() then
+				cmp.complete()
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
+		['<S-Tab>'] = cmp.mapping(function()
+			if cmp.visible() then
+				cmp.select_prev_item()
+			elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+				feedkey("<Plug>(vsnip-jump-prev)", "")
+			end
+		end, { "i", "s" }),
+	},
+	sources = {
+		{ name = 'orgmode' },
+		{ name = 'nvim_lsp' },
+		{ name = 'vsnip' },
+		{
+			name = 'buffer',
+			option = {
+				get_bufnrs = function()
+					return vim.api.nvim_list_bufs()
+				end
+			}
+		},
+	},
 }
 
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
@@ -690,10 +768,9 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 	buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 	buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-	buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-	buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-	buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-	-- buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+	buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+	buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+	buf_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setqflist()<CR>', opts)
 	buf_set_keymap('n', '<leader>fm', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
@@ -769,7 +846,7 @@ nvim_lsp['sumneko_lua'].setup {
   },
 }
 
-if vim.fn.exists('g:use_dart')==1 then
+if vim.fn.exists('g:use_dartls')==1 then
 nvim_lsp['dartls'].setup {
   cmd = {"dart", vim.api.nvim_get_var('dartls_path'), "--lsp"}
 }
@@ -811,16 +888,30 @@ nnoremap <leader>so <ESC>:OpenSession<CR>
 " }}}
 
 " ale: {{{3
-let g:ale_open_list=1
-let g:ale_set_quickfix=1
-let g:ale_list_window_size=1
 
+" ale-lint {{{
+let g:ale_list_window_size = 1
+let g:ale_open_list = 1
+let g:ale_set_quickfix = 1
+let g:ale_lint_delay=500
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_filetype_changed = 0
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_save = 0
+let g:ale_lint_on_text_changed = 0
 let g:ale_linters = {
 		\ 'bash': ['shellcheck']
 	  \ }
+" }}}
 
-" nnoremap <silent> <C-h> <ESC>:ALEPrevious<CR>
-" nnoremap <silent> <C-l> <ESC>:ALENext<CR>
+" ale-fix {{{
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {}
+let g:ale_fixers.python = ['black']
+let g:ale_fixers.c = ['clang-format']
+let g:ale_fixers.cpp = ['clang-format']
+" }}}
+
 " }}}
 
 " lambdalisue/fern.vim: {{{3
