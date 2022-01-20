@@ -592,7 +592,7 @@ if exists('g:use_nvim_cmp')
 autocmd! FileType go nmap <buffer> <leader>o <ESC>:GoDecls<CR>
 autocmd! FileType go nmap <buffer> gd <ESC>:GoDef<CR>
 
-" 补全菜单高亮
+" 补全菜单高亮 {{{
 " gray
 highlight! CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#808080
 " blue
@@ -609,11 +609,13 @@ highlight! CmpItemKindMethod guibg=NONE guifg=#C586C0
 highlight! CmpItemKindKeyword guibg=NONE guifg=#D4D4D4
 highlight! CmpItemKindProperty guibg=NONE guifg=#D4D4D4
 highlight! CmpItemKindUnit guibg=NONE guifg=#D4D4D4
+" }}}
 
 lua << EOF
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menu,menuone,noselect'
 
+-- icons {{{
 local kind_icons = {
   Text = "",
   Method = "",
@@ -641,7 +643,9 @@ local kind_icons = {
   Operator = "",
   TypeParameter = ""
 }
+-- }}}
 
+-- cmp config {{{
 local has_words_before = function()
 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
@@ -730,18 +734,22 @@ cmp.setup {
 cmp.setup.cmdline('/', {
 	sources = {
 		{ name = 'buffer' }
-		}
-	})
+	}
+})
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(':', {
-	sources = cmp.config.sources({
-	{ name = 'path' }
-	}, {
-	{ name = 'cmdline' }
-	})
+	sources = cmp.config.sources(
+		{ { name = 'path' } }, 
+		{ { name = 'cmdline' } }
+	)
 })
+-- }}}
 
+-- lsp config {{{
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+
+-- on_attach {{{
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
@@ -773,88 +781,176 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setqflist()<CR>', opts)
 	buf_set_keymap('n', '<leader>fm', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
+-- }}}
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-local nvim_lsp = require('lspconfig')
-local servers = { 'clangd', 'gopls', 'dartls', 'intelephense', 'pylsp', 'sumneko_lua', 'vimls' }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-	on_attach = on_attach,
-    capabilities = capabilities,
-	flags = {
-		debounce_text_changes = 150,
+local lspconfig = require('lspconfig')
+
+-- language servers {{{
+
+-- clangd {{{
+-- sudo apt install clangd-12
+if vim.fn.executable('clangd') == 1 then
+	lspconfig['clangd'].setup {
+		on_attach = on_attach,
+		capabilities = capabilities,
+		flags = {
+			debounce_text_changes = 150,
+		}
 	}
-  }
 end
+-- }}}
 
-local system_name
-if vim.fn.has("mac") == 1 then
-  system_name = "macOS"
-elseif vim.fn.has("unix") == 1 then
-  system_name = "Linux"
-elseif vim.fn.has('win32') == 1 then
-  system_name = "Windows"
-else
-  print("Unsupported system for sumneko")
+-- gopls {{{
+-- go install golang.org/x/tools/gopls@latest
+if vim.fn.executable('gopls') == 1 then
+	lspconfig['gopls'].setup {
+		on_attach = on_attach,
+		capabilities = capabilities,
+		flags = {
+			debounce_text_changes = 150,
+		}
+	}
 end
+-- }}}
 
-local sumneko_root_path
-local sumneko_binary
-
-local isset_sumneko_root_path = vim.fn.exists('g:sumneko_root_path')
-local isset_sumneko_binary = vim.fn.exists('g:sumneko_binary')
-
-if isset_sumneko_root_path == 1 then
-	sumneko_root_path = vim.api.nvim_get_var('sumneko_root_path')
-else
-	sumneko_root_path = vim.fn.stdpath('data')..'/lsp_servers/sumneko_lua/extension/server'
+-- dartls {{{
+-- dart-sdk/bin/snapshots/analysis_server.dart.snapshot
+if vim.fn.exists('g:dartls_path') == 1 then
+	lspconfig['dartls'].setup {
+		cmd = {"dart", vim.api.nvim_get_var('dartls_path'), "--lsp"},
+		on_attach = on_attach,
+		capabilities = capabilities,
+		flags = {
+			debounce_text_changes = 150,
+		}
+	}
 end
+-- }}}
 
-if isset_sumneko_binary == 1 then
-	sumneko_binary = vim.api.nvim_get_var('sumneko_binary')
-else
-	sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
+-- intelephense or phpactor {{{
+if vim.fn.executable('intelephense') == 1 and vim.fn.exists('g:use_phpactor') == 0 then
+	-- npm install -g intelephense
+	lspconfig['intelephense'].setup {
+		on_attach = on_attach,
+		capabilities = capabilities,
+		flags = {
+			debounce_text_changes = 150,
+		}
+	}
+elseif vim.fn.executable('phpactor') then
+	-- https://phpactor.readthedocs.io/en/master/usage/standalone.html
+	lspconfig['phpactor'].setup{
+		cmd = { "phpactor", "language-server" },
+		filetypes = { "php" },
+		on_attach = on_attach,
+		capabilities = capabilities,
+		flags = {
+			debounce_text_changes = 150,
+		}
+	}
 end
+-- }}}
 
-local runtime_path = vim.split(package.path, ';')
-table.insert(runtime_path, "lua/?.lua")
-table.insert(runtime_path, "lua/?/init.lua")
+-- sumneko_lua {{{
+-- https://github.com/sumneko/lua-language-server/wiki/Precompiled-Binaries
+local lua_runtime_path = vim.split(package.path, ';')
+table.insert(lua_runtime_path, "lua/?.lua")
+table.insert(lua_runtime_path, "lua/?/init.lua")
 
-nvim_lsp['sumneko_lua'].setup {
-  cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
-  settings = {
-    Lua = {
-      runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-        version = 'LuaJIT',
-        -- Setup your lua path
-        path = runtime_path,
-      },
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
-      },
-      workspace = {
-        -- Make the server aware of Neovim runtime files
-        library = vim.api.nvim_get_runtime_file("", true),
-      },
-      -- Do not send telemetry data containing a randomized but unique identifier
-      telemetry = {
-        enable = false,
-      },
-    },
-  },
+lspconfig['sumneko_lua'].setup {
+	settings = {
+		Lua = {
+			runtime = {
+				-- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+				version = 'LuaJIT',
+				-- Setup your lua path
+				path = lua_runtime_path,
+			},
+			diagnostics = {
+				-- Get the language server to recognize the `vim` global
+				globals = {'vim'},
+			},
+			telemetry = {
+				enable = false,
+			},
+		}
+	}
 }
 
-if vim.fn.exists('g:use_dartls')==1 then
-nvim_lsp['dartls'].setup {
-  cmd = {"dart", vim.api.nvim_get_var('dartls_path'), "--lsp"}
-}
+-- }}}
+
+-- pylsp {{{
+-- pipx install 'python-lsp-server[all]'
+if vim.fn.executable('pylsp') == 1 then
+	lspconfig['pylsp'].setup {
+		on_attach = on_attach,
+		capabilities = capabilities,
+		flags = {
+			debounce_text_changes = 150,
+		}
+	}
+end
+-- }}}
+
+-- vimls {{{
+-- npm install -g vim-language-server
+if vim.fn.executable('vim-language-server') == 1 then
+	lspconfig['vimls'].setup {
+		on_attach = on_attach,
+		capabilities = capabilities,
+		flags = {
+			debounce_text_changes = 150,
+		}
+	}
+end
+-- }}}
+
+-- cmake {{{
+-- pip install cmake-language-server
+if vim.fn.executable('cmake-language-server') == 1 then
+	lspconfig['cmake'].setup {}
+end
+-- }}}
+
+-- bashls {{{
+-- npm install -g vim-language-server
+if vim.fn.executable('bash-language-server') == 1 then
+	lspconfig['bashls'].setup {
+		on_attach = on_attach,
+		capabilities = capabilities,
+		flags = {
+			debounce_text_changes = 150,
+		}
+	}
+end
+-- }}}
+
+-- vscode-html-language-server for html,css,json {{{
+-- npm i -g vscode-langservers-extracted
+
+if vim.fn.executable('vscode-html-language-server') == 1 then
+	lspconfig.html.setup{
+		capabilities = capabilities,
+	}
 end
 
-if vim.fn.exists('g:use_cmake_language_server')==1 then
-	nvim_lsp['cmake'].setup{}
+if vim.fn.executable('vscode-css-language-server') == 1 then
+	lspconfig.cssls.setup{
+		capabilities = capabilities,
+	}
 end
+
+if vim.fn.executable('vscode-json-language-server') == 1 then
+	lspconfig.jsonls.setup{
+		capabilities = capabilities,
+	}
+end
+-- }}}
+
+-- }}}
+
+-- }}}
 
 EOF
 endif
@@ -913,18 +1009,115 @@ let g:ale_fix_on_save = 1
 if !exists('g:ale_fixers')
 	let g:ale_fixers = {}
 endif
+
+" python {{{
 if executable('black')
 	let g:ale_fixers.python = ['black'] " pip3 install black
+elseif executable('yapf')
+	let g:ale_fixers.python = ['yapf'] " pip3 install yapf
+elseif executable('autopep8')
+	let g:ale_fixers.python = ['autopep8'] " pip3 install autopep8
 endif
+" }}}
+
+" c/cpp {{{
 if executable('clang-format')
 	let g:ale_fixers.c = ['clang-format'] " sudo apt install clang-format-12
 	let g:ale_fixers.cpp = ['clang-format']
+elseif executable('astyle')
+	let g:ale_fixers.c = ['astyle'] " sudo apt install astyle
+	let g:ale_fixers.cpp = ['astyle']
 endif
+" }}}
+
+" bash {{{
+if executable('shfmt')
+	let g:ale_fixers.sh = ['shfmt'] " go install mvdan.cc/sh/v3/cmd/shfmt@latest
+endif
+" }}}
+
+" javascript {{{
+if executable('prettier')
+	let g:ale_fixers.javascript = ['prettier'] " npm install -g prettier
+elseif executable('eslint')
+	let g:ale_fixers.javascript = ['eslint'] " npm install -g eslint
+elseif executable('standard')
+	let g:ale_fixers.javascript = ['standard'] " npm install -g standard
+elseif executable('xo')
+	let g:ale_fixers.javascript = ['xo'] " npm install -g xo
+endif
+" }}}
+
+" typescript {{{
+if executable('prettier')
+	let g:ale_fixers.typescript = ['prettier'] " npm install -g prettier
+elseif executable('eslint')
+	let g:ale_fixers.typescript = ['eslint'] " npm install -g eslint
+endif
+" }}}
+
+" json {{{
 if executable('fixjson')
 	let g:ale_fixers.json = ['fixjson'] " npm install -g fixjson
 elseif executable('jq')
 	let g:ale_fixers.json = ['jq'] " sudo apt install jq
 endif
+" }}}
+
+" html {{{
+if executable('prettier')
+	let g:ale_fixers.html = ['prettier'] " npm install -g prettier
+elseif executable('html-beautify')
+	let g:ale_fixers.html = ['html-beautify'] " npm install -g js-beautify
+elseif executable('tidy')
+	let g:ale_fixers.html = ['tidy'] " sudo apt install tidy
+endif
+" }}}
+
+" css {{{
+if executable('prettier')
+	let g:ale_fixers.css = ['prettier'] " npm install -g prettier
+elseif executable('fecs')
+	let g:ale_fixers.css = ['fecs'] " npm install -g fecs
+elseif executable('stylelint')
+	let g:ale_fixers.css = ['stylelint'] " npm install -g stylelint stylelint-config-standard
+endif
+" }}}
+
+" xml {{{
+if executable('xmllint')
+	let g:ale_fixers.xml = ['xmllint'] " sudo apt install libxml2-utils
+endif
+" }}}
+
+" markdown {{{
+if executable('pandoc')
+	let g:ale_fixers.markdown = ['pandoc'] " sudo apt install pandoc
+elseif executable('textlint')
+	let g:ale_fixers.markdown = ['textlint'] " npm install -g textlint
+endif
+" }}}
+
+" dart {{{
+if executable('dartfmt')
+	let g:ale_fixers.dart = ['dartfmt']
+endif
+" }}}
+
+" lua {{{
+if executable('luafmt')
+	let g:ale_fixers.lua = ['luafmt'] " npm install -g lua-fmt
+endif
+" }}}
+
+" php {{{
+if executable('php-cs-fixer')
+	let g:ale_fixers.php = ['php_cs_fixer'] " https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/master/doc/installation.rst
+elseif executable('phpcbf')
+	let g:ale_fixers.php = ['phpcbf'] " https://phpqa.io/projects/phpcbf.html
+endif
+" }}}
+
 " }}}
 
 " }}}
