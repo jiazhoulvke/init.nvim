@@ -1,0 +1,32 @@
+{
+  "comment": {
+    "prefix": "/*",
+    "body": [
+      "/* $0",
+      "*/"
+    ]
+  },
+  "comment for function": {
+    "prefix": "/**",
+    "body": [
+      "/* $1",
+      "* ",
+      "* $2",
+      "* ",
+      "* @return $3",
+      "*/$0"
+    ]
+  },
+  "comment param": {
+    "prefix": "@p",
+    "body": [
+      "@param $1: $0"
+    ]
+  },
+  "comment return": {
+    "prefix": "@r",
+    "body": [
+      "@return $0"
+    ]
+  }
+}

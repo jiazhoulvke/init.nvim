@@ -852,6 +852,10 @@ nvim_lsp['dartls'].setup {
 }
 end
 
+if vim.fn.exists('g:use_cmake_language_server')==1 then
+	nvim_lsp['cmake'].setup{}
+end
+
 EOF
 endif
 "" }}}
@@ -906,10 +910,21 @@ let g:ale_linters = {
 
 " ale-fix {{{
 let g:ale_fix_on_save = 1
-let g:ale_fixers = {}
-let g:ale_fixers.python = ['black']
-let g:ale_fixers.c = ['clang-format']
-let g:ale_fixers.cpp = ['clang-format']
+if !exists('g:ale_fixers')
+	let g:ale_fixers = {}
+endif
+if executable('black')
+	let g:ale_fixers.python = ['black'] " pip3 install black
+endif
+if executable('clang-format')
+	let g:ale_fixers.c = ['clang-format'] " sudo apt install clang-format-12
+	let g:ale_fixers.cpp = ['clang-format']
+endif
+if executable('fixjson')
+	let g:ale_fixers.json = ['fixjson'] " npm install -g fixjson
+elseif executable('jq')
+	let g:ale_fixers.json = ['jq'] " sudo apt install jq
+endif
 " }}}
 
 " }}}
