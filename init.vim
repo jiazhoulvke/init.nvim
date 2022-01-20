@@ -94,6 +94,8 @@ Plug 'tpope/vim-repeat' " 重复执行操作
 Plug 'tpope/vim-rsi' " Readline style insertion
 Plug 'tpope/vim-speeddating', { 'on': ['<Plug>SpeedDatingUp', '<Plug>SpeedDatingDown'] } " use CTRL-A/CTRL-X to increment dates, times, and more
 Plug 'tpope/vim-surround', { 'on': ['<Plug>Dsurround', '<Plug>Csurround', '<Plug>Yssurround', '<Plug>Ysurround', '<Plug>VSurround'] } " 对括号双引号等进行快速编辑
+Plug 'cohama/lexima.vim' " Auto close parentheses and repeat by dot dot dot...
+Plug 'alvan/vim-closetag', { 'for': ['html', 'xhtml', 'xml'] } " Auto close (X)HTML tags
 Plug 'tpope/vim-unimpaired' " Pairs of handy bracket mappings
 Plug 'vim-scripts/LargeFile' " 针对大文件优化性能
 Plug 'vim-scripts/VisIncr', { 'on': ['I', 'IA'] } " 列编辑
