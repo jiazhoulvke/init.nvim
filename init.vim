@@ -53,8 +53,6 @@ if exists('g:use_fern')
 endif
 Plug 'antoinemadec/FixCursorHold.nvim' " Fix CursorHold Performance.
 Plug 'Valloric/MatchTagAlways', { 'for': ['html','xhtml', 'xml', 'vue'] } " tag配对显示
-Plug 'itchyny/vim-cursorword' " Underlines the word under the cursor
-Plug 'dhruvasagar/vim-zoom', { 'on': '<Plug>(zoom-toggle)' } " Toggle zoom in / out individual windows (splits) maps: <C-w>m
 Plug 'dyng/ctrlsf.vim', { 'on': 'CtrlSF' } " 文件内容查找
 Plug 'brooth/far.vim', { 'on': 'Far' } " Find And Replace Vim plugin
 Plug 'inkarkat/vim-ingo-library' " Vimscript library of common functions
@@ -81,7 +79,7 @@ Plug 'kana/vim-textobj-line' " Text objects for the current line. *l*
 Plug 'kana/vim-textobj-syntax' " Text objects for syntax highlighted items. *y*
 Plug 'sgur/vim-textobj-parameter' " Text object for parameter. *,*
 Plug 'wellle/targets.vim' " Vim plugin that provides additional text objects: ({[<t(tags)
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " The ultimate undo history visualizer for VIM
+" Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " The ultimate undo history visualizer for VIM
 Plug 'mhinz/vim-signify' " Show a diff using Vim its sign column.
 Plug 'preservim/tagbar'
 Plug 'easymotion/vim-easymotion'
@@ -108,7 +106,6 @@ Plug 'xolox/vim-session', { 'on': ['OpenSession', 'SaveSession'] } " Extended se
 Plug 'yianwillis/vimcdoc' " 中文帮助文档
 Plug 'zhimsel/vim-stay' " 保持最后的编辑状态
 Plug 'Lenovsky/nuake' " A Quake-style terminal panel for Neovim and Vim
-Plug 'qpkorr/vim-renamer' " 以编辑文本的方式批量修改文件名
 Plug 'liuchengxu/vim-which-key' " Vim plugin that shows keybindings in popup
 Plug 'skywind3000/asynctasks.vim' " Modern Task System for Project Building, Testing and Deploying
 Plug 'skywind3000/asyncrun.vim' " Run Async Shell Commands in Vim 8.0 / NeoVim and Output to the Quickfix Window
@@ -125,11 +122,10 @@ if exists('g:use_airline')
 endif
 
 "themes
-Plug 'iCyMind/NeoSolarized' " colorscheme
 Plug 'morhetz/gruvbox' " colorscheme
 Plug 'rakr/vim-one'
 
-Plug 'luochen1990/rainbow', { 'for':  ['python', 'javascript', 'jsx', 'html', 'css', 'go', 'vim', 'toml', 'lisp', 'scheme'], 'on': 'RainbowToggle' } " Rainbow Parentheses Improved, shorter code, no level limit, smooth and fast, powerful configuration.
+Plug 'luochen1990/rainbow', { 'for':  ['python', 'javascript', 'jsx', 'html', 'css', 'go', 'vim', 'toml', 'lisp', 'scheme'] } " Rainbow Parentheses Improved, shorter code, no level limit, smooth and fast, powerful configuration.
 " }}}
 
 " Languages: {{{2
@@ -1205,6 +1201,10 @@ nnoremap <leader>tb <ESC>:TagbarToggle<CR>
 " }}}
 
 " vim-interestingwords: {{{3
+let g:interestingWordsDefaultMappings = 0
+nnoremap <silent> <leader>kk :call InterestingWords('n')<CR>
+vnoremap <silent> <leader>kk :call InterestingWords('v')<CR>
+nnoremap <silent> <leader>kK :call UncolorAllWords('v')<CR>
 let g:interestingWordsTermColors = ['154', '121', '211', '137', '214', '222', '33', '66', '99', '170']
 let g:interestingWordsGUIColors = ['#8CCBEA', '#A4E57E', '#FFDB72', '#FF7272', '#FFB3FF', '#ff6600', '#333399','#ee9933','#aa6622','#ffffff']
 " }}}
@@ -1352,7 +1352,6 @@ endfunction
 
 nnoremap <leader>v <ESC>:call <SID>VoomToggleExt()<CR>
 " }}}
-
 
 " use_markdown {{{
 if exists('g:use_markdown')
@@ -1534,6 +1533,10 @@ nnoremap <silent> <Space>ss <ESC>:silent call AsyncTaskDo('search')<CR>
 nnoremap <silent> <Space> :WhichKey '<Space>'<CR>
 " }}}
 
+" rainbow: {{{
+let g:rainbow_active = 0
+" }}}
+
 " APZelos/blamer.nvim: {{{
 let g:blamer_enabled = 0
 let g:blamer_delay = 500
@@ -1542,7 +1545,7 @@ let g:blamer_show_in_insert_modes = 1
 let g:blamer_prefix = ' '
 let g:blamer_template = '<committer-time> • <summary>, <committer>'
 let g:blamer_relative_time = 1
-highlight Blamer guifg=orange
+highlight Blamer guifg=yellow
 " }}}
 
 " }}}
