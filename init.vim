@@ -32,6 +32,9 @@ if !has('nvim')
 	Plug 'roxma/nvim-yarp'
 	Plug 'roxma/vim-hug-neovim-rpc'
 endif
+if has('nvim')
+	Plug 'nvim-lua/plenary.nvim'
+endif
 if exists('g:use_fcitx')
 	Plug 'lilydjwg/fcitx.vim' " 自动切换中英文
 endif
@@ -61,6 +64,12 @@ endif
 if exists('g:use_leaderf')
 	Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 endif
+if has('nvim-0.6')
+Plug 'nvim-telescope/telescope.nvim' " Find, Filter, Preview, Pick. All lua, all the time.
+endif
+
+" textobjects {{{
+" if !has('nvim-0.6')
 Plug 'junegunn/vim-after-object' " Defines text objects to target text after the designated characters.
 Plug 'kana/vim-textobj-user' " Create your own text objects
 Plug 'glts/vim-textobj-comment' " Vim text objects for comments. *c*
@@ -74,14 +83,17 @@ Plug 'kana/vim-textobj-line' " Text objects for the current line. *l*
 Plug 'kana/vim-textobj-syntax' " Text objects for syntax highlighted items. *y*
 Plug 'sgur/vim-textobj-parameter' " Text object for parameter. *,*
 Plug 'wellle/targets.vim' " Vim plugin that provides additional text objects: ({[<t(tags)
-" Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " The ultimate undo history visualizer for VIM
+" endif
+" }}}
+Plug 'folke/todo-comments.nvim' " Highlight, list and search todo comments in your projects
 Plug 'mhinz/vim-signify' " Show a diff using Vim its sign column.
 Plug 'preservim/tagbar'
 Plug 'easymotion/vim-easymotion'
 Plug 'sk1418/Join', { 'on': 'Join' } " 比vim自带的join更强大
+if !has('nvim-0.6')
 Plug 'terryma/vim-expand-region' " 逐步扩大选择区域
+endif
 Plug 'tommcdo/vim-exchange', { 'on': ['<Plug>(ExchangeLine)', '<Plug>(Exchange)'] } " 用cxiw交换单词、cxi'交换‘中的文字等
-Plug 'tpope/vim-commentary' " comment stuff out
 Plug 'tpope/vim-fugitive' " 对git的封装
 Plug 'APZelos/blamer.nvim' " A git blame plugin for neovim inspired by VS Code's GitLens plugin
 Plug 'strboul/urlview.vim'
@@ -90,7 +102,6 @@ Plug 'tpope/vim-rsi' " Readline style insertion
 Plug 'tpope/vim-speeddating', { 'on': ['<Plug>SpeedDatingUp', '<Plug>SpeedDatingDown'] } " use CTRL-A/CTRL-X to increment dates, times, and more
 Plug 'tpope/vim-surround', { 'on': ['<Plug>Dsurround', '<Plug>Csurround', '<Plug>Yssurround', '<Plug>Ysurround', '<Plug>VSurround'] } " 对括号双引号等进行快速编辑
 Plug 'cohama/lexima.vim' " Auto close parentheses and repeat by dot dot dot...
-Plug 'alvan/vim-closetag', { 'for': ['html', 'xhtml', 'xml'] } " Auto close (X)HTML tags
 Plug 'tpope/vim-unimpaired' " Pairs of handy bracket mappings
 Plug 'vim-scripts/LargeFile' " 针对大文件优化性能
 Plug 'vim-scripts/VisIncr', { 'on': ['I', 'IA'] } " 列编辑
@@ -106,9 +117,11 @@ Plug 'liuchengxu/vim-which-key' " Vim plugin that shows keybindings in popup
 Plug 'skywind3000/asynctasks.vim' " Modern Task System for Project Building, Testing and Deploying
 Plug 'skywind3000/asyncrun.vim' " Run Async Shell Commands in Vim 8.0 / NeoVim and Output to the Quickfix Window
 Plug 'mattn/emmet-vim' " emmet-vim is a vim plug-in which provides support for expanding abbreviations similar to emmet.
+Plug 'alvan/vim-closetag', { 'for': ['html', 'xhtml', 'xml'] } " Auto close (X)HTML tags
 if !has('nvim-0.6')
 " 如果不是neovim则使用rainbow显示彩虹括号
 Plug 'luochen1990/rainbow', { 'for':  ['c', 'cpp', 'python', 'javascript', 'go', 'vim', 'lisp', 'scheme'] } " Rainbow Parentheses Improved, shorter code, no level limit, smooth and fast, powerful configuration.
+Plug 'tpope/vim-commentary' " comment stuff out
 endif
 " }}}
 
@@ -147,12 +160,18 @@ Plug 'aklt/plantuml-syntax', { 'for': 'plantuml' }
 Plug 'lilydjwg/colorizer', { 'for': ['html', 'css', 'php', 'vue', 'conf', 'vim'] } " css颜色高亮
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 Plug 'tweekmonster/hl-goimport.vim', { 'for': 'go' } " 高亮golang包名
+
+" tree-sitter plugins: {{{
 if has('nvim-0.6')
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " Nvim Treesitter configurations and abstraction layer
 Plug 'romgrk/nvim-treesitter-context' " Show code context
-Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+" Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'p00f/nvim-ts-rainbow' " Rainbow parentheses for neovim using tree-sitter
+Plug 'numToStr/Comment.nvim' " Smart and powerful comment plugin for neovim. Supports treesitter, dot repeat, left-right/up-down motions, hooks, and more
+Plug 'windwp/nvim-ts-autotag' " Use treesitter to auto close and auto rename html tag
 endif
+" }}}
+
 " }}}
 
 " Completion: {{{2
@@ -540,6 +559,15 @@ nnoremap <leader>oo <Esc>:Leaderf bufTag<CR>
 endif
 " }}}
 
+" telescope.nvim: {{{
+if has('nvim-0.6')
+	nnoremap <leader>ff <cmd>Telescope git_files<cr>
+	nnoremap <leader>fF <cmd>Telescope find_files<cr>
+	nnoremap <leader>fb <cmd>Telescope buffers<cr>
+	nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+endif
+" }}}
+
 " nvim-treesitter: {{{
 " if exists('g:loaded_nvim_treesitter')
 if has('nvim-0.6')
@@ -550,14 +578,25 @@ require'nvim-treesitter.configs'.setup {
 		disable = {'org'},
 		additional_vim_regex_highlighting = {'org'},
 	},
+	-- 扩大选择区域 
+	-- 替代 expand-region 插件
 	incremental_selection = { 
-		enable = true 
+		enable = true,
+		keymaps = {
+			init_selection = "<CR>",
+			node_incremental = "<CR>",
+			-- scope_incremental = "<C-h>",
+			node_decremental = "<BS>",
+		},
 	},
 	indent = {
 		enable = true,
 	},
 	textobjects = { 
 		enable = true 
+	},
+	autotag = {
+		enable = true,
 	},
 	rainbow = {
 		enable = true,
@@ -566,10 +605,19 @@ require'nvim-treesitter.configs'.setup {
 		max_file_lines = nil, -- Do not enable for files with more than n lines, int
 		-- colors = {}, -- table of hex strings
 		-- termcolors = {} -- table of colour name strings
-	}
+	},
 }
+
 EOF
 set foldexpr=nvim_treesitter#foldexpr()
+endif
+" }}}
+
+" Comment.nvim: {{{
+if has('nvim-0.6')
+lua <<EOF
+require('Comment').setup()
+EOF
 endif
 " }}}
 
@@ -1207,6 +1255,7 @@ let g:interestingWordsGUIColors = ['#8CCBEA', '#A4E57E', '#FFDB72', '#FF7272', '
 " }}}
 
 " expand-region: {{{3
+if !has('nvim-0.6')
 let g:expand_region_text_objects = {
 			\ 'iw': 0,
 			\ "i'": 0,
@@ -1239,6 +1288,7 @@ nmap + <Plug>(expand_region_expand)
 vmap + <Plug>(expand_region_expand)
 nmap _ <Plug>(expand_region_shrink)
 vmap _ <Plug>(expand_region_shrink)
+endif
 " }}}
 
 " vim-speeddating: {{{3
@@ -1454,8 +1504,8 @@ let g:sleuth_automatic = 1
 " vim-translate-me: {{{3
 let g:vtm_default_mapping = 0
 let g:vtm_default_engines = ['youdao', 'ciba']
-nmap <silent> <leader>tt <Plug>TranslateW
-vmap <silent> <leader>tt <Plug>TranslateWV
+nmap <silent> <leader>tr <Plug>TranslateW
+vmap <silent> <leader>tr <Plug>TranslateWV
 " }}}
 
 " vim-exchange: {{{3
