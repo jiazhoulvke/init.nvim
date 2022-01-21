@@ -38,9 +38,6 @@ endif
 if exists('g:use_ibus')
 	Plug 'jiazhoulvke/ibus-autoswitch.vim'
 endif
-if has('unix')
-	Plug 'tpope/vim-eunuch' " Helpers for UNIX
-endif
 if exists('g:use_fern')
 	Plug 'lambdalisue/fern.vim' " General purpose asynchronous tree viewer written in Pure Vim script
 	Plug 'lambdalisue/fern-renderer-nerdfont.vim' " fern.vim plugin which add file type icon through nerdfont.vim
@@ -54,7 +51,6 @@ endif
 Plug 'antoinemadec/FixCursorHold.nvim' " Fix CursorHold Performance.
 Plug 'Valloric/MatchTagAlways', { 'for': ['html','xhtml', 'xml', 'vue'] } " tag配对显示
 Plug 'dyng/ctrlsf.vim', { 'on': 'CtrlSF' } " 文件内容查找
-Plug 'brooth/far.vim', { 'on': 'Far' } " Find And Replace Vim plugin
 Plug 'inkarkat/vim-ingo-library' " Vimscript library of common functions
 Plug 'lfv89/vim-interestingwords' " A vim plugin for highlighting and navigating through different words in a buffer.
 Plug 'jiazhoulvke/vim-sleuth' " Heuristically set buffer options
@@ -66,7 +62,6 @@ if exists('g:use_leaderf')
 	Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 endif
 Plug 'junegunn/vim-after-object' " Defines text objects to target text after the designated characters.
-Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] } " 代码对齐
 Plug 'kana/vim-textobj-user' " Create your own text objects
 Plug 'glts/vim-textobj-comment' " Vim text objects for comments. *c*
 Plug 'jceb/vim-textobj-uri' " Text objects for dealing with URIs. *u*
@@ -99,7 +94,6 @@ Plug 'alvan/vim-closetag', { 'for': ['html', 'xhtml', 'xml'] } " Auto close (X)H
 Plug 'tpope/vim-unimpaired' " Pairs of handy bracket mappings
 Plug 'vim-scripts/LargeFile' " 针对大文件优化性能
 Plug 'vim-scripts/VisIncr', { 'on': ['I', 'IA'] } " 列编辑
-Plug 'vim-voom/VOoM', { 'on': ['Voom', 'VoomToggle'] } " 文档大纲
 Plug 'voldikss/vim-translate-me', { 'on': ['Translate', 'TranslateW', 'TranslateWV', '<Plug>TranslateW', '<Plug>TranslateWV'] } " (Neo)Vim translation plugin
 Plug 'w0rp/ale' " 异步代码检测
 Plug 'wellle/targets.vim' " Vim plugin that provides additional text objects: ({[<t(tags)
@@ -112,6 +106,10 @@ Plug 'liuchengxu/vim-which-key' " Vim plugin that shows keybindings in popup
 Plug 'skywind3000/asynctasks.vim' " Modern Task System for Project Building, Testing and Deploying
 Plug 'skywind3000/asyncrun.vim' " Run Async Shell Commands in Vim 8.0 / NeoVim and Output to the Quickfix Window
 Plug 'mattn/emmet-vim' " emmet-vim is a vim plug-in which provides support for expanding abbreviations similar to emmet.
+if !has('nvim-0.6')
+" 如果不是neovim则使用rainbow显示彩虹括号
+Plug 'luochen1990/rainbow', { 'for':  ['c', 'cpp', 'python', 'javascript', 'go', 'vim', 'lisp', 'scheme'] } " Rainbow Parentheses Improved, shorter code, no level limit, smooth and fast, powerful configuration.
+endif
 " }}}
 
 " UI: {{{2
@@ -127,7 +125,6 @@ endif
 Plug 'morhetz/gruvbox' " colorscheme
 Plug 'rakr/vim-one'
 
-Plug 'luochen1990/rainbow', { 'for':  ['python', 'javascript', 'jsx', 'html', 'css', 'go', 'vim', 'toml', 'lisp', 'scheme'] } " Rainbow Parentheses Improved, shorter code, no level limit, smooth and fast, powerful configuration.
 " }}}
 
 " Languages: {{{2
@@ -148,19 +145,13 @@ endif
 " }}}
 Plug 'aklt/plantuml-syntax', { 'for': 'plantuml' }
 Plug 'lilydjwg/colorizer', { 'for': ['html', 'css', 'php', 'vue', 'conf', 'vim'] } " css颜色高亮
-Plug 'cespare/vim-toml', { 'for': 'toml' } " toml语法插件
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
-Plug 'dag/vim-fish', { 'for': 'fish' }
-Plug 'dart-lang/dart-vim-plugin', { 'for': 'dart' }
-Plug 'groenewege/vim-less', { 'for': 'less' } " less语法插件
-Plug 'jansenm/vim-cmake', { 'for': 'cmake' }
-Plug 'matze/vim-ini-fold', { 'for': ['dosini', 'ini'] }
-Plug 'pangloss/vim-javascript', { 'for': 'javascript' } " 更好的缩进
 Plug 'tweekmonster/hl-goimport.vim', { 'for': 'go' } " 高亮golang包名
 if has('nvim-0.6')
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " Nvim Treesitter configurations and abstraction layer
 Plug 'romgrk/nvim-treesitter-context' " Show code context
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'p00f/nvim-ts-rainbow' " Rainbow parentheses for neovim using tree-sitter
 endif
 " }}}
 
@@ -208,6 +199,7 @@ set cursorline " 高亮当前行
 set conceallevel=2
 set listchars=tab:\|\ ,trail:.,extends:>,precedes:<
 set formatoptions+=m
+set backspace=indent,eol,start
 " vim hardcodes background color erase even if the terminfo file does
 " not contain bce (not to mention that libvte based terminals
 " incorrectly contain bce in their terminfo files). This causes
@@ -299,7 +291,6 @@ endif
 " }}}
 
 " Bind: {{{2
-
 
 " 翻页
 nnoremap <M-d> <C-f>zz
@@ -568,6 +559,14 @@ require'nvim-treesitter.configs'.setup {
 	textobjects = { 
 		enable = true 
 	},
+	rainbow = {
+		enable = true,
+		-- disable = {}, -- list of languages you want to disable the plugin for
+		extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+		max_file_lines = nil, -- Do not enable for files with more than n lines, int
+		-- colors = {}, -- table of hex strings
+		-- termcolors = {} -- table of colour name strings
+	}
 }
 EOF
 set foldexpr=nvim_treesitter#foldexpr()
@@ -1184,10 +1183,6 @@ endif
 let g:cursorhold_updatetime = 100
 " }}}
 
-" vim-easy-align: {{{3
-xmap <leader>a <Plug>(EasyAlign)
-" }}}
-
 " ctrlsf: {{{3
 nnoremap <leader>sf <ESC>:CtrlSF<space>
 nnoremap <leader>st <ESC>:CtrlSFToggle<CR>
@@ -1195,7 +1190,7 @@ nnoremap <leader>st <ESC>:CtrlSFToggle<CR>
 
 " vim-easymotion: {{{3
 let g:EasyMotion_do_mapping=0
-nmap <Leader>j <Plug>(easymotion-overwin-f)
+nmap <Leader>jj <Plug>(easymotion-overwin-f)
 " }}}
 
 " tagbar: {{{3
@@ -1342,19 +1337,6 @@ let g:mta_filetypes = {
       \}
 " }}}
 
-" Voom: {{{3
-function! s:VoomToggleExt()
-	let l:filetypes = ['markdown', 'html', 'python']
-	if index(l:filetypes, &filetype)>=0
-		exec 'VoomToggle '.&filetype
-	else
-		exec 'VoomToggle'
-	endif
-endfunction
-
-nnoremap <leader>v <ESC>:call <SID>VoomToggleExt()<CR>
-" }}}
-
 " use_markdown {{{
 if exists('g:use_markdown')
 " markdown: {{{
@@ -1472,8 +1454,8 @@ let g:sleuth_automatic = 1
 " vim-translate-me: {{{3
 let g:vtm_default_mapping = 0
 let g:vtm_default_engines = ['youdao', 'ciba']
-nmap <silent> <leader>t <Plug>TranslateW
-vmap <silent> <leader>t <Plug>TranslateWV
+nmap <silent> <leader>tt <Plug>TranslateW
+vmap <silent> <leader>tt <Plug>TranslateWV
 " }}}
 
 " vim-exchange: {{{3
@@ -1536,7 +1518,7 @@ nnoremap <silent> <Space> :WhichKey '<Space>'<CR>
 " }}}
 
 " rainbow: {{{
-let g:rainbow_active = 0
+let g:rainbow_active = 1
 " }}}
 
 " APZelos/blamer.nvim: {{{
