@@ -57,23 +57,30 @@ endfunction
 " 从指定目录搜索插件
 function! s:search_plugins_files(plugin_name) abort
 	let files = []
+	let found = 0
 	for p in g:plugins_search_path
 		let pgfile = p.'/'.a:plugin_name.'.vim'
 		if filereadable(pgfile)
 			call add(files, fnamemodify(pgfile,':p'))
+			let found=found+1
 		endif
 		let pgfile = p.'/'.s:vim_type.'/'.a:plugin_name.'.vim'
 		if filereadable(pgfile)
 			call add(files, fnamemodify(pgfile,':p'))
+			let found=found+1
 		endif
 		" 如果是 neovim 则另外会查找 .nvim 后缀文件
 		if s:vim_type == 'neovim'
 			let pgfile = p.'/neovim/'.a:plugin_name.'.nvim'
 			if filereadable(pgfile)
+				let found=found+1
 				call add(files, fnamemodify(pgfile,':p'))
 			endif
 		endif
 	endfor
+	if found == 0
+		echomsg 'plugin ['.a:plugin_name.'] not found'
+	endif
 	return files
 endfunction
 
@@ -109,6 +116,9 @@ command! -nargs=1 -bar LoadPlugins call s:load_plugins_by_name('<args>')
 
 " 自动载入指定目录的插件
 function! s:autoload_plugins_from_dir(p) abort
+	if !isdirectory(a:p)
+		return
+	endif
 	for f in readdir(a:p)
 		let pgfile = fnamemodify(a:p.'/'.f,':p')
 		if !filereadable(pgfile)

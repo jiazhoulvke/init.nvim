@@ -16,8 +16,15 @@ LoadPlugins bufferline
 " 缩进线
 LoadPlugins indent-blankline
 
+" git
+LoadPlugins neogit
+LoadPlugins diffview
+LoadPlugins git-messenger
+LoadPlugins gitsigns
+
 " 代码修复
 LoadPlugins ale
+LoadPlugins trouble
 
 " 跳转
 LoadPlugins hop
@@ -25,8 +32,8 @@ LoadPlugins hop
 " 代码补全
 LoadPlugins nvim_cmp
 
-" git
-LoadPlugins gitsigns
+" 删除行尾空白空格
+LoadPlugins vim-better-whitespace
 
 " 查找工具
 LoadPlugins telescope

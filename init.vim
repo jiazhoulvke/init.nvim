@@ -22,8 +22,8 @@ set rtp+=~/.vim
 
 " 如果存在本地预设文件则载入
 if has('nvim')
-	if filereadable(s:home.'/preset.vim')
-		LoadScript preset.vim
+	if filereadable(s:home.'/init/preset.vim')
+		LoadScript init/preset.vim
 	endif
 else
 	if filereadable(expand('~/.vim/preset.vim'))
