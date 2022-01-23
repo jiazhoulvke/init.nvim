@@ -35,6 +35,9 @@ set list
 " 不高亮当前行
 set nocursorline
 
+" 设置光标样式
+set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20
+
 " 完全不显示隐藏文本
 set conceallevel=2
 
