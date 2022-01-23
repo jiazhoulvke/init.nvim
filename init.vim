@@ -14,7 +14,9 @@ command! -nargs=1 EditScript exec 'edit '.s:home.'/'.'<args>'
 exec 'set rtp+='.s:home
 
 " 将 ~/.vim 目录加入 runtimepath (有时候 vim 不会自动帮你加入）
-set rtp+=~/.vim
+if !has('nvim')
+	set rtp+=~/.vim
+endif
 
 "----------------------------------------------------------------------
 " 模块加载

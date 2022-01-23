@@ -44,7 +44,7 @@ endif
 " 终端下允许 ALT，详见：http://www.skywind.me/blog/archives/2021
 " 记得设置 ttimeout （见 init-basic.vim） 和 ttimeoutlen （上面）
 "----------------------------------------------------------------------
-if has('nvim') == 0 && has('gui_running') == 0
+if has('nvim') == 0 && has('gui_running') == 0 && !exists('g:dont_set_meta_key')
 	function! s:metacode(key)
 		exec "set <M-".a:key.">=\e".a:key
 	endfunc
@@ -99,7 +99,7 @@ call s:key_escape('<S-F12>', '[24;2~')
 " 防止tmux下vim的背景色显示异常
 " Refer: http://sunaku.github.io/vim-256color-bce.html
 "----------------------------------------------------------------------
-if &term =~ '256color' && $TMUX != ''
+if &term =~ '256color' || &term =~ 'kitty'
 	" disable Background Color Erase (BCE) so that color schemes
 	" render properly when inside 256-color tmux and GNU screen.
 	" see also http://snk.tuxfamily.org/log/vim-256color-bce.html
