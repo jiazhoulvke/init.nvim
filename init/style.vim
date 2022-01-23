@@ -33,13 +33,13 @@ set noshowmode " 不显示当前状态
 set list
 
 " 不高亮当前行
-set nocursorline 
+set nocursorline
 
 " 完全不显示隐藏文本
 set conceallevel=2
 
 " 关掉一些烦人的信息
-set shortmess+=c 
+set shortmess+=c
 
 " 右下角显示命令
 set showcmd
@@ -91,6 +91,9 @@ endif
 "----------------------------------------------------------------------
 " 状态栏设置
 "----------------------------------------------------------------------
+" 只有在没有安装状态栏插件的情况下才设置状态栏
+if !PluginIsLoaded('lualine') && !PluginIsLoaded('airline') && !PluginIsLoaded('lightline')
+
 set statusline=                                 " 清空状态了
 set statusline+=\ %F                            " 文件名
 set statusline+=\ [%1*%M%*%n%R%H]               " buffer 编号和状态
@@ -99,6 +102,8 @@ set statusline+=\ %y                            " 文件类型
 
 " 最右边显示文件编码和行号等信息，并且固定在一个 group 中，优先占位
 set statusline+=\ %0(%{&fileformat}\ [%{(&fenc==\"\"?&enc:&fenc).(&bomb?\",BOM\":\"\")}]\ %v:%l/%L%)
+
+endif
 
 
 "----------------------------------------------------------------------
@@ -127,7 +132,7 @@ endif
 " hi! SignColumn guibg=NONE ctermbg=NONE
 
 " 修改行号为浅灰色，默认主题的黄色行号很难看，换主题可以仿照修改
-" highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE 
+" highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE
 " 	\ gui=NONE guifg=DarkGrey guibg=NONE
 
 " 修正补全目录的色彩：默认太难看
@@ -141,7 +146,7 @@ endif
 if has('terminal') && exists(':terminal') == 2
 	if exists('##TerminalOpen')
 		augroup VimUnixTerminalGroup
-			au! 
+			au!
 			au TerminalOpen * setlocal nonumber signcolumn=no
 		augroup END
 	endif
@@ -209,7 +214,7 @@ function! Vim_NeatBuffer(bufnr, fullname)
 		if l:name == ''
 			return '[No Name]'
 		else
-			if a:fullname 
+			if a:fullname
 				return fnamemodify(l:name, ':p')
 			else
 				let aname = fnamemodify(l:name, ':p')
@@ -228,7 +233,7 @@ function! Vim_NeatBuffer(bufnr, fullname)
 		if l:buftype == 'quickfix'
 			return '[Quickfix]'
 		elseif l:name != ''
-			if a:fullname 
+			if a:fullname
 				return '-'.fnamemodify(l:name, ':p')
 			else
 				return '-'.fnamemodify(l:name, ':t')

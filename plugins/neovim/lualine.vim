@@ -32,5 +32,4 @@ require('lualine').setup {
 	extensions = {'quickfix', 'fern', 'fugitive'},
 }
 
-require('lualine').setup()
 EOF
