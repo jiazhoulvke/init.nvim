@@ -49,6 +49,9 @@ LoadScript init/style.vim
 " 自定义按键
 LoadScript init/keymaps.vim
 
+" 自定义缩写
+LoadScript init/ab.vim
+
 " 本地配置
 if has('nvim') && filereadable(s:home.'/init.local.vim')
 	LoadScript init.local.vim
