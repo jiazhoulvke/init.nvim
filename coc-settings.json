@@ -1,7 +1,11 @@
 {
-  //"list.source.files.args": ["--hidden", "--files", "-uu"],
-  "list.source.files.args": ["--hidden", "--files"],
-  "list.source.grep.args": ["--hidden"],
+  "list.source.files.args": [
+    "--hidden",
+    "--files"
+  ],
+  "list.source.grep.args": [
+    "--hidden"
+  ],
   "list.source.mru.maxLength": 4096,
   "list.height": 20,
   "suggest.echodocSupport": true,
@@ -11,7 +15,9 @@
   "vetur.format.enable": true,
   "vetur.format.options.tabSize": 2,
   "codeLens.enable": true,
-  "coc.preferences.formatOnSaveFiletypes": ["dart"],
+  "coc.preferences.formatOnSaveFiletypes": [
+    "dart"
+  ],
   "languageserver": {
     "golang": {
       "command": "gopls",
@@ -22,9 +28,5 @@
         "go"
       ]
     }
-  },
-  "snippets.ultisnips.directories": [
-    "UltiSnips",
-    "gosnippets/UltiSnips"
-  ]
+  }
 }

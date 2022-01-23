@@ -1,0 +1,65 @@
+" 新一代的文件管理器
+Plug 'lambdalisue/fern.vim' " General purpose asynchronous tree viewer written in Pure Vim script
+Plug 'lambdalisue/fern-renderer-nerdfont.vim' " fern.vim plugin which add file type icon through nerdfont.vim
+Plug 'lambdalisue/glyph-palette.vim' " An universal palette for Nerd Fonts
+Plug 'lambdalisue/fern-git-status.vim' " Add Git status badge integration on file:// scheme on fern.vim
+Plug 'lambdalisue/fern-bookmark.vim' " fern.vim plugin which add bookmark scheme
+Plug 'lambdalisue/fern-hijack.vim' " Make fern.vim as a default file explorer instead of Netrw
+Plug 'lambdalisue/nerdfont.vim' " Fundemental plugin to handle Nerd Fonts in Vim
+Plug 'yuki-yano/fern-preview.vim' " Add a file preview window to fern.vim.
+
+" lambdalisue/fern.vim: {{{3
+nmap \\ <ESC>:Fern . -drawer -toggle<CR>
+
+function! s:init_fern() abort
+  nmap <silent> <buffer> <2-LeftMouse> <Plug>(fern-action-open-or-expand)
+  nmap <silent> <buffer> <RightMouse> <Plug>(fern-action-collapse)
+endfunction
+
+augroup fern-custom
+  autocmd! *
+  autocmd FileType fern call s:init_fern()
+augroup END
+
+let g:fern#default_exclude = '^node_modules$'
+" }}}
+
+" fern-bookmark.vim: {{{
+let g:fern#mapping#bookmark#disable_default_mappings = 0
+" }}}
+
+" lambdalisue/fern-renderer-nerdfont.vim: {{{
+let g:fern#renderer = "nerdfont"
+" }}}
+
+" lambdalisue/glyph-palette.vim: {{{
+augroup my-glyph-palette
+	autocmd! *
+	autocmd FileType fern call glyph_palette#apply()
+	autocmd FileType startify call glyph_palette#apply()
+augroup END
+" }}}
+
+" yuki-yano/fern-preview.vim: {{{
+function! s:fern_settings() abort
+  nmap <silent> <buffer> dd    <Plug>(fern-action-remove)
+  nmap <silent> <buffer> p     <Plug>(fern-action-preview:toggle)
+  nmap <silent> <buffer> <C-p> <Plug>(fern-action-preview:auto:toggle)
+  nmap <silent> <buffer> <C-d> <Plug>(fern-action-preview:scroll:down:half)
+  nmap <silent> <buffer> <C-u> <Plug>(fern-action-preview:scroll:up:half)
+  nmap <silent> <buffer> R	   <Plug>(fern-action-reload)
+  nmap <silent> <buffer> <C-r> <Plug>(fern-action-rename)
+endfunction
+
+augroup fern-settings
+  autocmd!
+  autocmd FileType fern call s:fern_settings()
+augroup END
+function! s:fern_preview_window_width() abort
+	let width = float2nr(&columns * 0.6)
+	return width
+endfunction
+
+let g:fern_preview_window_calculator = {}
+let g:fern_preview_window_calculator.width = function('s:fern_preview_window_width')
+" }}}
