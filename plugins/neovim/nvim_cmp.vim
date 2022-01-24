@@ -9,7 +9,12 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'rafamadriz/friendly-snippets'
-Plug 'neovim/nvim-lspconfig' " Collection of configurations for built-in LSP client
+" Collection of configurations for built-in LSP client
+Plug 'neovim/nvim-lspconfig'
+Plug 'ray-x/cmp-treesitter'
+" Dev setup for init.lua and plugin development with full signature help, docs
+" and completion for the nvim lua API.
+Plug 'folke/lua-dev.nvim'
 
 " nvim-cmp: {{{
 
@@ -147,6 +152,9 @@ cmp.setup {
 					return vim.api.nvim_list_bufs()
 				end
 			}
+		},
+		{
+			name = 'treesitter'
 		},
 	},
 }
@@ -298,6 +306,11 @@ lspconfig['sumneko_lua'].setup {
 		}
 	}
 }
+
+-- lua-dev.nvim {{{
+local luadev = require('lua-dev').setup({})
+lspconfig['sumneko_lua'].setup(luadev)
+-- }}}
 
 -- }}}
 

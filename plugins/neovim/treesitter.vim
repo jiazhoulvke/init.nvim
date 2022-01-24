@@ -10,6 +10,8 @@ Plug 'romgrk/nvim-treesitter-context'
 Plug 'p00f/nvim-ts-rainbow'
 " Use treesitter to auto close and auto rename html tag
 Plug 'windwp/nvim-ts-autotag'
+" Region selection with hints on the AST nodes of a document powered by treesitter
+Plug 'mfussenegger/nvim-treehopper'
 
 " nvim-treesitter: {{{
 lua <<EOF
@@ -39,8 +41,8 @@ require'nvim-treesitter.configs'.setup {
 			keymaps = {
 				['af'] = '@function.outer',
 				['if'] = '@function.inner',
-				['as'] = '@class.outer',
-				['is'] = '@class.inner',
+				['aC'] = '@class.outer',
+				['iC'] = '@class.inner',
 				['i,'] = '@parameter.inner',
 				['a,'] = '@parameter.outer',
 			},
@@ -49,10 +51,21 @@ require'nvim-treesitter.configs'.setup {
 			enable = true,
 			set_jumps = true,
 			goto_next_start = {
-				['],'] = '@parameter.outer',
+				['],'] = '@parameter.inner',
 			},
 			goto_previous_start = {
-				['[,'] = '@parameter.outer',
+				['[,'] = '@parameter.inner',
+			},
+		},
+		swap = {
+			enable = true,
+			swap_next = {
+				['},'] = '@parameter.inner',
+				['}f'] = '@function.outer',
+			},
+			swap_previous = {
+				['{,'] = '@parameter.inner',
+				['{f'] = '@function.inner',
 			},
 		},
 	},
@@ -121,4 +134,9 @@ require'nvim-treesitter.configs'.setup {
 	},
 }
 EOF
+" }}}
+
+" nvim-treehopper: {{{
+omap <silent> m :<C-U>lua require('tsht').nodes()<CR>
+vnoremap <silent> m :lua require('tsht').nodes()<CR>
 " }}}

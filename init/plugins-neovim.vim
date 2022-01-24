@@ -41,9 +41,6 @@ LoadPlugins telescope
 " treesitter
 LoadPlugins treesitter
 
-" todo 注释
-LoadPlugins todo-comments
-
 " 注释
 LoadPlugins Comment
 
