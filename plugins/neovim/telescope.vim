@@ -14,6 +14,12 @@ lua <<EOF
 require('telescope').load_extension('frecency')
 EOF
 
+" nvim-neoclip
+lua << EOF
+if vim.fn.PluginIsLoaded('nvim-neoclip') == 1 then
+require('telescope').load_extension('neoclip')
+end
+EOF
 " telescope-asynctasks.nvim
 
 

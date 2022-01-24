@@ -1,0 +1,7 @@
+{
+	"lua": {
+		"prefix": "lua",
+		"body": "lua << EOF\n$1\nEOF\n$0",
+		"description": "lua code"
+	}
+}
