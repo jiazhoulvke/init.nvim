@@ -50,7 +50,7 @@ EOF
 let g:airline#extensions#tabline#enabled = 0
 
 " 切换标签页
-nnoremap <silent><leader>z <cmd>BufferLinePick<CR>
+nnoremap <silent><leader>ts <cmd>BufferLinePick<CR>
 
 nnoremap <silent><leader>1 <Cmd>BufferLineGoToBuffer 1<CR>
 nnoremap <silent><leader>2 <Cmd>BufferLineGoToBuffer 2<CR>

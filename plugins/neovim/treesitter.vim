@@ -33,7 +33,28 @@ require'nvim-treesitter.configs'.setup {
 		enable = true,
 	},
 	textobjects = {
-		enable = true,
+		select = {
+			enable = true,
+			lookahead = true,
+			keymaps = {
+				['af'] = '@function.outer',
+				['if'] = '@function.inner',
+				['as'] = '@class.outer',
+				['is'] = '@class.inner',
+				['i,'] = '@parameter.inner',
+				['a,'] = '@parameter.outer',
+			},
+		},
+		move = {
+			enable = true,
+			set_jumps = true,
+			goto_next_start = {
+				['],'] = '@parameter.outer',
+			},
+			goto_previous_start = {
+				['[,'] = '@parameter.outer',
+			},
+		},
 	},
 	context_commentstring = {
 		enable = true,

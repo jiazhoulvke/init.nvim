@@ -17,7 +17,6 @@ let g:expand_region_text_objects = {
 			\ "at": 1,
 			\ 'i(': 1,
 			\ 'a(': 1,
-			\ "il": 0,
 			\ "i}": 1,
 			\ "a}": 1,
 	\ }
