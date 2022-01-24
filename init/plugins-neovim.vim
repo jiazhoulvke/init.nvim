@@ -33,9 +33,6 @@ LoadPlugins hop
 " 代码补全
 LoadPlugins nvim_cmp
 
-" 删除行尾空白空格
-LoadPlugins vim-better-whitespace
-
 " 查找工具
 LoadPlugins telescope
 
