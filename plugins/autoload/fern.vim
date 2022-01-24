@@ -30,6 +30,7 @@ let g:fern#mapping#bookmark#disable_default_mappings = 0
 
 " lambdalisue/fern-renderer-nerdfont.vim: {{{
 let g:fern#renderer = "nerdfont"
+let g:fern#renderer#nerdfont#leading = '  '
 " }}}
 
 " lambdalisue/glyph-palette.vim: {{{

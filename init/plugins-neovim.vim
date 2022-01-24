@@ -41,6 +41,9 @@ LoadPlugins telescope
 " treesitter
 LoadPlugins treesitter
 
+" 显示当前位置，类似xpath
+LoadPlugins nvim-gps
+
 " 注释
 LoadPlugins Comment
 
