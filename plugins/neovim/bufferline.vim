@@ -41,7 +41,7 @@ require("bufferline").setup{
 		-- sort_by = 'id', -- 'id' | 'extension' | 'relative_directory' | 'directory' | 'tabs'
 		max_name_length = 18,
 		max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
-		tab_size = 18,
+		tab_size = 1,
 		-- diagnostics = vim.g.bufferline_diagnostics,
 	},
 }

@@ -11,8 +11,8 @@ LoadPlugins misc
 LoadPlugins lualine
 
 " 标签栏
-" LoadPlugins bufferline
-LoadPlugins barbar
+LoadPlugins bufferline
+" LoadPlugins barbar
 
 " 缩进线
 LoadPlugins indent-blankline
