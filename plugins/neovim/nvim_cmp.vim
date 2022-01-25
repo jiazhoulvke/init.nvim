@@ -383,6 +383,15 @@ if vim.fn.executable('vscode-json-language-server') == 1 then
 end
 -- }}}
 
+-- yaml-language-server {{{
+-- npm install -g yaml-language-server
+if vim.fn.executable('yaml-language-server') == 1 then
+	lspconfig.yamlls.setup {
+		capabilities = capabilities,
+	}
+end
+-- }}}
+
 -- }}}
 
 -- }}}
