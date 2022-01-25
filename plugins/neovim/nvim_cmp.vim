@@ -111,6 +111,8 @@ cmp.setup {
 	mapping = {
 		['<C-j>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
 		['<C-k>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
+		['<M-n>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 'c' }),
+		['<M-p>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 'c' }),
 		['<M-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
 		['<M-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
 		['<M-e>'] = cmp.mapping({

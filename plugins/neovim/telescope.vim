@@ -35,7 +35,10 @@ require("telescope").setup {
             i = {
                 ["<C-j>"] = actions.move_selection_next,
                 ["<C-k>"] = actions.move_selection_previous,
+                ["<M-n>"] = actions.move_selection_next,
+                ["<M-p>"] = actions.move_selection_previous,
                 ["<C-c>"] = actions.close,
+                ["<Esc>"] = actions.close,
                 ["<Down>"] = actions.move_selection_next,
                 ["<Up>"] = actions.move_selection_previous,
                 ["<CR>"] = actions.select_default,
@@ -55,7 +58,7 @@ require("telescope").setup {
                 ["<C-w>"] = {"<c-s-w>", type = "command"}
             },
             n = {
-                ["<esc>"] = actions.close,
+                ["<Esc>"] = actions.close,
                 ["<CR>"] = actions.select_default,
                 ["<C-x>"] = actions.select_horizontal,
                 ["<C-v>"] = actions.select_vertical,
