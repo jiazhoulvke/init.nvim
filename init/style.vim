@@ -24,6 +24,9 @@ set number
 " 在 'number' 列上标号
 set signcolumn=number
 
+" 开启相对行号
+set relativenumber
+
 set noshowmode " 不显示当前状态
 
 " 总是显示标签栏
