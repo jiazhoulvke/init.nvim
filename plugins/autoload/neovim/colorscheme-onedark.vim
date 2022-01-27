@@ -1,16 +1,10 @@
-if has('nvim-0.6')
-	Plug 'navarasu/onedark.nvim'
-else
-	Plug 'joshdick/onedark.vim'
-endif
+Plug 'navarasu/onedark.nvim'
 
-" onedark.nvim: {{{
-if has('nvim-0.6')
 lua << EOF
 if vim.g.use_colorscheme == 'onedark' then
 require('onedark').setup {
 	-- Main options --
-	style = 'warm', -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
+	style = 'dark', -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
 	transparent = false,  -- Show/hide background
 	term_colors = true, -- Change terminal color as per the selected theme style
 	ending_tildes = false, -- Show the end-of-buffer tildes. By default they are hidden
@@ -42,6 +36,3 @@ require('onedark').setup {
 }
 end
 EOF
-endif
-" }}}
-
