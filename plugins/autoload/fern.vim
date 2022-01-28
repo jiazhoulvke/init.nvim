@@ -1,12 +1,20 @@
 " 新一代的文件管理器
-Plug 'lambdalisue/fern.vim' " General purpose asynchronous tree viewer written in Pure Vim script
-Plug 'lambdalisue/fern-renderer-nerdfont.vim' " fern.vim plugin which add file type icon through nerdfont.vim
-Plug 'lambdalisue/glyph-palette.vim' " An universal palette for Nerd Fonts
-Plug 'lambdalisue/fern-git-status.vim' " Add Git status badge integration on file:// scheme on fern.vim
-Plug 'lambdalisue/fern-bookmark.vim' " fern.vim plugin which add bookmark scheme
-Plug 'lambdalisue/fern-hijack.vim' " Make fern.vim as a default file explorer instead of Netrw
-Plug 'lambdalisue/nerdfont.vim' " Fundemental plugin to handle Nerd Fonts in Vim
-Plug 'yuki-yano/fern-preview.vim' " Add a file preview window to fern.vim.
+" General purpose asynchronous tree viewer written in Pure Vim script
+Plug 'lambdalisue/fern.vim'
+" fern.vim plugin which add file type icon through nerdfont.vim
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+" An universal palette for Nerd Fonts
+Plug 'lambdalisue/glyph-palette.vim'
+" Add Git status badge integration on file:// scheme on fern.vim
+Plug 'lambdalisue/fern-git-status.vim'
+" fern.vim plugin which add bookmark scheme
+Plug 'lambdalisue/fern-bookmark.vim'
+" Make fern.vim as a default file explorer instead of Netrw
+Plug 'lambdalisue/fern-hijack.vim'
+" Fundemental plugin to handle Nerd Fonts in Vim
+Plug 'lambdalisue/nerdfont.vim'
+" Add a file preview window to fern.vim.
+Plug 'yuki-yano/fern-preview.vim'
 
 " lambdalisue/fern.vim: {{{3
 nmap \\ <ESC>:Fern . -drawer -toggle<CR>

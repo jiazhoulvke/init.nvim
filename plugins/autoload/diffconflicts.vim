@@ -1,2 +1,2 @@
 " A better Vimdiff mergetool
-Plug 'whiteinge/diffconflicts'
+Plug 'whiteinge/diffconflicts', { 'on': 'DiffConflicts' }
