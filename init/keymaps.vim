@@ -44,17 +44,13 @@ vmap <C-C> "+y
 " CTRL-X剪切
 vmap <C-X> "+x
 
-function! s:paste() abort
-	set paste
-    exe "normal \"+gP"
-	set nopaste
-endfunction
-
 " CTRL-V粘贴
 vmap <C-V> "+gp
-imap <C-v> <C-r>+
 cmap <C-v> <C-r>+
-nnoremap <C-v> <ESC>:call <SID>paste()<CR>
+" 粘贴时禁止缩进
+imap <C-v> <C-o>:set paste<CR><C-r>+<C-o>:set nopaste<CR>
+" 粘贴时禁止缩进
+nnoremap <C-v> <ESC>:set paste<CR>:normal "+gP:set nopaste<CR>
 
 " 插入模式下上开一行
 inoremap <M-cr> <Esc>O

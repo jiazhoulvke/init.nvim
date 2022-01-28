@@ -59,4 +59,4 @@ require'sniprun'.setup({
 EOF
 
 nmap <leader>sr <Plug>SnipRun
-vmap sr <Plug>SnipRun
+vmap <leader>sr <Plug>SnipRun

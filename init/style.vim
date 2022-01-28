@@ -19,10 +19,8 @@ set laststatus=2
 " 总是显示行号
 set number
 
-" 总是显示侧边栏（用于显示 mark/gitdiff/诊断信息）
-" set signcolumn=yes
-" 在 'number' 列上标号
-set signcolumn=number
+" 显示标号栏（用于显示 mark/gitdiff/诊断信息）
+set signcolumn=auto
 
 " 开启相对行号
 set relativenumber
