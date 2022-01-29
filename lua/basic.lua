@@ -22,7 +22,7 @@ vim.o.cindent = true
 vim.o.winaltkeys = "no"
 
 -- 自动换行
-vim.o.wrap = false
+vim.o.wrap = true
 
 -- 打开功能键超时检测（终端下功能键为一串 ESC 开头的字符串）
 vim.o.ttimeout = true
@@ -264,6 +264,9 @@ augroup InitFileTypesGroup
 
 " 清除同组的历史 autocommand
 au!
+
+" lua 
+au FileType lua setlocal ts=2 sw=2 et
 
 " lisp 进行微调
 au FileType lisp setlocal ts=8 sts=2 sw=2 et

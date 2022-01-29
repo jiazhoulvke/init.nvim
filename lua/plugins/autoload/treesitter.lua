@@ -4,6 +4,35 @@ local use = require("packer").use
 use {
     "nvim-treesitter/nvim-treesitter",
     run = ":TSUpdate",
+    requires = {
+        {"nvim-treesitter/nvim-treesitter-refactor"},
+        {"nvim-treesitter/nvim-treesitter-textobjects"},
+        {
+            "p00f/nvim-ts-rainbow",
+            config = function()
+                require "nvim-treesitter.configs".setup {
+                    rainbow = {
+                        enable = true,
+                        -- disable = {}, -- list of languages you want to disable the plugin for
+                        extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+                        max_file_lines = nil -- Do not enable for files with more than n lines, int
+                        -- colors = {}, -- table of hex strings
+                        -- termcolors = {} -- table of colour name strings
+                    }
+                }
+            end
+        },
+        {"windwp/nvim-ts-autotag"},
+        {
+            "romgrk/nvim-treesitter-context",
+            config = function()
+                require "treesitter-context".setup {
+                    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+                    throttle = true -- Throttles plugin updates (may improve performance)
+                }
+            end
+        }
+    },
     config = function()
         require "nvim-treesitter.configs".setup {
             highlight = {
@@ -23,6 +52,17 @@ use {
             },
             indent = {
                 enable = false
+            },
+            rainbow = {
+                enable = true,
+                -- disable = {}, -- list of languages you want to disable the plugin for
+                extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+                max_file_lines = nil -- Do not enable for files with more than n lines, int
+                -- colors = {}, -- table of hex strings
+                -- termcolors = {} -- table of colour name strings
+            },
+            autotag = {
+                enable = true
             },
             textobjects = {
                 select = {
@@ -86,50 +126,5 @@ use {
 
         vim.o.foldmethod = "expr"
         vim.o.foldexpr = "nvim_treesitter#foldexpr()"
-    end
-}
--- Refactor modules for nvim-treesitter
-use {
-    "nvim-treesitter/nvim-treesitter-refactor"
-}
--- textobjects modules for nvim-treesitter
-use {
-    "nvim-treesitter/nvim-treesitter-textobjects"
-}
--- Show code context
-use {
-    "romgrk/nvim-treesitter-context",
-    config = function()
-        require "treesitter-context".setup {
-            enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-            throttle = true -- Throttles plugin updates (may improve performance)
-        }
-    end
-}
--- Rainbow parentheses for neovim using tree-sitter
-use {
-    "p00f/nvim-ts-rainbow",
-    config = function()
-        require "nvim-treesitter.configs".setup {
-            rainbow = {
-                enable = true,
-                -- disable = {}, -- list of languages you want to disable the plugin for
-                extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-                max_file_lines = nil -- Do not enable for files with more than n lines, int
-                -- colors = {}, -- table of hex strings
-                -- termcolors = {} -- table of colour name strings
-            }
-        }
-    end
-}
--- Use treesitter to auto close and auto rename html tag
-use {
-    "windwp/nvim-ts-autotag",
-    config = function()
-        require "nvim-treesitter.configs".setup {
-            autotag = {
-                enable = true
-            }
-        }
     end
 }

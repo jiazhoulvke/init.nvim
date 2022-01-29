@@ -18,7 +18,7 @@ tnoremap <C-^> <C-\><C-n><C-^> " 切换buffer
 nnoremap <leader>xm <ESC>:%s/\r$//<CR>
 
 " 删除空行
-nnoremap <leader>xbl :g/^\s*$/d<CR>
+" nnoremap <leader>xl :g/^\s*$/d<CR>
 
 
 "----------------------------------------------------------------------

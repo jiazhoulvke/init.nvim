@@ -2,6 +2,7 @@
 local use = require("packer").use
 use  {
 	'numToStr/Comment.nvim',
+	keys = { "gc", "gcc", "gbc" },
 	config = function()
 		require('Comment').setup()
 	end,

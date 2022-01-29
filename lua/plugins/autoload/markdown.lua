@@ -50,8 +50,6 @@ use {
 	end,
 }
 
-use {'mzlogin/vim-kramdown-tab', ft= 'markdown' }
-
 use {
 	'plasticboy/vim-markdown',
 	ft = 'markdown',

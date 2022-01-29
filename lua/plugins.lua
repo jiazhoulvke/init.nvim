@@ -1,11 +1,5 @@
 -- vim: fdm=marker et ts=4
--- local packer = nil
--- local function init()
---     if packer == nil then
---         packer = require "packer"
---         packer.init {disable_commands = true}
---     end
--- end
+local home = vim.fn.fnamemodify(vim.fn.resolve(vim.fn.expand('<sfile>:p')), ':h')
 local packer = require "packer"
 local use = packer.use
 packer.reset()
@@ -20,9 +14,9 @@ end
 return require("packer").startup(
     function()
         use "wbthomason/packer.nvim"
-        local autoload_plugins = vim.fn.readdir('lua/plugins/autoload')
+        local autoload_plugins = vim.fn.readdir(home..'/lua/plugins/autoload')
         for _,v in ipairs(autoload_plugins) do
-            require('plugins/autoload/'..vim.fn.fnamemodify(v, ':r'))
+            require('plugins.autoload.'..vim.fn.fnamemodify(v, ':r'))
         end
 
         if vim.fn.filereadable('./plugins_local.lua') then

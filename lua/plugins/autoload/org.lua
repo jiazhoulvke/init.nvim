@@ -24,8 +24,10 @@ use {
         )
     end
 }
+
 use {
     "akinsho/org-bullets.nvim",
+	requires = "nvim-orgmode/orgmode",
     config = function()
         require("org-bullets").setup(
             {
@@ -37,6 +39,7 @@ use {
 
 use {
     "lukas-reineke/headlines.nvim",
+	requires = "nvim-orgmode/orgmode",
     config = function()
         require("headlines").setup {
             markdown = {

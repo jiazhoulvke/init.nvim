@@ -2,16 +2,15 @@
 
 local use = require("packer").use
 use {
-    "tommcdo/vim-exchange",
-    cmd = {"<Plug>(ExchangeLine)", "<Plug>(Exchange)"}
+  "tommcdo/vim-exchange",
+  config = function()
+    vim.cmd([[
+    let g:exchange_no_mappings = 1
+    nmap cxx <Plug>(ExchangeLine)
+    nmap cxc <Plug>(ExchangeClear)
+    nmap cx <Plug>(Exchange)
+    xmap X <Plug>(Exchange)
+    ]])
+  end
 }
 
-vim.cmd(
-    [[
-let g:exchange_no_mappings = 1
-nmap cxx <Plug>(ExchangeLine)
-nmap cxc <Plug>(ExchangeClear)
-nmap cx <Plug>(Exchange)
-xmap X <Plug>(Exchange)
-]]
-)

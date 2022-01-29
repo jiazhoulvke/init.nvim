@@ -52,11 +52,12 @@ highlight Blamer guifg=yellow
 
 -- Git integration for buffers
 use {
-	'lewis6991/gitsigns.nvim',
-	config = function()
-		require('gitsigns').setup()
+    "lewis6991/gitsigns.nvim",
+    config = function()
+        require("gitsigns").setup()
 
-		vim.cmd([[
+        vim.cmd(
+            [[
 		nnoremap ]c <cmd>Gitsigns next_hunk<CR>
 		nnoremap [c <cmd>Gitsigns prev_hunk<CR>
 
@@ -65,6 +66,7 @@ use {
 
 		" text object
 		vnoremap vih <cmd>Gitsigns select_hunk<CR>
-		]])
-	end,
+		]]
+        )
+    end
 }

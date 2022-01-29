@@ -52,8 +52,6 @@ use {
             },
             use_diagnostic_signs = true -- enabling this will use the signs defined in your lsp client
         }
-        vim.cmd([[
-nnoremap <silent>\t <cmd>TroubleToggle<CR>
-]])
+        vim.cmd([[nnoremap <silent>\t <cmd>TroubleToggle<CR>]])
     end
 }
