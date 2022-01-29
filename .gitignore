@@ -1,12 +1,4 @@
-/.netrwhist
-
-/autoload/plug.vim
-/autoload/plug.vim.old
-/site/autoload/plug.vim
-
-/init.local.vim
-/init/*.local.vim
-/plugins.local
-/plugins.local.vim
-/preset.vim
-/init/preset.vim
+/init_local.lua
+/lua/preset.lua
+/lua/plugins_local.lua
+/plugin/

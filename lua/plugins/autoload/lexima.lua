@@ -1,0 +1,3 @@
+-- Auto close parentheses and repeat by dot dot dot...
+local use = require("packer").use
+use "cohama/lexima.vim"
