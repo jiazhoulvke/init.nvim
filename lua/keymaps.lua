@@ -153,3 +153,11 @@ endfunction
 nnoremap <silent> \q <ESC>:call ToggleQuickFix()<CR>
 
 ]])
+
+-----------------------------------------------------------------------
+-- 配置文件
+-----------------------------------------------------------------------
+local home = vim.fn.fnamemodify(vim.fn.resolve(vim.fn.expand('<sfile>:p')), ':h')
+vim.api.nvim_set_keymap('n', '<leader>cs', '<ESC>:e '..home..'/lua/preset.lua<CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>cp', '<ESC>:e '..home..'/lua/plugins_local.lua<CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>ce', '<ESC>:e '..home..'/lua/config_local.lua<CR>', {})
