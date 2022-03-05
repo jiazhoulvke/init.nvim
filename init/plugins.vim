@@ -161,7 +161,6 @@ endif
 
 " 开始载入插件
 call plug#begin(get(g:, 'plugin_home', '~/.local/share/nvim/plugged'))
-" call plug#begin('~/.local/share/nvim/plugged')
 
 " 载入插件
 for line in s:plugins

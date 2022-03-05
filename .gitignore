@@ -2,3 +2,4 @@
 /lua/*_local.lua
 /plugin/
 /plugins.local/
+*.local.vim

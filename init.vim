@@ -40,7 +40,7 @@ LoadScript init/basic.vim
 LoadScript init/config.vim
 
 " 设定 tabsize
-" LoadScript init/tabsize.vim
+LoadScript init/tabsize.vim
 
 " 加载插件
 LoadScript init/plugins.vim

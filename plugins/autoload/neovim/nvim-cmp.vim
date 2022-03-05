@@ -42,10 +42,10 @@ highlight! CmpItemKindUnit guibg=NONE guifg=#D4D4D4
 " }}}
 
 " Set completeopt to have a better completion experience
-set completeopt =menu,menuone,noselect
+set completeopt=menu,menuone,noselect
 
-" icons {{{
 lua << EOF
+-- icons {{{
 local kind_icons = {
     Text = "",
     Method = "",
@@ -73,11 +73,9 @@ local kind_icons = {
     Operator = "",
     TypeParameter = ""
 }
-EOF
-" }}}
+-- }}}
 
-" cmp config {{{
-lua << EOF
+-- cmp config {{{
 local has_words_before = function()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
