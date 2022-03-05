@@ -1,7 +1,7 @@
 " A vim plugin that adds some nice extra's for working with markdown documents
 Plug 'SidOfc/mkdx', {'for': 'markdown'}
 Plug 'iamcco/markdown-preview.nvim', { 'for': 'markdown', 'do': 'cd app & npm install'}
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+" Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'masukomi/vim-markdown-folding'
 
 " 需要在markdown文件中高亮的代码

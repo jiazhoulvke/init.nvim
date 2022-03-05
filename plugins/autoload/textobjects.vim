@@ -14,6 +14,8 @@ Plug 'kana/vim-textobj-indent'
 Plug 'wellle/targets.vim'
 " Vim text objects for comments. *c*
 Plug 'glts/vim-textobj-comment'
+" vim-textobj-parameter is a Vim plugin to provide text objects (a, and i, by default) to select parameters of functions.
+Plug 'sgur/vim-textobj-parameter'
 " Defines text objects to target text after the designated characters.
 Plug 'junegunn/vim-after-object'
 autocmd VimEnter * call after_object#enable('=', ':', '-', '#', ' ')
