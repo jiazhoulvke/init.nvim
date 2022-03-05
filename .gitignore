@@ -1,3 +1,4 @@
 /lua/preset.lua
 /lua/*_local.lua
 /plugin/
+/plugins.local/
