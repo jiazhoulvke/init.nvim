@@ -15,7 +15,7 @@ let g:pear_tree_pairs = {
 let g:pear_tree_ft_disabled = []
 
 " Pair expansion is dot-repeatable by default:
-let g:pear_tree_repeatable_expand = 1
+let g:pear_tree_repeatable_expand = 0
 
 " Smart pairs are disabled by default:
 let g:pear_tree_smart_openers = 0
@@ -26,12 +26,12 @@ let g:pear_tree_smart_backspace = 0
 let g:pear_tree_timeout = 60
 
 " Automatically map <BS>, <CR>, and <Esc>
-let g:pear_tree_map_special_keys = 1
+let g:pear_tree_map_special_keys = 0
 
 " Default mappings:
 imap <BS> <Plug>(PearTreeBackspace)
-imap <CR> <Plug>(PearTreeExpand)
-imap <Esc> <Plug>(PearTreeFinishExpansion)
+" imap <CR> <Plug>(PearTreeExpand)
+" imap <Esc> <Plug>(PearTreeFinishExpansion)
 " Pear Tree also makes <Plug> mappings for each opening and closing string.
 "     :help <Plug>(PearTreeOpener)
 "     :help <Plug>(PearTreeCloser)
