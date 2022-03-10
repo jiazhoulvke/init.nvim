@@ -43,7 +43,7 @@ let g:mkdp_auto_close = 0
 
 " vim-markdown {{{
 let g:vim_markdown_fenced_languages = g:markdown_fenced_languages
-let g:vim_markdown_auto_insert_bullets = 0
+let g:vim_markdown_auto_insert_bullets = 1
 let g:vim_markdown_conceal = 1
 let g:vim_markdown_conceal_code_blocks = 0
 let g:vim_markdown_folding_style_pythonic = 1
