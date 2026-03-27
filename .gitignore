@@ -1,6 +1,2 @@
-/lua/preset.lua
-/lua/*_local.lua
-/plugin/
-/plugins.local/
+*.local.lua
 *.local.vim
-/init/preset.vim

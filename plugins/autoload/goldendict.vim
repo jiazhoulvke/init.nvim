@@ -1,1 +1,0 @@
-Plug 'jiazhoulvke/goldendict.vim'
