@@ -147,7 +147,9 @@ require("lazy").setup({
                     }
                 },
             },
-            -- 允许在 cmdline 使用补全
+            cmdline = {
+                enabled = false,
+            },
             completion = {
                 list = {
                     selection = {
@@ -242,37 +244,6 @@ require("lazy").setup({
     },
     -- }}}
 
-    -- AI 助手 CodeCompanion {{{
-    -- {
-    --     "olimorris/codecompanion.nvim",
-    --     dependencies = {
-    --         "nvim-lua/plenary.nvim",
-    --         "nvim-treesitter/nvim-treesitter",
-    --         { "stevearc/dressing.nvim", opts = {} }, -- UI
-    --     },
-    --     config = function()
-    --         local cc_config = (has_local_config and local_config.codecompanion) or {
-    --             interactions = {},
-    --             adapters = {},
-    --         }
-    --         require('codecompanion').setup {
-    --             interactions = cc_config.interactions,
-    --             -- strategies = {
-    --             --     chat = { adapter = cc_config.chat_adapter },
-    --             --     inline = { adapter = cc_config.inline_adapter },
-    --             --     agent = { adapter = cc_config.agent_adapter or cc_config.chat_adapter },
-    --             -- },
-    --             adapters = cc_config.adapters,
-    --             display = {
-    --                 diff = {
-    --                     provider = "diffview",
-    --                 }
-    --             },
-    --         }
-    --     end,
-    -- },
-    -- }}}
-
     -- 语法高亮 nvim-treesitter {{{
     {
         "nvim-treesitter/nvim-treesitter",
@@ -282,7 +253,7 @@ require("lazy").setup({
             configs.setup({
                 ensure_installed = { "go", "python", "vim", "lua", "markdown", "javascript", "html", "css" },
                 highlight = {
-                    enabled = true,
+                    enable = true,
                     additional_vim_regex_highlighting = false,
                 },
                 indent = { enable = true },
@@ -296,7 +267,9 @@ require("lazy").setup({
     -- Golang {{{
     {
         "ray-x/go.nvim",
-        dependencies = { "ray-x/guihua.lua", "nvim-treesitter/nvim-treesitter" },
+        dependencies = {
+            "ray-x/guihua.lua",
+        },
         config = function() require('go').setup() end,
         event = { "CmdlineEnter" },
         ft = { "go", 'gomod' },
@@ -392,7 +365,6 @@ require("lazy").setup({
     -- Markdown 渲染 render-markdown.nvim{{{
     {
         "MeanderingProgrammer/render-markdown.nvim",
-        dependencies = { "nvim-treesitter/nvim-treesitter" },
         -- @module 'render-markdown'
         -- @type render.md.UserConfig
         opts = {
@@ -447,7 +419,7 @@ require("lazy").setup({
         "olimorris/onedarkpro.nvim",
         priority = 1000,
         config = function()
-            vim.cmd("colorscheme onedark")
+            vim.cmd("colorscheme vaporwave")
         end,
     },
     -- }}}
@@ -545,7 +517,7 @@ require("lazy").setup({
         config = function()
             require('lualine').setup {
                 options = {
-                    theme = 'onedark', -- 自动匹配你的 One Dark 主题
+                    theme = 'vaporwave', -- 自动匹配你的 One Dark 主题
                     component_separators = '|',
                     section_separators = '',
                 },
@@ -577,6 +549,12 @@ require("lazy").setup({
                 map('n', '?', api.tree.toggle_help, 'Help')
             end
             require("nvim-tree").setup({
+                sync_root_with_cwd = true,
+                respect_buf_cwd = true,
+                update_focused_file = {
+                    enable = true,
+                    update_root = true,
+                },
                 on_attach = on_attach,
             })
             gmap('n', '<leader>ee', ':NvimTreeToggle<CR>', 'Nvim Tree')
@@ -736,6 +714,73 @@ require("lazy").setup({
 
     -- 保存状态 vim-stay {{{
     { 'zhimsel/vim-stay' },
+    -- }}}
+
+    -- 尊重文件原来的缩进格式 sleuth {{{
+    { "tpope/vim-sleuth" },
+    -- }}}
+
+    -- Dashboard {{{
+    {
+        'nvimdev/dashboard-nvim',
+        dependencies = {
+            { 'nvim-tree/nvim-web-devicons' },
+            {
+                -- 'ahmedkhalf/project.nvim',
+                'jiazhoulvke/project.nvim',
+                config = function()
+                    require('telescope').load_extension('projects')
+                    require("project_nvim").setup {
+                    }
+                end
+            },
+        },
+        event = 'VimEnter',
+        config = function()
+            require('dashboard').setup {
+                theme = 'hyper',
+                config = {
+                    week_header = {
+                        enable = true,
+                    },
+                    shortcut = {
+                        {
+                            icon = ' ',
+                            icon_hl = '@variable',
+                            desc = 'Files',
+                            group = 'Label',
+                            action = 'Telescope oldfiles',
+                            key = 'f',
+                        },
+                        {
+                            icon = ' ',
+                            icon_hl = '@variable',
+                            desc = 'Projects',
+                            group = 'Label',
+                            action = 'Telescope projects',
+                            key = 'p',
+                        },
+                        {
+                            icon = ' ',
+                            icon_hl = '@variable',
+                            desc = 'Config',
+                            group = 'Label',
+                            action = 'e $MYVIMRC',
+                            key = 'c',
+                        },
+                        {
+                            icon = '󰅖  ',
+                            icon_hl = '@variable',
+                            desc = 'Quit',
+                            group = 'Label',
+                            action = 'qa',
+                            key = 'q',
+                        },
+                    },
+                },
+            }
+        end,
+    },
     -- }}}
 
     -- surround {{{
@@ -944,8 +989,8 @@ local lsp_servers = {
                         globals = { "vim" },
                     },
                     workspace = {
-                        -- library = vim.api.nvim_get_runtime_file("", true), -- 加载 runtime 文件
-                        library = {}, -- 不加载第三方库
+                        library = vim.api.nvim_get_runtime_file("", true), -- 加载 runtime 文件
+                        -- library = {}, -- 不加载第三方库
                         checkThirdParty = false,
                         maxReload = 500,
                         preloadFileSize = 50,
@@ -1054,10 +1099,12 @@ gmap('v', '<C-x>', '"+x', 'cut to system clipboard')
 gmap('v', '<C-v>', '"+gp', 'paste system clipboard')
 gmap('c', '<C-v>', '<C-r>+', 'paste system clipboard')
 gmap('i', '<C-v>', '<C-r>+', 'paste system clipboard')
+gmap('i', '<C-S-v>', '<cmd>set paste<cr><C-r>+<cmd>set nopaste<cr>', 'paste system clipboard preserving formatting')
 -- }}}
 
 -- 编辑 {{{
 gmap('i', '<C-k>', '<C-o>D', 'delete to end of line')
+gmap('i', '<C-S-k>', '<C-o>dd', 'delete current line')
 gmap('n', '<Tab>', 'v>', 'indent')
 gmap('n', '<S-Tab>', 'v<', 'dedent')
 gmap('n', '<leader><leader>', '<cmd>nohlsearch<cr>', 'nohlsearch')
@@ -1130,6 +1177,8 @@ gmap('n', '<leader>8', '8gt', 'goto tab 8')
 gmap('n', '<leader>9', '9gt', 'goto tab 9')
 gmap('n', '<leader>0', '10gt', 'goto tab 10')
 -- }}}
+
+gmap('n', '<leader>gh', '<cmd>Dashboard<cr>', 'Dashboard')
 
 -- }}}
 
