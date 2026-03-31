@@ -869,7 +869,11 @@ local lsp_servers = {
             auto_format = true,
             settings = {
                 gopls = {
-                    analyses = { unusedparams = true, shadow = true },
+                    analyses = {
+                        unusedparams = true,
+                        shadow = false,
+                        ST1003 = false,
+                    },
                     staticcheck = true,
                     completeUnimported = true, -- 自动补全未导入的包
                 }
