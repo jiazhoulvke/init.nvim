@@ -1,18 +1,3 @@
--- 加载本地配置 {{{
--- local local_path = vim.fn.stdpath('config') .. '/init.local.lua'
--- local has_local_config = false
--- local local_config = {}
--- if vim.uv.fs_stat(local_path) then
---     local status, result = pcall(dofile, local_path)
---     if status then
---         has_local_config = true
---         local_config = result
---     end
--- end
-
-
--- }}}
-
 -- 基础配置 {{{
 vim.g.mapleader = " "
 vim.opt.number = true
@@ -23,6 +8,7 @@ vim.opt.expandtab = true
 vim.g.ex_terminal = 'wezterm' -- 定义默认的外部终端
 -- }}}
 
+-- 加载本地配置 {{{
 local local_ok, local_init = pcall(require, 'init_local')
 if local_ok and local_init.setup then
     local_init.setup()
@@ -32,6 +18,7 @@ local status_ok, ts_manager = pcall(require, "utils.ts_manager")
 if status_ok then
     ts_manager.setup()
 end
+-- }}}
 
 -- UI {{{
 -- 原生 tabline：仅当前标签页显示完整路径，其他只显示文件名
