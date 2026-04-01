@@ -784,6 +784,14 @@ require("lazy").setup({
                     },
                     shortcut = {
                         {
+                            icon = " ",
+                            icon_hl = '@variable',
+                            desc = "New File",
+                            group = 'Label',
+                            action = "enew",
+                            key = "n",
+                        },
+                        {
                             icon = ' ',
                             icon_hl = '@variable',
                             desc = 'Files',
