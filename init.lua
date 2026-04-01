@@ -1149,7 +1149,7 @@ gmap('n', '<leader><leader>', '<cmd>nohlsearch<cr>', 'nohlsearch')
 -- 文件操作 {{{
 gmap({ "n", "i" }, "<A-s>", "<cmd>update<cr>", 'Save')
 gmap({ "n", "i" }, "<A-c>", "<cmd>close<cr>", 'Close')
-gmap({ "n", "i" }, "<A-q>", "<cmd>quit!<cr>", 'Force Quit')
+gmap({ "n", "i" }, "<A-q>", "<cmd>conf qa<cr>", 'Quit')
 gmap({ "n" }, "<leader>Cc", "<cmd>edit $MYVIMRC<cr>", 'Edit $MYVIMRC')
 -- }}}
 
