@@ -1,2 +1,2 @@
-*.local.lua
+*_local.lua
 *.local.vim

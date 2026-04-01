@@ -1,19 +1,15 @@
 -- 加载本地配置 {{{
-local local_path = vim.fn.stdpath('config') .. '/init.local.lua'
-local has_local_config = false
-local local_config = {}
-if vim.uv.fs_stat(local_path) then
-    local status, result = pcall(dofile, local_path)
-    if status then
-        has_local_config = true
-        local_config = result
-    end
-end
+-- local local_path = vim.fn.stdpath('config') .. '/init.local.lua'
+-- local has_local_config = false
+-- local local_config = {}
+-- if vim.uv.fs_stat(local_path) then
+--     local status, result = pcall(dofile, local_path)
+--     if status then
+--         has_local_config = true
+--         local_config = result
+--     end
+-- end
 
-local status_ok, ts_manager = pcall(require, "utils.ts_manager")
-if status_ok then
-    ts_manager.setup()
-end
 
 -- }}}
 
@@ -24,7 +20,18 @@ vim.opt.relativenumber = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.expandtab = true
+vim.g.ex_terminal = 'wezterm' -- 定义默认的外部终端
 -- }}}
+
+local local_ok, local_init = pcall(require, 'init_local')
+if local_ok and local_init.setup then
+    local_init.setup()
+end
+
+local status_ok, ts_manager = pcall(require, "utils.ts_manager")
+if status_ok then
+    ts_manager.setup()
+end
 
 -- UI {{{
 -- 原生 tabline：仅当前标签页显示完整路径，其他只显示文件名
@@ -1196,7 +1203,15 @@ local function open_file_manager_with_selection()
     end
 end
 
-gmap('n', '<leader>eo', open_file_manager_with_selection, 'view file in file manager')
+gmap('n', '<leader>eo', open_file_manager_with_selection, 'View file in file manager')
+gmap('n', '<leader>et', function()
+    if vim.fn.executable(vim.g.ex_terminal) == 0 then
+        return
+    end
+    if vim.g.ex_terminal == 'wezterm' then
+        vim.fn.jobstart({ vim.g.ex_terminal, 'start', '--cwd', vim.fn.getcwd(0) })
+    end
+end, 'Open external terminal')
 -- }}}
 
 -- 窗口 {{{
