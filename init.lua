@@ -1146,6 +1146,11 @@ gmap('n', '<S-Tab>', 'v<', 'dedent')
 gmap('n', '<leader><leader>', '<cmd>nohlsearch<cr>', 'nohlsearch')
 -- }}}
 
+-- 浏览 {{{
+gmap('n', '<M-d>', '<C-f>zz', 'Page Down')
+gmap('n', '<M-e>', '<C-b>zz', 'Page Up')
+-- }}}
+
 -- 文件操作 {{{
 gmap({ "n", "i" }, "<A-s>", "<cmd>update<cr>", 'Save')
 gmap({ "n", "i" }, "<A-c>", "<cmd>close<cr>", 'Close')
