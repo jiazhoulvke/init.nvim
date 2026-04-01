@@ -9,6 +9,12 @@ if vim.uv.fs_stat(local_path) then
         local_config = result
     end
 end
+
+local status_ok, ts_manager = pcall(require, "utils.ts_manager")
+if status_ok then
+    ts_manager.setup()
+end
+
 -- }}}
 
 -- 基础配置 {{{
@@ -434,7 +440,32 @@ require("lazy").setup({
         event = "VeryLazy",
         dependencies = {
             "MunifTanjim/nui.nvim",
-            "rcarriga/nvim-notify",    -- 通知管理器
+            {
+                "rcarriga/nvim-notify",
+                config = function()
+                    local function view_notify_history()
+                        local notify = require('notify')
+                        local history = notify.history()
+                        local buf = vim.api.nvim_create_buf(false, true)
+                        vim.api.nvim_buf_set_name(buf, 'Notifications_History')
+                        vim.bo[buf].filetype = 'markdown'
+                        local lines = {}
+                        for _, item in ipairs(history) do
+                            local time = os.date('%H:%M:%S', item.time)
+                            local level = item.level
+                            for _, msg_line in ipairs(item.message) do
+                                table.insert(lines, string.format("[%s] [%s] %s", time, level, msg_line))
+                            end
+                        end
+                        vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+                        vim.cmd('vsplit')
+                        vim.api.nvim_set_current_buf(buf)
+                    end
+                    vim.api.nvim_create_user_command('ShowNotifications', view_notify_history, {
+                        desc = "Show Notifications",
+                    })
+                end,
+            },
             "smjonas/inc-rename.nvim", -- 重命名
         },
         opts = {
@@ -583,7 +614,8 @@ require("lazy").setup({
                     sorting_strategy = "ascending",               -- 搜索结果从上往下排
                     layout_config = {
                         horizontal = { prompt_position = "top" }, -- 输入框放顶部
-                    }
+                    },
+                    path_display = { 'filename_first' },          -- filename_first,smart,truncate
                 },
             }
 
@@ -592,7 +624,7 @@ require("lazy").setup({
             gmap('n', '<leader>fF', '<cmd>Telescope find_files no_ignore=true hidden=true<cr>',
                 'Find all files')
             gmap('n', '<leader>fg', builtin.live_grep, 'Live search')
-            gmap('n', '<leader>fb', builtin.buffers, 'Find buffers')
+            gmap('n', '<leader>fb', function() builtin.buffers({ path_display = { 'relative' } }) end, 'Find buffers')
             gmap('n', '<leader>fh', builtin.oldfiles, 'Find history files')
         end
     },
