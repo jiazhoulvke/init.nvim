@@ -85,7 +85,7 @@ vim.opt.tabline = "%!v:lua.my_tabline()"
 -- }}}
 
 
--- lazy.nvim 插件 {{{
+-- lazy.nvim {{{
 
 -- 这里的代理地址可以根据需要更换
 local github_mirror = "https://ghfast.top/https://github.com/"
@@ -191,6 +191,28 @@ require("lazy").setup({
         },
     },
     -- }}}
+
+    -- conform.nvim 格式化 {{{
+    {
+        'stevearc/conform.nvim',
+        config = function()
+            require('conform').setup({
+                formatters_by_ft = {
+                    lua = { "stylua" },
+                    go = { "goimports", "gofmt" },
+                },
+                default_format_opts = {
+                    lsp_format = "fallback",
+                },
+                format_on_save = {
+                    lsp_format = "fallback",
+                    timeout_ms = 500,
+                },
+            })
+        end
+    },
+    -- }}}
+
     -- avante.nvim {{{
     {
         'yetone/avante.nvim',
@@ -930,7 +952,7 @@ local lsp_servers = {
                     staticcheck = true,
                     completeUnimported = true, -- 自动补全未导入的包
                 }
-            }
+            },
         },
     },
     c = {
@@ -1099,6 +1121,7 @@ local function on_attach(client, bufnr, conf)
         vim.api.nvim_create_autocmd("BufWritePre", {
             buffer = bufnr,
             callback = function()
+                -- local buf_filetype = vim.api.nvim_get_option_value('filetype', { buf = bufnr })
                 vim.lsp.buf.format({
                     bufnr = bufnr,
                     async = false,
