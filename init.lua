@@ -1,11 +1,34 @@
+-- helper {{{
+local gmap = function(mode, lhs, rhs, desc)
+    vim.keymap.set(mode, lhs, rhs, { desc = desc, noremap = true, silent = true })
+end
+local is_mac = vim.fn.has("macunix") == 1
+local is_windows = vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1
+-- }}}
+
 -- 基础配置 {{{
+vim.env.LANG = 'zh_CN.UTF-8'
+vim.env.LC_ALL = 'zh_CN.UTF-8'
+
 vim.g.mapleader = " "
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.expandtab = true
-vim.g.ex_terminal = 'wezterm' -- 定义默认的外部终端
+
+vim.deprecate = function() end -- 屏蔽掉烦人的 api deprecated 提醒
+
+vim.g.ex_terminal = 'wezterm'  -- 定义默认的外部终端
+-- 如果 windows 下安装了 bash，则使用 bash 作为默认 shell
+if is_windows and vim.fn.executable('bash') == 1 then
+    vim.o.shell = 'bash'
+    vim.o.shellcmdflag = '-s -i'
+    vim.o.shellxquote = ""
+    vim.o.shellquote = ""
+    vim.o.shellpipe = "|"
+    vim.o.shellredir = ">%s 2>&1"
+end
 -- }}}
 
 -- 加载本地配置 {{{
@@ -61,13 +84,6 @@ end
 vim.opt.tabline = "%!v:lua.my_tabline()"
 -- }}}
 
--- helper {{{
-local gmap = function(mode, lhs, rhs, desc)
-    vim.keymap.set(mode, lhs, rhs, { desc = desc, noremap = true, silent = true })
-end
-local is_mac = vim.fn.has("macunix") == 1
-local is_windows = vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1
--- }}}
 
 -- lazy.nvim 插件 {{{
 
@@ -903,6 +919,9 @@ local lsp_servers = {
             auto_format = true,
             settings = {
                 gopls = {
+                    directoryFilters = {
+                        "-vendor",
+                    },
                     analyses = {
                         unusedparams = true,
                         shadow = false,
