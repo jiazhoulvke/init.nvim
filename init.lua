@@ -110,7 +110,7 @@ require("lazy").setup({
 	git = {
 		filter = true,
 		timeout = 120,
-		url_format = "https://ghfast.top/https://github.com/%s",
+		-- url_format = "https://ghfast.top/https://github.com/%s",
 	},
 	spec = {
 		{
@@ -133,6 +133,9 @@ require("lazy").setup({
 			-- 关键：如果不安装 cargo，使用预编译的二进制文件
 			build = 'echo "Using pre-built binary"',
 			opts = {
+				fuzzy = {
+					implementation = "prefer_rust",
+				},
 				keymap = {
 					preset = "none", -- default,none
 					["<CR>"] = { "accept", "fallback" },
@@ -153,6 +156,7 @@ require("lazy").setup({
 						"avante_mentions",
 						"avante_shortcuts",
 						"avante_files",
+						-- "minuet",
 					},
 					providers = {
 						avante_commands = {
@@ -179,14 +183,21 @@ require("lazy").setup({
 							score_offset = 1000, -- show at a higher priority than lsp
 							opts = {},
 						},
+						-- minuet = {
+						-- 	name = "minuet",
+						-- 	module = "minuet.blink",
+						-- 	async = true,
+						-- 	timeout_ms = 30000,
+						-- 	score_offset = 50,
+						-- },
 					},
 				},
 				cmdline = {
-					enabled = false,
+					enabled = true,
 				},
 				completion = {
 					trigger = {
-						prefetch_on_insert = false,
+						prefetch_on_insert = true,
 					},
 					list = {
 						selection = {
@@ -291,6 +302,48 @@ require("lazy").setup({
 		},
 		-- }}}
 
+		-- minuet-ai.nvim AI 补全 {{{
+		-- {
+		-- 	"milanglacier/minuet-ai.nvim",
+		-- 	event = "InsertEnter",
+		-- 	config = function()
+		-- 		require("minuet").setup({
+		-- 			provider = "openai_fim_compatible",
+		-- 			n_completions = 1,
+		-- 			context_window = 512,
+		-- 			throttle = 1500,
+		-- 			debounce = 600,
+		-- 			provider_options = {
+		-- 				openai_fim_compatible = {
+		-- 					api_key = function() return 'TERM' end,
+		-- 					name = "llama",
+		-- 					end_point = "http://localhost:1234/v1/completions",
+		-- 					model = "qwen2.5-coder",
+		-- 					optional = {
+		-- 						max_tokens = 128,
+		-- 						temperature = 0,
+		-- 						top_p = 0.9,
+		-- 					},
+		-- 				},
+		-- 			},
+		-- 			virtualtext = {
+		-- 				auto_trigger_ft = {},
+		-- 				keymap = {
+		-- 					accept = '<A-A>',
+		-- 					accept_line = '<A-a>',
+		-- 					next = '<A-]>',
+		-- 					prev = '<A-[>',
+		-- 					dismiss = '<A-e>',
+		-- 				},
+		-- 			},
+		-- 		})
+		-- 	end,
+		-- 	dependencies = {
+		-- 		"nvim-lua/plenary.nvim",
+		-- 	},
+		-- },
+		-- }}}
+
 		-- conform.nvim 格式化 {{{
 		{
 			"stevearc/conform.nvim",
@@ -298,7 +351,7 @@ require("lazy").setup({
 				require("conform").setup({
 					formatters_by_ft = {
 						lua = { "stylua" },
-						go = { "goimports", "gofmt" },
+						go = { "goimports" },
 					},
 					default_format_opts = {
 						lsp_format = "fallback",

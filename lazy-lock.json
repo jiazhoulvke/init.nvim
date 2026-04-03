@@ -22,6 +22,7 @@
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
   "lspkind.nvim": { "branch": "master", "commit": "c7274c48137396526b59d86232eabcdc7fed8a32" },
   "lualine.nvim": { "branch": "master", "commit": "47f91c416daef12db467145e16bed5bbfe00add8" },
+  "minuet-ai.nvim": { "branch": "main", "commit": "75e84161c8297e2c4ca649060c0b2c709041fb57" },
   "mkdnflow.nvim": { "branch": "main", "commit": "f20732686f70f60f18f09f4befe984ae63a99201" },
   "neogit": { "branch": "master", "commit": "4681c1fdac1b730592ae195576e87406f7255750" },
   "noice.nvim": { "branch": "main", "commit": "7bfd942445fb63089b59f97ca487d605e715f155" },
