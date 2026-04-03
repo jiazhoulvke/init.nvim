@@ -127,7 +127,6 @@ require("lazy").setup({
 			"saghen/blink.cmp",
 			dependencies = {
 				"onsails/lspkind.nvim",
-				"milanglacier/minuet-ai.nvim",
 			},
 			-- 国内环境下，lazy 默认 clone 可能会慢，确保 git 配置了镜像
 			version = "*",
@@ -135,12 +134,14 @@ require("lazy").setup({
 			build = 'echo "Using pre-built binary"',
 			opts = {
 				keymap = {
-					preset = "none", -- 我们自定义映射
+					preset = "none", -- default,none
 					["<CR>"] = { "accept", "fallback" },
 					["<Tab>"] = { "select_next", "fallback" },
 					["<S-Tab>"] = { "select_prev", "fallback" },
 					["<C-j>"] = { "select_next", "fallback" },
 					["<C-k>"] = { "select_prev", "fallback" },
+					["<Down>"] = { "select_next", "fallback" },
+					["<Up>"] = { "select_prev", "fallback" },
 				},
 				sources = {
 					default = {
@@ -184,6 +185,9 @@ require("lazy").setup({
 					enabled = false,
 				},
 				completion = {
+					trigger = {
+						prefetch_on_insert = false,
+					},
 					list = {
 						selection = {
 							preselect = false,
@@ -202,31 +206,16 @@ require("lazy").setup({
 							},
 						},
 					},
-					ghost_text = { enabled = true },
-					documentation = { auto_show = true, window = { border = "rounded" } },
+					ghost_text = {
+						enabled = true,
+						-- show_with_menu = false,
+					},
+					documentation = {
+						auto_show = true,
+						window = { border = "rounded" },
+					},
 				},
 			},
-		},
-		-- }}}
-
-		-- conform.nvim 格式化 {{{
-		{
-			"stevearc/conform.nvim",
-			config = function()
-				require("conform").setup({
-					formatters_by_ft = {
-						lua = { "stylua" },
-						go = { "goimports", "gofmt" },
-					},
-					default_format_opts = {
-						lsp_format = "fallback",
-					},
-					format_on_save = {
-						lsp_format = "fallback",
-						timeout_ms = 500,
-					},
-				})
-			end,
 		},
 		-- }}}
 
@@ -234,7 +223,7 @@ require("lazy").setup({
 		{
 			"yetone/avante.nvim",
 			build = vim.fn.has("win32") ~= 0 and "pwsh -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
-				or "make",
+					or "make",
 			event = "VeryLazy",
 			version = false, -- 永远不要将此值设置为 "*"！永远不要！
 			---@module 'avante'
@@ -258,8 +247,12 @@ require("lazy").setup({
 					["llama"] = {
 						__inherited_from = "openai",
 						endpoint = "http://localhost:1234/v1",
-						api_key_name = "LLAMA_API_KEY",
+						api_key = 'APP_DATA',
 						model = "Qwen3.5",
+						extra_request_body = {
+							temperature = 0,
+						},
+						max_tokens = 128,
 						-- timeout = 30000, -- Timeout in milliseconds
 					},
 				},
@@ -295,6 +288,27 @@ require("lazy").setup({
 					ft = { "markdown", "Avante" },
 				},
 			},
+		},
+		-- }}}
+
+		-- conform.nvim 格式化 {{{
+		{
+			"stevearc/conform.nvim",
+			config = function()
+				require("conform").setup({
+					formatters_by_ft = {
+						lua = { "stylua" },
+						go = { "goimports", "gofmt" },
+					},
+					default_format_opts = {
+						lsp_format = "fallback",
+					},
+					format_on_save = {
+						lsp_format = "fallback",
+						timeout_ms = 500,
+					},
+				})
+			end,
 		},
 		-- }}}
 
@@ -371,9 +385,9 @@ require("lazy").setup({
 							end
 
 							local is_list = first_char == "-"
-								or first_char == "*"
-								or first_char == "+"
-								or trimmed:match("^%d+%.")
+									or first_char == "*"
+									or first_char == "+"
+									or trimmed:match("^%d+%.")
 
 							if is_list then
 								vim.cmd("MkdnIndentListItem")
@@ -392,9 +406,9 @@ require("lazy").setup({
 							end
 
 							local is_list = first_char == "-"
-								or first_char == "*"
-								or first_char == "+"
-								or trimmed:match("^%d+%.")
+									or first_char == "*"
+									or first_char == "+"
+									or trimmed:match("^%d+%.")
 
 							if is_list then
 								vim.cmd("MkdnDedentListItem")
@@ -484,7 +498,7 @@ require("lazy").setup({
 			"olimorris/onedarkpro.nvim",
 			priority = 1000,
 			config = function()
-				vim.cmd("colorscheme vaporwave")
+				vim.cmd("colorscheme onedark")
 			end,
 		},
 		-- }}}
@@ -547,11 +561,11 @@ require("lazy").setup({
 					backend = "nui", -- 使用 nui 渲染
 				},
 				presets = {
-					bottom_search = true, -- 搜索栏放在底部，否则默认会显示在上方
-					command_palette = true, -- 命令输入框放在中上方
+					bottom_search = true,    -- 搜索栏放在底部，否则默认会显示在上方
+					command_palette = true,  -- 命令输入框放在中上方
 					long_message_to_split = true, -- 长消息自动拆分
-					inc_rename = true, -- 是否集成增量重命名
-					lsp_doc_border = true, -- 给 LSP 文档加边框
+					inc_rename = true,       -- 是否集成增量重命名
+					lsp_doc_border = true,   -- 给 LSP 文档加边框
 				},
 				routes = {
 					{
@@ -607,7 +621,7 @@ require("lazy").setup({
 			config = function()
 				require("lualine").setup({
 					options = {
-						theme = "vaporwave", -- 自动匹配你的 One Dark 主题
+						theme = "onedark",
 						component_separators = "|",
 						section_separators = "",
 					},
@@ -675,7 +689,7 @@ require("lazy").setup({
 								["<C-k>"] = actions.move_selection_previous,
 							},
 						},
-						sorting_strategy = "ascending", -- 搜索结果从上往下排
+						sorting_strategy = "ascending",      -- 搜索结果从上往下排
 						layout_config = {
 							horizontal = { prompt_position = "top" }, -- 输入框放顶部
 						},
@@ -1038,12 +1052,12 @@ local lsp_servers = {
 			cmd = "clangd",
 			-- clangd 的核心参数
 			args = {
-				"--background-index", -- 后台索引代码库
-				"--clang-tidy",   -- 开启静态分析
+				"--background-index",     -- 后台索引代码库
+				"--clang-tidy",           -- 开启静态分析
 				"--completion-style=bundled", -- 补全样式
 				"--header-insertion=iwyu", -- 自动引入头文件
 				"--fallback-style=google", -- 格式化降级方案
-				"-j=4",           -- 限制线程数防止卡顿
+				"-j=4",                   -- 限制线程数防止卡顿
 			},
 			root_markers = { ".git", "compile_commands.json", "CMakeLists.txt" },
 		},
@@ -1054,12 +1068,12 @@ local lsp_servers = {
 			cmd = "clangd",
 			-- clangd 的核心参数
 			args = {
-				"--background-index", -- 后台索引代码库
-				"--clang-tidy",   -- 开启静态分析
+				"--background-index",     -- 后台索引代码库
+				"--clang-tidy",           -- 开启静态分析
 				"--completion-style=bundled", -- 补全样式
 				"--header-insertion=iwyu", -- 自动引入头文件
 				"--fallback-style=google", -- 格式化降级方案
-				"-j=4",           -- 限制线程数防止卡顿
+				"-j=4",                   -- 限制线程数防止卡顿
 			},
 			root_markers = { ".git", "compile_commands.json", "CMakeLists.txt" },
 		},
